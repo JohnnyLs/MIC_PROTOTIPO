@@ -1,0 +1,72 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0kyiv2jdb7iy"]
+
+[ext_resource type="Texture2D" uid="uid://b3bufoifopx5g" path="res://assets/ui/personajes/conty-img.PNG" id="1_ftxpu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c4bw1"]
+bg_color = Color(0.164706, 0.2, 0.207843, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6xq7g"]
+bg_color = Color(0.0392157, 0.368627, 0.690196, 1)
+
+[node name="UIMago" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ContenedorInterfaz" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VContenedorInterfaz" type="VBoxContainer" parent="ContenedorInterfaz"]
+layout_mode = 2
+
+[node name="Fila1" type="HBoxContainer" parent="ContenedorInterfaz/VContenedorInterfaz"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+alignment = 2
+
+[node name="Imagen" type="TextureRect" parent="ContenedorInterfaz/VContenedorInterfaz/Fila1"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+texture = ExtResource("1_ftxpu")
+expand_mode = 1
+
+[node name="Separacion" type="HBoxContainer" parent="ContenedorInterfaz/VContenedorInterfaz/Fila1"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="NombreJugador" type="RichTextLabel" parent="ContenedorInterfaz/VContenedorInterfaz/Fila1"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme_override_font_sizes/bold_italics_font_size = 1
+text = "Conty
+"
+
+[node name="VidaBar" type="ProgressBar" parent="ContenedorInterfaz/VContenedorInterfaz/Fila1"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_c4bw1")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6xq7g")
+value = 100.0
+
+[node name="Fila2" type="HBoxContainer" parent="ContenedorInterfaz/VContenedorInterfaz"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Fila3" type="HBoxContainer" parent="ContenedorInterfaz/VContenedorInterfaz"]
+layout_mode = 2
+size_flags_vertical = 3

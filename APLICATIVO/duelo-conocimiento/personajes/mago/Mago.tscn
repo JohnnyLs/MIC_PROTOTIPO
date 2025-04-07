@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://ddj4xm1wqcjtu"]
+
+[ext_resource type="PackedScene" uid="uid://c0kyiv2jdb7iy" path="res://ui/MagoInterfaz.tscn" id="1_16e0w"]
+[ext_resource type="Script" uid="uid://cuadvk3065qk" path="res://personajes/mago/mago.gd" id="1_18b2f"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_mh5uk"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_16e0w"]
+
+[node name="Mago" type="CharacterBody3D"]
+script = ExtResource("1_18b2f")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_mh5uk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_16e0w")
+
+[node name="UIMago" parent="." instance=ExtResource("1_16e0w")]

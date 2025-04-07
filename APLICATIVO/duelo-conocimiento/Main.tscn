@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://cw1jgvoog2bpw"]
+
+[ext_resource type="PackedScene" uid="uid://cpdqp4ffc1u5c" path="res://escenas/escenariov_2.tscn" id="1_glv2v"]
+[ext_resource type="PackedScene" uid="uid://nu50h18sthlv" path="res://personajes/jugador/Jugador.tscn" id="2_uu6xs"]
+[ext_resource type="PackedScene" uid="uid://ddj4xm1wqcjtu" path="res://personajes/mago/Mago.tscn" id="3_r0du0"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_glv2v"]
+sky_top_color = Color(0.984314, 0.831373, 0.639216, 1)
+sky_horizon_color = Color(0.976471, 0.698039, 0.364706, 1)
+sky_curve = 0.6
+ground_bottom_color = Color(0.8, 0.564706, 0.313726, 1)
+ground_horizon_color = Color(0.901961, 0.654902, 0.419608, 1)
+
+[sub_resource type="Sky" id="Sky_uu6xs"]
+sky_material = SubResource("ProceduralSkyMaterial_glv2v")
+
+[sub_resource type="Environment" id="Environment_r0du0"]
+background_mode = 2
+sky = SubResource("Sky_uu6xs")
+ambient_light_color = Color(0.988235, 0.827451, 0.623529, 1)
+ambient_light_sky_contribution = 0.2
+ambient_light_energy = 0.5
+tonemap_mode = 2
+tonemap_white = 1.5
+
+[node name="Main" type="Node3D"]
+
+[node name="CameraArm" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 5.5, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraArm"]
+transform = Transform3D(-0.449319, 0.0949333, -0.888313, 0, 0.994338, 0.106264, 0.893372, 0.0477465, -0.446775, -1.745, -2.47, -6.85)
+fov = 64.9
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.638224, 0.304417, 0, 0.430511, 0.902585, -0.707107, -0.638224, 0.304417, -5.675, 10.055, 0)
+light_color = Color(0.960784, 0.733333, 0.34902, 1)
+light_energy = 1.2
+shadow_enabled = true
+shadow_bias = 0.05
+shadow_normal_bias = 0.04
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_r0du0")
+
+[node name="escenariov2" parent="." instance=ExtResource("1_glv2v")]
+
+[node name="Jugador" parent="." instance=ExtResource("2_uu6xs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7134, -5.99656)
+
+[node name="Mago" parent="." instance=ExtResource("3_r0du0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.60431, 0)

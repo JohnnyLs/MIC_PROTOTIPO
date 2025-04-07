@@ -1,0 +1,28 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+.import/
+# Configuración de exportaciones (generalmente local/sensible; se suele omitir del control de versiones)
+export_presets.cfg
+export.cfg
+export_credentials.cfg
+
+# Archivos de traducción generados automáticamente desde CSV (no son necesarios, se regeneran)
+*.translation
+
+# Directorios de compilación C# (Mono / .NET) y reportes de error de Mono
+.mono/
+data_*/
+mono_crash.*.json
+mono_crash.*.blob
+
+# Archivos temporales de Godot (intermedios o de hot-reload)
+*.tmp
+~*
+
+# Plantilla de proyecto Android (generada si se utilizan export templates para Android)
+android/
+
+# Archivos de sistema/IDE (opcionales, no relacionados al proyecto)
+.DS_Store
+Thumbs.db
