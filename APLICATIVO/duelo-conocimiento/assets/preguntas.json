@@ -10,7 +10,7 @@
 		"respuesta_correcta": "a",
 		"dificultad": "fácil",
 		"categoría": "multiplicación",
-		"tiempo_límite": 30,
+		"tiempo_límite": 5,
 		"coste_energía": 50
 	},
 	{
@@ -24,7 +24,7 @@
 		"respuesta_correcta": "a",
 		"dificultad": "fácil",
 		"categoría": "multiplicación",
-		"tiempo_límite": 30,
+		"tiempo_límite": 5,
 		"coste_energía": 10
 	}
 ]

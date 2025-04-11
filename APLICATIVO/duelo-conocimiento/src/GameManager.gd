@@ -5,35 +5,55 @@ var jugador: Node = null
 var mago: Node = null
 
 var turno_actual := "mago"
-var temporizador: Timer
 var respuesta_recibida := false
 
+var texto_turno: RichTextLabel
+var contador_turno: RichTextLabel
+var temporizador: Timer
+var contador_en_ejecucion := false
+
 func _ready():
-	# Obtener referencias directamente desde el árbol de la escena actual
 	var escena_actual = get_tree().get_current_scene()
 	jugador = escena_actual.get_node("Jugador")
 	mago = escena_actual.get_node("Mago")
 
-	print("Jugador encontrado:", jugador != null)
-	print("Mago encontrado:", mago != null)
+	await get_tree().process_frame
 
-	# Crear temporizador
+	var ui_duelo = escena_actual.get_node("UIDuelo")
+	if ui_duelo:
+		texto_turno = ui_duelo.get_node("ContenedorInterfazDuelo/VBoxContainer/Turno_texto")
+		contador_turno = ui_duelo.get_node("ContenedorInterfazDuelo/VBoxContainer/Contador_turno")
+
+	# Temporizador para tiempo agotado
 	temporizador = Timer.new()
 	temporizador.one_shot = true
 	temporizador.timeout.connect(_on_tiempo_agotado)
 	add_child(temporizador)
 
-	iniciar_turno()
+	iniciar_turno_mago()
 
-func iniciar_turno():
-	if turno_actual == "mago":
-		print("\n>>> Turno del mago")
-		await get_tree().create_timer(3.0).timeout
-		lanzar_pregunta()
-		var tiempo_limite = pregunta_actual.get("tiempo_límite", 30)
-		temporizador.start(tiempo_limite)
-		respuesta_recibida = false
-		turno_actual = "jugador"
+
+### TURNOS ###
+
+func iniciar_turno_mago():
+	turno_actual = "mago"
+	mostrar_turno("Turno de Conty!")
+	await get_tree().create_timer(3.0).timeout
+	lanzar_pregunta()
+	await get_tree().process_frame
+	iniciar_turno_jugador()
+
+func iniciar_turno_jugador():
+	turno_actual = "jugador"
+	mostrar_turno("Ahora es tu turno!")
+	respuesta_recibida = false
+
+	var tiempo_limite = pregunta_actual.get("tiempo_límite", 30)
+	temporizador.start(tiempo_limite)
+	await iniciar_contador(tiempo_limite)
+
+
+### PREGUNTAS ###
 
 func lanzar_pregunta():
 	pregunta_actual = PreguntaManager.obtener_pregunta_aleatoria()
@@ -46,53 +66,76 @@ func lanzar_pregunta():
 		Dialogic.VAR.set_variable("respuesta_correcta", pregunta_actual["respuesta_correcta"])
 		Dialogic.start("preguntas_timeline")
 
+
 func verificar_respuesta(opcion: String):
 	if respuesta_recibida:
 		return
-
 	respuesta_recibida = true
 	temporizador.stop()
+	limpiar_contador()
 
 	var correcta = Dialogic.VAR.get_variable("respuesta_correcta")
 	var danio = pregunta_actual.get("coste_energía", 5)
 
-	print("Jugador está asignado:", jugador != null)
-	print("Mago está asignado:", mago != null)
-
 	if opcion == correcta:
-		print("Respuesta correcta. El mago recibe", danio)
-		if mago:
-			mago.recibir_danio(danio)
+		mago.recibir_danio(danio)
 	else:
-		print("Respuesta incorrecta. El jugador recibe", danio)
-		if jugador:
-			jugador.recibir_danio(danio)
+		jugador.recibir_danio(danio)
 
 	await get_tree().create_timer(1.5).timeout
 	if not chequear_fin_del_juego():
-		turno_actual = "mago"
-		iniciar_turno()
+		iniciar_turno_mago()
 
 func _on_tiempo_agotado():
 	if not respuesta_recibida:
-		print("Tiempo agotado. El jugador recibe daño")
 		respuesta_recibida = true
+		limpiar_contador()
+		Dialogic.end_timeline()
 		var danio = pregunta_actual.get("coste_energía", 5)
-		if jugador:
-			jugador.recibir_danio(danio)
+		jugador.recibir_danio(danio)
 
 	await get_tree().create_timer(1.5).timeout
 	if not chequear_fin_del_juego():
-		turno_actual = "mago"
-		iniciar_turno()
+		iniciar_turno_mago()
+
+
+### FIN DEL JUEGO ###
 
 func chequear_fin_del_juego() -> bool:
 	if jugador.vida_actual <= 0:
-		print("El jugador ha perdido.")
 		Dialogic.start("derrota_timeline")
 		return true
 	elif mago.vida_actual <= 0:
-		print("El jugador ha ganado.")
 		Dialogic.start("victoria_timeline")
 		return true
 	return false
+
+
+### VISUAL ###
+
+func mostrar_turno(texto: String):
+	if texto_turno:
+		texto_turno.text = texto
+		texto_turno.modulate.a = 1.0
+		var tween := create_tween()
+		tween.tween_property(texto_turno, "modulate:a", 0.0, 2.0).set_delay(1.0)
+
+func iniciar_contador(tiempo: int) -> void:
+	if contador_en_ejecucion:
+		return
+	contador_en_ejecucion = true
+
+	# Bucle del contador visual
+	for segundos in range(tiempo, -1, -1):
+		if respuesta_recibida:
+			break
+		if contador_turno:
+			contador_turno.text = "Tiempo restante: %s" % segundos
+		await get_tree().create_timer(1.0).timeout
+
+	contador_en_ejecucion = false
+
+
+func limpiar_contador():
+	if contador_turno:
+		contador_turno.text = ""
