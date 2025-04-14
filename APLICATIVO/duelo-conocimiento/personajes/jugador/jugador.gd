@@ -10,6 +10,11 @@ func recibir_danio(cantidad):
 	print("Vida actual del jugador tras recibir daño:", vida_actual)
 	barra_vida.value = vida_actual
 
+func curar_vida(cantidad):
+	vida_actual = clamp(vida_actual + cantidad, 0, vida_maxima)
+	print("Vida actual del jugador tras curarse:", vida_actual)
+	barra_vida.value = vida_actual
+
 func _ready():
 	barra_vida.value = vida_actual  # Inicializa barra al comienzo
 

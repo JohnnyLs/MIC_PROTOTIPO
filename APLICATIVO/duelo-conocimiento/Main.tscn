@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cw1jgvoog2bpw"]
+[gd_scene load_steps=9 format=3 uid="uid://cw1jgvoog2bpw"]
 
 [ext_resource type="PackedScene" uid="uid://cpdqp4ffc1u5c" path="res://escenas/escenariov_2.tscn" id="1_glv2v"]
 [ext_resource type="PackedScene" uid="uid://nu50h18sthlv" path="res://personajes/jugador/Jugador.tscn" id="2_uu6xs"]
 [ext_resource type="PackedScene" uid="uid://ddj4xm1wqcjtu" path="res://personajes/mago/Mago.tscn" id="3_r0du0"]
 [ext_resource type="PackedScene" uid="uid://7qifrx13xmeu" path="res://ui/UIDuelo.tscn" id="4_cm0pq"]
+[ext_resource type="PackedScene" uid="uid://ddfkjk4mwm8hi" path="res://ui/comodines/mano_comodines.tscn" id="5_fos0i"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_glv2v"]
 sky_top_color = Color(0.984314, 0.831373, 0.639216, 1)
@@ -53,3 +54,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7134, -5.99656)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.60431, 0)
 
 [node name="UIDuelo" parent="." instance=ExtResource("4_cm0pq")]
+
+[node name="ManoComodines" parent="." instance=ExtResource("5_fos0i")]

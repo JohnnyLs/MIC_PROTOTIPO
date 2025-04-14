@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddfkjk4mwm8hi"]
+
+[ext_resource type="PackedScene" uid="uid://cuk0lnvttem1r" path="res://ui/comodines/cartas/curacion_carta.tscn" id="1_psdku"]
+[ext_resource type="Script" uid="uid://crx32s3ue3qds" path="res://ui/comodines/ManoComodines.gd" id="1_wtyxg"]
+
+[node name="ManoComodines" type="Control"]
+custom_minimum_size = Vector2(640, 300)
+layout_mode = 3
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 51.915
+offset_right = -640.0
+offset_bottom = 351.915
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_wtyxg")
+
+[node name="CuracionCarta" parent="." instance=ExtResource("1_psdku")]
+position = Vector2(20, -20.08)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(640, 300)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2

@@ -23,6 +23,10 @@ func _ready():
 	if ui_duelo:
 		texto_turno = ui_duelo.get_node("ContenedorInterfazDuelo/VBoxContainer/Turno_texto")
 		contador_turno = ui_duelo.get_node("ContenedorInterfazDuelo/VBoxContainer/Contador_turno")
+		
+	var mano_comodines = escena_actual.get_node("ManoComodines")
+	if mano_comodines:
+		mano_comodines.conectar_cartas()
 
 	# Temporizador para tiempo agotado
 	temporizador = Timer.new()
@@ -135,7 +139,20 @@ func iniciar_contador(tiempo: int) -> void:
 
 	contador_en_ejecucion = false
 
-
 func limpiar_contador():
 	if contador_turno:
 		contador_turno.text = ""
+		
+		
+func _on_carta_usada(tipo: String, data: Variant) -> void:
+	print("Se usó una carta de tipo:", tipo, "con data:", data)
+	
+	match tipo:
+		"curacion":
+			var cantidad = int(data.get("cantidad", 0))
+			jugador.curar_vida(cantidad)
+		"dano_extra":
+			# Implementa lógica si tienes ese tipo
+			pass
+		_:
+			print("Tipo de carta no reconocido:", tipo)
