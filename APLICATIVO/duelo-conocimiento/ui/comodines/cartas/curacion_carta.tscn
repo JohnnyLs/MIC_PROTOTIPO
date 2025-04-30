@@ -2,8 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://bx8u534hy0ugq" path="res://ui/comodines/carta.tscn" id="1_8cg5r"]
 [ext_resource type="Script" uid="uid://dxb27ecl66538" path="res://ui/comodines/cartas/CuracionCarta.gd" id="1_y7te1"]
-[ext_resource type="Texture2D" uid="uid://c6knranmymi1k" path="res://assets/ui/comodines/icono-determinacion.png" id="2_y7te1"]
 [ext_resource type="Texture2D" uid="uid://c6nicaynu3ceo" path="res://assets/ui/comodines/imagen-determinacion.png" id="3_1v3x7"]
+[ext_resource type="Texture2D" uid="uid://dy6ul0d3loswg" path="res://assets/ui/comodines/determinacion2.png" id="3_y7te1"]
 
 [node name="CuracionCarta" type="Node2D"]
 script = ExtResource("1_y7te1")
@@ -11,11 +11,11 @@ script = ExtResource("1_y7te1")
 [node name="Carta" parent="." instance=ExtResource("1_8cg5r")]
 
 [node name="icono" type="Sprite2D" parent="."]
-position = Vector2(127, 126)
-scale = Vector2(0.82, 0.79)
-texture = ExtResource("2_y7te1")
+position = Vector2(95, 153)
+scale = Vector2(0.2, 0.192)
+texture = ExtResource("3_y7te1")
 
 [node name="imagen" type="Sprite2D" parent="."]
-position = Vector2(130, 191)
-scale = Vector2(0.0615234, 0.052002)
+position = Vector2(140, 187)
+scale = Vector2(0.0441894, 0.0379029)
 texture = ExtResource("3_1v3x7")

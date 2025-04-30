@@ -51,7 +51,7 @@ environment = SubResource("Environment_r0du0")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7134, -5.99656)
 
 [node name="Mago" parent="." instance=ExtResource("3_r0du0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.60431, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.17394, 0)
 
 [node name="UIDuelo" parent="." instance=ExtResource("4_cm0pq")]
 

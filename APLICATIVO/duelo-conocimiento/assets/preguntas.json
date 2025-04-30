@@ -26,5 +26,117 @@
 		"categoría": "multiplicación",
 		"tiempo_límite": 5,
 		"coste_energía": 10
+	},
+	{
+		"pregunta": "¿Cuánto es 7 x 8?",
+		"opciones": {
+			"a": "54",
+			"b": "56",
+			"c": "64",
+			"d": "48"
+		},
+		"respuesta_correcta": "b",
+		"dificultad": "media",
+		"categoría": "multiplicación",
+		"tiempo_límite": 7,
+		"coste_energía": 15
+	},
+	{
+		"pregunta": "¿Cuánto es 9 x 5?",
+		"opciones": {
+			"a": "45",
+			"b": "40",
+			"c": "50",
+			"d": "35"
+		},
+		"respuesta_correcta": "a",
+		"dificultad": "fácil",
+		"categoría": "multiplicación",
+		"tiempo_límite": 5,
+		"coste_energía": 10
+	},
+	{
+		"pregunta": "¿Cuánto es 10 x 7?",
+		"opciones": {
+			"a": "70",
+			"b": "77",
+			"c": "60",
+			"d": "80"
+		},
+		"respuesta_correcta": "a",
+		"dificultad": "fácil",
+		"categoría": "multiplicación",
+		"tiempo_límite": 5,
+		"coste_energía": 10
+	},
+	{
+		"pregunta": "¿Cuánto es 6 x 6?",
+		"opciones": {
+			"a": "36",
+			"b": "30",
+			"c": "42",
+			"d": "48"
+		},
+		"respuesta_correcta": "a",
+		"dificultad": "fácil",
+		"categoría": "multiplicación",
+		"tiempo_límite": 5,
+		"coste_energía": 10
+	},
+	{
+		"pregunta": "¿Cuánto es 428 + 387?",
+		"opciones": {
+			"a": "805",
+			"b": "815",
+			"c": "795",
+			"d": "810"
+		},
+		"respuesta_correcta": "b",
+		"dificultad": "media",
+		"categoría": "suma con reagrupación",
+		"tiempo_límite": 10,
+		"coste_energía": 20
+	},
+	{
+		"pregunta": "¿Cuánto es 679 + 245?",
+		"opciones": {
+			"a": "914",
+			"b": "924",
+			"c": "904",
+			"d": "934"
+		},
+		"respuesta_correcta": "a",
+		"dificultad": "media",
+		"categoría": "suma con reagrupación",
+		"tiempo_límite": 10,
+		"coste_energía": 20
+	},
+	{
+		"pregunta": "¿Cuánto es 567 + 678?",
+		"opciones": {
+			"a": "1245",
+			"b": "1235",
+			"c": "1145",
+			"d": "1225"
+		},
+		"respuesta_correcta": "b",
+		"dificultad": "difícil",
+		"categoría": "suma con reagrupación",
+		"tiempo_límite": 12,
+		"coste_energía": 30
+	},
+	{
+		"pregunta": "¿Cuánto es 289 + 512?",
+		"opciones": {
+			"a": "801",
+			"b": "791",
+			"c": "811",
+			"d": "821"
+		},
+		"respuesta_correcta": "a",
+		"dificultad": "media",
+		"categoría": "suma con reagrupación",
+		"tiempo_límite": 10,
+		"coste_energía": 20
 	}
 ]

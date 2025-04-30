@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://bx8u534hy0ugq"]
 
 [ext_resource type="Script" uid="uid://do4fsubvhcn1s" path="res://ui/comodines/Carta.gd" id="1_4r65w"]
-[ext_resource type="Texture2D" uid="uid://3juc8x146yvv" path="res://assets/ui/comodines/base-carta.png" id="1_674nk"]
+[ext_resource type="Texture2D" uid="uid://c7hjpvlcpa4g3" path="res://assets/ui/comodines/plantilla-carta2.png" id="2_674nk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2k0vf"]
-size = Vector2(141, 167)
+size = Vector2(595.72, 798.165)
 
 [sub_resource type="LabelSettings" id="LabelSettings_f3qeb"]
 font_size = 55
@@ -371,7 +371,7 @@ cache/0/115/0/underline_thickness = 0.0
 cache/0/115/0/scale = 1.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_s7puy"]
-font_size = 90
+font_size = 80
 font_color = Color(0, 0, 0, 1)
 
 [node name="Carta" type="Node2D"]
@@ -379,15 +379,15 @@ script = ExtResource("1_4r65w")
 
 [node name="SpriteBaseCarta" type="Sprite2D" parent="."]
 position = Vector2(140.5, 224.125)
-scale = Vector2(2.81, 2.5575)
-texture = ExtResource("1_674nk")
+scale = Vector2(0.5, 0.455)
+texture = ExtResource("2_674nk")
 
 [node name="AreaClick" type="Area2D" parent="SpriteBaseCarta"]
 position = Vector2(-50, -87.6344)
 scale = Vector2(0.355872, 0.391007)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SpriteBaseCarta/AreaClick"]
-position = Vector2(130, 214)
+position = Vector2(137.69, 200.939)
 shape = SubResource("RectangleShape2D_2k0vf")
 
 [node name="InfoCarta" type="Node2D" parent="."]
@@ -395,14 +395,15 @@ position = Vector2(131.26, 196.57)
 scale = Vector2(0.17, 0.17)
 
 [node name="DescripcionCarta" type="Label" parent="InfoCarta"]
-offset_left = -360.353
-offset_top = 143.706
-offset_right = 342.647
-offset_bottom = 423.706
+offset_left = -125.059
+offset_top = 102.529
+offset_right = 221.941
+offset_bottom = 285.529
 text = "descripcion"
 label_settings = SubResource("LabelSettings_f3qeb")
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 1
 
 [node name="ImagenCarta2" type="Node2D" parent="InfoCarta"]
 
@@ -413,16 +414,16 @@ scale = Vector2(0.432129, 0.369629)
 [node name="IconoCarta" type="Node2D" parent="InfoCarta"]
 
 [node name="SpriteIconoCarta" type="Sprite2D" parent="InfoCarta/IconoCarta"]
-position = Vector2(-21, -429)
-scale = Vector2(4.38, 3.89)
+position = Vector2(-219.176, -262.177)
+scale = Vector2(1, 0.888)
 
 [node name="NombreCarta" type="Node2D" parent="InfoCarta"]
 
 [node name="NombreCartaTexto" type="Label" parent="InfoCarta/NombreCarta"]
-offset_left = -360.0
-offset_top = -354.0
-offset_right = 319.0
-offset_bottom = -213.0
+offset_left = -289.765
+offset_top = 290.765
+offset_right = 389.235
+offset_bottom = 431.765
 theme_override_fonts/font = SubResource("FontFile_87h7q")
 theme_override_font_sizes/font_size = 400
 text = "nombre"
