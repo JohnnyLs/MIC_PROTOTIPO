@@ -1,0 +1,101 @@
+package com.videojuego.web.service;
+
+import com.videojuego.web.dto.JugadorConPartidasDTO;
+import com.videojuego.web.model.Jugador;
+import com.videojuego.web.model.Partida;
+import com.videojuego.web.repository.JugadorRepository;
+import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class JugadorService {
+
+    private static final Logger logger = LoggerFactory.getLogger(JugadorService.class);
+
+    @Autowired
+    private JugadorRepository jugadorRepository;
+
+    public Jugador findByNombrePerfil(String nombrePerfil) {
+        logger.debug("Buscando jugador con nombrePerfil: {}", nombrePerfil);
+        Jugador jugador = jugadorRepository.findByNombrePerfil(nombrePerfil).orElse(null);
+        logger.debug("Resultado de la búsqueda: {}", jugador);
+        return jugador;
+    }
+
+    @Transactional
+    public Jugador createJugador(String nombrePerfil) {
+        logger.info("Iniciando creación de jugador con nombrePerfil: {}", nombrePerfil);
+
+        // Verificar si el nombrePerfil ya existe
+        Jugador existingJugador = findByNombrePerfil(nombrePerfil);
+        if (existingJugador != null) {
+            logger.warn("El nombre de perfil {} ya está en uso.", nombrePerfil);
+            throw new RuntimeException("El nombre de perfil " + nombrePerfil + " ya está en uso.");
+        }
+
+        // Crear un nuevo jugador
+        logger.debug("Creando nuevo jugador...");
+        Jugador jugador = new Jugador();
+        jugador.setNombrePerfil(nombrePerfil);
+        Jugador savedJugador = jugadorRepository.save(jugador);
+        logger.info("Jugador creado con id_jugador: {}", savedJugador.getIdJugador());
+
+        return savedJugador;
+    }
+
+    public Jugador findById(Integer id) {
+        logger.debug("Buscando jugador con id: {}", id);
+        return jugadorRepository.findById(id).orElse(null);
+    }
+
+    @Transactional
+    public void actualizarJugador(Jugador jugador) {
+        logger.debug("Actualizando jugador con id: {}", jugador.getIdJugador());
+        jugadorRepository.save(jugador);
+    }
+
+    @Transactional(readOnly = true)
+    public List<JugadorConPartidasDTO> obtenerTodosLosJugadoresConPartidas() {
+        logger.info("Buscando todos los jugadores con sus partidas");
+
+        // Obtener todos los jugadores
+        List<Jugador> jugadores = jugadorRepository.findAll();
+
+        // Mapear los jugadores a DTOs, incluyendo sus partidas
+        List<JugadorConPartidasDTO> jugadoresDTO = jugadores.stream().map(jugador -> {
+            // Forzar la carga de las partidas (evitar Lazy Loading issues)
+            Hibernate.initialize(jugador.getPartidas());
+
+            // Crear el DTO del jugador
+            JugadorConPartidasDTO jugadorDTO = new JugadorConPartidasDTO();
+            jugadorDTO.setIdJugador(jugador.getIdJugador());
+            jugadorDTO.setNombrePerfil(jugador.getNombrePerfil());
+            jugadorDTO.setTiempoTotal(jugador.getTiempoTotal());
+            jugadorDTO.setAciertosTotales(jugador.getAciertosTotales());
+            jugadorDTO.setErroresTotales(jugador.getErroresTotales());
+
+            // Mapear las partidas a DTOs
+            List<JugadorConPartidasDTO.PartidaDTO> partidasDTO = jugador.getPartidas().stream().map(partida -> {
+                JugadorConPartidasDTO.PartidaDTO partidaDTO = new JugadorConPartidasDTO.PartidaDTO();
+                partidaDTO.setIdPartida(partida.getIdPartida());
+                partidaDTO.setPersonaje(partida.getPersonaje());
+                partidaDTO.setFechaInicio(partida.getFechaInicio());
+                return partidaDTO;
+            }).collect(Collectors.toList());
+
+            jugadorDTO.setPartidas(partidasDTO);
+            return jugadorDTO;
+        }).collect(Collectors.toList());
+
+        logger.info("Se encontraron {} jugadores con sus partidas", jugadoresDTO.size());
+        return jugadoresDTO;
+    }
+}
