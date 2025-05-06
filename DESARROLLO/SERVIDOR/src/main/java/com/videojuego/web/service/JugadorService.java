@@ -66,15 +66,11 @@ public class JugadorService {
     public List<JugadorConPartidasDTO> obtenerTodosLosJugadoresConPartidas() {
         logger.info("Buscando todos los jugadores con sus partidas");
 
-        // Obtener todos los jugadores
         List<Jugador> jugadores = jugadorRepository.findAll();
 
-        // Mapear los jugadores a DTOs, incluyendo sus partidas
         List<JugadorConPartidasDTO> jugadoresDTO = jugadores.stream().map(jugador -> {
-            // Forzar la carga de las partidas (evitar Lazy Loading issues)
             Hibernate.initialize(jugador.getPartidas());
 
-            // Crear el DTO del jugador
             JugadorConPartidasDTO jugadorDTO = new JugadorConPartidasDTO();
             jugadorDTO.setIdJugador(jugador.getIdJugador());
             jugadorDTO.setNombrePerfil(jugador.getNombrePerfil());
@@ -82,7 +78,6 @@ public class JugadorService {
             jugadorDTO.setAciertosTotales(jugador.getAciertosTotales());
             jugadorDTO.setErroresTotales(jugador.getErroresTotales());
 
-            // Mapear las partidas a DTOs
             List<JugadorConPartidasDTO.PartidaDTO> partidasDTO = jugador.getPartidas().stream().map(partida -> {
                 JugadorConPartidasDTO.PartidaDTO partidaDTO = new JugadorConPartidasDTO.PartidaDTO();
                 partidaDTO.setIdPartida(partida.getIdPartida());

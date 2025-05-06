@@ -19,7 +19,7 @@ public class Partida {
     @Column(name = "id_partida")
     private Integer idPartida;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_jugador", nullable = false)
     private Jugador jugador;
 

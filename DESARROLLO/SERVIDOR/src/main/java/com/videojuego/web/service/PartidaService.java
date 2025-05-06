@@ -32,11 +32,11 @@ public class PartidaService {
     public Partida crearPartida(String nombrePerfil, String personaje) {
         logger.info("Creando partida para el jugador: {}, personaje: {}", nombrePerfil, personaje);
 
-        // Verificar si el jugador existe
+        // Verificar si el jugador existe, si no, crearlo
         Jugador jugador = jugadorService.findByNombrePerfil(nombrePerfil);
         if (jugador == null) {
-            logger.error("El jugador con nombre {} no existe.", nombrePerfil);
-            throw new RuntimeException("El jugador con nombre " + nombrePerfil + " no existe.");
+            logger.info("Jugador con nombre {} no existe, creando uno nuevo.", nombrePerfil);
+            jugador = jugadorService.createJugador(nombrePerfil);
         }
 
         // Crear una nueva partida
@@ -66,18 +66,15 @@ public class PartidaService {
     public ReporteCompletoDTO obtenerReporteCompleto(Integer idPartida) {
         logger.info("Generando reporte completo para la partida con id: {}", idPartida);
 
-        // Buscar la partida con sus relaciones cargadas (respuestas y preguntas)
         Partida partida = partidaRepository.findById(idPartida)
                 .orElseThrow(() -> new RuntimeException("La partida con id " + idPartida + " no existe."));
 
-        // Forzar la carga de las relaciones (si es necesario)
         Hibernate.initialize(partida.getJugador());
         List<RespuestaJugador> respuestas = partida.getRespuestas();
         if (respuestas != null) {
             respuestas.forEach(respuesta -> Hibernate.initialize(respuesta.getPregunta()));
         }
 
-        // Construir el DTO del reporte
         ReporteCompletoDTO reporte = new ReporteCompletoDTO();
         reporte.setIdPartida(partida.getIdPartida());
         reporte.setNombrePerfil(partida.getJugador().getNombrePerfil());
@@ -87,7 +84,6 @@ public class PartidaService {
         reporte.setErroresPartida(partida.getErroresPartida());
         reporte.setFechaInicio(partida.getFechaInicio());
 
-        // Construir la lista de respuestas
         List<RespuestaReporteDTO> respuestasDTO = new ArrayList<>();
         if (respuestas != null) {
             for (RespuestaJugador respuesta : respuestas) {

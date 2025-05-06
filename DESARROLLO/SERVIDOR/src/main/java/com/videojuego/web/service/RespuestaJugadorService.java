@@ -1,6 +1,7 @@
 package com.videojuego.web.service;
 
 import com.videojuego.web.dto.CreateRespuestaRequestDTO;
+import com.videojuego.web.dto.RespuestaJugadorResponseDTO;
 import com.videojuego.web.model.Jugador;
 import com.videojuego.web.model.Partida;
 import com.videojuego.web.model.Pregunta;
@@ -30,7 +31,7 @@ public class RespuestaJugadorService {
     private JugadorService jugadorService;
 
     @Transactional
-    public RespuestaJugador registrarRespuesta(CreateRespuestaRequestDTO request) {
+    public RespuestaJugadorResponseDTO registrarRespuesta(CreateRespuestaRequestDTO request) {
         logger.info("Registrando respuesta para idPartida: {}, idPregunta: {}", request.getIdPartida(), request.getIdPregunta());
 
         // Verificar que la partida exista
@@ -45,6 +46,12 @@ public class RespuestaJugadorService {
         if (pregunta == null) {
             logger.error("La pregunta con id {} no existe.", request.getIdPregunta());
             throw new RuntimeException("La pregunta con id " + request.getIdPregunta() + " no existe.");
+        }
+
+        // Verificar que la pregunta esté activa
+        if (!"activo".equals(pregunta.getEstado())) {
+            logger.error("La pregunta con id {} está inactiva.", request.getIdPregunta());
+            throw new RuntimeException("La pregunta con id " + request.getIdPregunta() + " está inactiva.");
         }
 
         // Crear la respuesta
@@ -62,7 +69,22 @@ public class RespuestaJugadorService {
         // Actualizar estadísticas de la partida y el jugador
         actualizarEstadisticas(partida, respuesta);
 
-        return savedRespuesta;
+        // Mapear la respuesta a un DTO para evitar problemas de serialización cíclica
+        RespuestaJugadorResponseDTO responseDTO = new RespuestaJugadorResponseDTO();
+        responseDTO.setIdRespuesta(savedRespuesta.getIdRespuesta());
+        responseDTO.setIdPartida(partida.getIdPartida());
+        responseDTO.setNombrePerfil(partida.getJugador().getNombrePerfil());
+        responseDTO.setPersonaje(partida.getPersonaje());
+        responseDTO.setIdPregunta(pregunta.getIdPregunta());
+        responseDTO.setTextoPregunta(pregunta.getTextoPregunta());
+        responseDTO.setOpciones(pregunta.getOpciones());
+        responseDTO.setRespuestaCorrecta(pregunta.getRespuestaCorrecta());
+        responseDTO.setRespuestaDada(savedRespuesta.getRespuestaDada());
+        responseDTO.setEsCorrecta(savedRespuesta.getEsCorrecta());
+        responseDTO.setTiempoRespuesta(savedRespuesta.getTiempoRespuesta());
+        responseDTO.setFechaInicio(partida.getFechaInicio());
+
+        return responseDTO;
     }
 
     private void actualizarEstadisticas(Partida partida, RespuestaJugador respuesta) {

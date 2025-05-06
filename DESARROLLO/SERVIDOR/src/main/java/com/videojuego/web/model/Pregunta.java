@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "tbl_pregunta")
 @Getter
@@ -35,4 +38,10 @@ public class Pregunta {
 
     @Column(name = "costo_energia", nullable = false)
     private Integer costoEnergia;
+
+    @Column(name = "estado", nullable = false)
+    private String estado = "activo";
+
+    @OneToMany(mappedBy = "pregunta", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<RespuestaJugador> respuestas = new ArrayList<>();
 }

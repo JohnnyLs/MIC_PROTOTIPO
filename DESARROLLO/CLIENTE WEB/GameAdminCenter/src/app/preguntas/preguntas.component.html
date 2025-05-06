@@ -1,0 +1,168 @@
+<div class="preguntas-container">
+    <header class="header">
+      <h1>Gestión de Preguntas</h1>
+      <button class="add-btn" (click)="openCreateForm()">Agregar Pregunta</button>
+    </header>
+  
+    <!-- Filtros -->
+    <div class="filters">
+      <div class="search-container">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (input)="onSearchChange()"
+          placeholder="Buscar pregunta..."
+          class="search-input"
+        />
+      </div>
+      <div class="categoria-container">
+        <select [(ngModel)]="selectedCategoria" (change)="onCategoriaChange()">
+          <option value="">Todas las Categorías</option>
+          <option *ngFor="let categoria of categorias" [value]="categoria">{{ categoria }}</option>
+        </select>
+      </div>
+    </div>
+  
+    <!-- Formulario para crear/editar preguntas -->
+    <div class="form-overlay" *ngIf="showForm">
+      <div class="form-container">
+        <h2>{{ isEditing ? 'Editar Pregunta' : 'Nueva Pregunta' }}</h2>
+        <form (ngSubmit)="savePregunta()">
+          <div class="form-group">
+            <label for="textoPregunta">Texto de la Pregunta:</label>
+            <input
+              type="text"
+              id="textoPregunta"
+              [(ngModel)]="currentPregunta.textoPregunta"
+              name="textoPregunta"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="opciones">Opciones (JSON, ej. ["op1", "op2", "op3"]):</label>
+            <input
+              type="text"
+              id="opciones"
+              [(ngModel)]="currentPregunta.opciones"
+              name="opciones"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="respuestaCorrecta">Respuesta Correcta:</label>
+            <input
+              type="text"
+              id="respuestaCorrecta"
+              [(ngModel)]="currentPregunta.respuestaCorrecta"
+              name="respuestaCorrecta"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="dificultad">Dificultad:</label>
+            <select
+              id="dificultad"
+              [(ngModel)]="currentPregunta.dificultad"
+              name="dificultad"
+              required
+            >
+              <option value="Fácil">Fácil</option>
+              <option value="Medio">Medio</option>
+              <option value="Difícil">Difícil</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="tiempoLimite">Tiempo Límite (segundos):</label>
+            <input
+              type="number"
+              id="tiempoLimite"
+              [(ngModel)]="currentPregunta.tiempoLimite"
+              name="tiempoLimite"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="categoria">Categoría:</label>
+            <input
+              type="text"
+              id="categoria"
+              [(ngModel)]="currentPregunta.categoria"
+              name="categoria"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="costoEnergia">Costo de Energía:</label>
+            <input
+              type="number"
+              id="costoEnergia"
+              [(ngModel)]="currentPregunta.costoEnergia"
+              name="costoEnergia"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="estado">Estado:</label>
+            <select
+              id="estado"
+              [(ngModel)]="currentPregunta.estado"
+              name="estado"
+              required
+            >
+              <option value="activo">Activo</option>
+              <option value="inactivo">Inactivo</option>
+            </select>
+          </div>
+          <div class="form-buttons">
+            <button type="submit" class="save-btn">{{ isEditing ? 'Guardar Cambios' : 'Crear Pregunta' }}</button>
+            <button type="button" class="cancel-btn" (click)="cancelForm()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+   <!-- Tabla de preguntas -->
+<div class="table-container">
+    <table class="preguntas-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Texto Pregunta</th>
+          <th>Opciones</th>
+          <th>Respuesta Correcta</th>
+          <th>Dificultad</th>
+          <th>Tiempo Límite</th>
+          <th>Categoría</th>
+          <th>Costo Energía</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pregunta of filteredPreguntas" [ngClass]="{'inactive-row': pregunta.estado === 'inactivo'}">
+          <td>{{ pregunta.idPregunta }}</td>
+          <td>{{ pregunta.textoPregunta }}</td>
+          <td>{{ pregunta.opciones }}</td>
+          <td>{{ pregunta.respuestaCorrecta }}</td>
+          <td>{{ pregunta.dificultad }}</td>
+          <td>{{ pregunta.tiempoLimite }}</td>
+          <td>{{ pregunta.categoria }}</td>
+          <td>{{ pregunta.costoEnergia }}</td>
+          <td>{{ pregunta.estado }}</td>
+          <td>
+            <div class="action-buttons">
+              <button class="action-btn edit-btn" (click)="openEditForm(pregunta)" title="Editar">
+                <span class="icon">✏️</span>
+              </button>
+              <button class="action-btn delete-btn" (click)="deletePregunta(pregunta.idPregunta!)" title="Eliminar">
+                <span class="icon">🗑️</span>
+              </button>
+              <button class="action-btn toggle-btn" (click)="toggleEstado(pregunta)" title="{{ pregunta.estado === 'activo' ? 'Deshabilitar' : 'Habilitar' }}">
+                <span class="icon">{{ pregunta.estado === 'activo' ? '❌' : '✔️' }}</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
