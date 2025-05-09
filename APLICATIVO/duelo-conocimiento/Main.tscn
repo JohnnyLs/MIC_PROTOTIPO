@@ -31,7 +31,7 @@ tonemap_white = 1.5
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 5.5, 0)
 
 [node name="Camera3D" type="Camera3D" parent="CameraArm"]
-transform = Transform3D(-0.449319, 0.0949333, -0.888313, 0, 0.994338, 0.106264, 0.893372, 0.0477465, -0.446775, -1.745, -2.47, -6.85)
+transform = Transform3D(-0.73548, -0.0827364, 0.672476, 0.0104949, 0.991006, 0.133404, -0.677465, 0.105174, -0.727997, 11.5934, -1.18463, -2.46537)
 fov = 64.9
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -46,12 +46,13 @@ shadow_normal_bias = 0.04
 environment = SubResource("Environment_r0du0")
 
 [node name="escenariov2" parent="." instance=ExtResource("1_glv2v")]
+transform = Transform3D(-0.546438, 0, -0.837499, 0, 1, 0, 0.837499, 0, -0.546438, 0, 0, 0)
 
 [node name="Jugador" parent="." instance=ExtResource("2_uu6xs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7134, -5.99656)
+transform = Transform3D(-0.119184, 0, -0.992872, 0, 1, 0, 0.992872, 0, -0.119184, 4.98101, 1.10647, 2.50673)
 
 [node name="Mago" parent="." instance=ExtResource("3_r0du0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.17394, 0)
+transform = Transform3D(0.232868, 0, 0.972508, 0, 1, 0, -0.972508, 0, 0.232868, -2.45673, 0.699999, -0.174771)
 
 [node name="UIDuelo" parent="." instance=ExtResource("4_cm0pq")]
 

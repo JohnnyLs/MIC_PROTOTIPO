@@ -1,17 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://nu50h18sthlv"]
+[gd_scene load_steps=4 format=3 uid="uid://nu50h18sthlv"]
 
 [ext_resource type="Script" uid="uid://bmow6iy231p53" path="res://personajes/jugador/jugador.gd" id="1_uce8i"]
 [ext_resource type="PackedScene" uid="uid://dy57gqyw4fh8l" path="res://ui/JugadorInterfaz.tscn" id="2_n7krw"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_s1a5e"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uce8i"]
 
 [node name="Jugador" type="CharacterBody3D"]
 script = ExtResource("1_uce8i")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_s1a5e")
+[node name="ModeloContenedor" type="Node3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_uce8i")
