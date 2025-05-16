@@ -43,6 +43,7 @@ func iniciar_turno_mago():
 	turno_actual = "mago"
 	mostrar_turno("Turno de Conty!")
 	await get_tree().create_timer(3.0).timeout
+	mago.lanzar_pregunta_animada()
 	lanzar_pregunta()
 	await get_tree().process_frame
 	iniciar_turno_jugador()
@@ -80,8 +81,11 @@ func verificar_respuesta(opcion: String):
 
 	var correcta = Dialogic.VAR.get_variable("respuesta_correcta")
 	var danio = pregunta_actual.get("coste_energía", 5)
+	
+	jugador.responder_pregunta()
 
 	if opcion == correcta:
+		mago.aplaudir()
 		mago.recibir_danio(danio)
 	else:
 		jugador.recibir_danio(danio)
@@ -107,9 +111,12 @@ func _on_tiempo_agotado():
 
 func chequear_fin_del_juego() -> bool:
 	if jugador.vida_actual <= 0:
+		jugador.perder_juego()
 		Dialogic.start("derrota_timeline")
 		return true
 	elif mago.vida_actual <= 0:
+		mago.aplaudir()
+		jugador.bailar()
 		Dialogic.start("victoria_timeline")
 		return true
 	return false
