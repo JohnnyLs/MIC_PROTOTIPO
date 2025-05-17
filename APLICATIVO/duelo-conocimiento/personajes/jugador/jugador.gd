@@ -6,7 +6,7 @@ extends CharacterBody3D
 var vida_maxima := 100
 var vida_actual := 100
 
-var genero := "mujer"  # Se asigna desde fuera del script
+var genero := "hombre"  # Se asigna desde fuera del script
 var anim_player : AnimationPlayer = null
 var anim_actual := ""
 
