@@ -4,17 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
-public class ReporteCompletoDTO {
+public class HistoricoPartidaDTO {
     private Integer idPartida;
     private String nombrePerfil;
-    private String personaje;
-    private Integer tiempoTotalPartida;
+    private LocalDateTime fechaInicio;
     private Integer aciertosPartida;
     private Integer erroresPartida;
-    private LocalDateTime fechaInicio;
-    private List<RespuestaReporteDTO> respuestas; // Usamos la clase independiente
+    private Integer tiempoTotalPartida;
+    private Double puntuacion;
 }

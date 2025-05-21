@@ -1,7 +1,8 @@
 package com.videojuego.web.service;
 
+import com.videojuego.web.dto.HistoricoPartidaDTO;
 import com.videojuego.web.dto.ReporteCompletoDTO;
-import com.videojuego.web.dto.RespuestaReporteDTO;
+import com.videojuego.web.dto.RespuestaReporteDTO; // Importamos la clase independiente
 import com.videojuego.web.model.Jugador;
 import com.videojuego.web.model.Partida;
 import com.videojuego.web.model.RespuestaJugador;
@@ -15,7 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PartidaService {
@@ -32,14 +35,12 @@ public class PartidaService {
     public Partida crearPartida(String nombrePerfil, String personaje) {
         logger.info("Creando partida para el jugador: {}, personaje: {}", nombrePerfil, personaje);
 
-        // Verificar si el jugador existe, si no, crearlo
         Jugador jugador = jugadorService.findByNombrePerfil(nombrePerfil);
         if (jugador == null) {
             logger.info("Jugador con nombre {} no existe, creando uno nuevo.", nombrePerfil);
             jugador = jugadorService.createJugador(nombrePerfil);
         }
 
-        // Crear una nueva partida
         Partida partida = new Partida();
         partida.setJugador(jugador);
         partida.setPersonaje(personaje);
@@ -104,5 +105,30 @@ public class PartidaService {
 
         logger.info("Reporte generado para la partida con id: {}", idPartida);
         return reporte;
+    }
+
+    @Transactional(readOnly = true)
+    public List<HistoricoPartidaDTO> obtenerHistoricoPartidas() {
+        logger.info("Obteniendo histórico de partidas");
+
+        List<Partida> partidas = partidaRepository.findAll();
+
+        List<HistoricoPartidaDTO> historico = partidas.stream().map(partida -> {
+                    HistoricoPartidaDTO dto = new HistoricoPartidaDTO();
+                    dto.setIdPartida(partida.getIdPartida());
+                    dto.setNombrePerfil(partida.getJugador().getNombrePerfil());
+                    dto.setFechaInicio(partida.getFechaInicio());
+                    dto.setAciertosPartida(partida.getAciertosPartida());
+                    dto.setErroresPartida(partida.getErroresPartida());
+                    dto.setTiempoTotalPartida(partida.getTiempoTotalPartida());
+                    double puntuacion = (partida.getAciertosPartida() * 10) - (partida.getErroresPartida() * 5) - (partida.getTiempoTotalPartida() / 10.0);
+                    dto.setPuntuacion(puntuacion);
+                    return dto;
+                })
+                .sorted(Comparator.comparing(HistoricoPartidaDTO::getFechaInicio).reversed())
+                .collect(Collectors.toList());
+
+        logger.info("Se encontraron {} partidas en el histórico", historico.size());
+        return historico;
     }
 }

@@ -10,3 +10,4 @@ export const routes: Routes = [
   { path: 'partida/:idPartida', component: PartidaDetailComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];
+

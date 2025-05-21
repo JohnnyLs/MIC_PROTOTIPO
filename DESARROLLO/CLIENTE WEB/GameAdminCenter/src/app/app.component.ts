@@ -6,19 +6,22 @@ import { JugadorService } from './services/jugador.service';
 import { Jugador, Partida } from './models/jugador.model';
 import { FormsModule } from '@angular/forms';
 import { PreguntasComponent } from './preguntas/preguntas.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-main',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  imports: [CommonModule, FormsModule, PreguntasComponent],
-  standalone: true
+  imports: [CommonModule, FormsModule, PreguntasComponent, DashboardComponent],
+  standalone: true,
 })
 export class AppComponent implements OnInit {
   jugadores: Jugador[] = [];
   filteredJugadores: Jugador[] = [];
   searchTerm: string = '';
-  activeTab: 'reportes' | 'preguntas' = 'reportes'; // Pestaña activa por defecto: Reportes
+  activeTab: 'reportes' | 'preguntas' | 'dashboard' = 'reportes';
+  tabChangeSubject = new Subject<string>(); // Subject para notificar cambios de pestaña
 
   constructor(
     private authService: AuthService,
@@ -35,13 +38,13 @@ export class AppComponent implements OnInit {
       next: (jugadores) => {
         this.jugadores = jugadores.map(jugador => ({
           ...jugador,
-          nombrePerfil: this.cleanNombrePerfil(jugador.nombrePerfil)
+          nombrePerfil: this.cleanNombrePerfil(jugador.nombrePerfil),
         }));
         this.filteredJugadores = [...this.jugadores];
       },
       error: (err) => {
         console.error('Error al cargar los jugadores:', err);
-      }
+      },
     });
   }
 
@@ -71,7 +74,7 @@ export class AppComponent implements OnInit {
       'color-green',
       'color-purple',
       'color-orange',
-      'color-teal'
+      'color-teal',
     ];
     return colors[index % colors.length];
   }
@@ -81,7 +84,8 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  setActiveTab(tab: 'reportes' | 'preguntas'): void {
+  setActiveTab(tab: 'reportes' | 'preguntas' | 'dashboard'): void {
     this.activeTab = tab;
+    this.tabChangeSubject.next(tab); // Emitir evento de cambio de pestaña
   }
 }

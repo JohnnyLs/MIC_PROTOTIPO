@@ -17,6 +17,12 @@
       >
         Preguntas
       </button>
+      <button
+        [ngClass]="{'active': activeTab === 'dashboard'}"
+        (click)="setActiveTab('dashboard')"
+      >
+        Dashboard
+      </button>
     </div>
     <div class="sidebar-footer">
       <button class="logout-btn" (click)="logout()">Cerrar Sesión</button>
@@ -51,14 +57,13 @@
               <table class="nested-table" [ngClass]="getColorClass(i)">
                 <thead>
                   <tr>
-                    <th>ID Partida</th>
-                    <th>Personaje</th>
-                    <th>Fecha Inicio</th>
+                   <th class="personaje-header">Personaje</th>
+                   <th class="fecha-header">Fecha</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let partida of jugador.partidas" (click)="goToPartidaDetail(partida)" class="clickable-row">
-                    <td>{{ partida.idPartida }}</td>
+                   
                     <td>{{ partida.personaje }}</td>
                     <td>{{ partida.fechaInicio | date:'medium' }}</td>
                   </tr>
@@ -76,6 +81,14 @@
     <!-- Sección de Preguntas -->
     <div *ngIf="activeTab === 'preguntas'" class="preguntas-section">
       <app-preguntas></app-preguntas>
+    </div>
+
+    <!-- Sección de Dashboard -->
+    <div *ngIf="activeTab === 'dashboard'" class="dashboard-section">
+      <header class="header">
+        <h1>Game Admin Center - Dashboard</h1>
+      </header>
+      <app-dashboard [tabChange]="tabChangeSubject.asObservable()"></app-dashboard>
     </div>
   </div>
 </div>
