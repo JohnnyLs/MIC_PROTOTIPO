@@ -55,7 +55,7 @@ func _on_btn_left_pressed() -> void:
 	# Cambiar el personaje hacia la izquierda
 	current_index -= 1
 	if current_index < 0:
-		current_index = personajes.size() - 1  # Volver al último si se pasa del inicio
+		current_index = personajes.size() - 1  
 	update_personaje_texture()
 
 func _on_btn_right_pressed() -> void:
@@ -66,4 +66,4 @@ func _on_btn_right_pressed() -> void:
 func _on_btn_accept_pressed() -> void:
 	# Guardar la selección y cambiar de escena
 	print("Personaje seleccionado: ", current_index)
-	get_tree().change_scene("res://escenas/escenarioV2.tscn")
+	get_tree().change_scene_to_file("res://Main.tscn")  # Usar change_scene_to_file en Godot 4

@@ -29,6 +29,14 @@ offset_right = 1099.0
 offset_bottom = 258.0
 texture = ExtResource("3_gbhhd")
 
+[node name="boy" type="TextureRect" parent="rect_background"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 13.0
+offset_right = 1369.0
+offset_bottom = 781.0
+texture = ExtResource("7_uq6os")
+
 [node name="btn_right" type="Button" parent="rect_background"]
 layout_mode = 1
 anchors_preset = -1
@@ -70,11 +78,3 @@ offset_right = 154.0
 offset_bottom = 42.304
 icon = ExtResource("6_psvml")
 flat = true
-
-[node name="boy" type="TextureRect" parent="rect_background"]
-layout_mode = 0
-offset_left = 3.0
-offset_top = 13.0
-offset_right = 1369.0
-offset_bottom = 781.0
-texture = ExtResource("7_uq6os")
