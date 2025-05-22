@@ -1,9 +1,9 @@
 {pregunta_texto}
 - {opcion_a}
-	do GameManager.verificar_respuesta("a")
+	do SceneBridge.verificar_respuesta("a")
 - {opcion_b}
-	do GameManager.verificar_respuesta("b")
+	do SceneBridge.verificar_respuesta("b")
 - {opcion_c}
-	do GameManager.verificar_respuesta("c")
+	do SceneBridge.verificar_respuesta("c")
 - {opcion_d}
-	do GameManager.verificar_respuesta("d")
+	do SceneBridge.verificar_respuesta("d")

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="duelo-conocimiento"
-run/main_scene="uid://cw1jgvoog2bpw"
+run/main_scene="uid://bx7fnngid0sse"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 run/max_fps=60
 config/icon="res://icon.svg"
@@ -21,6 +21,7 @@ config/icon="res://icon.svg"
 PreguntaManager="*res://src/PreguntaManager.gd"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 GameManager="*res://src/GameManager.gd"
+SceneBridge="*res://SceneBridge.gd"
 
 [dialogic]
 

@@ -1,15 +1,8 @@
 extends Control
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass 
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+	# Ya no hacemos nada aquí, solo esperamos que el usuario presione el botón
 	pass
-
 
 func _on_button_pressed() -> void:
-	pass
+	GameManager.cambiar_escena("res://escenas/sc_seleccion/seleccion_p.tscn")

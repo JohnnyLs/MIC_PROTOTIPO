@@ -6,6 +6,7 @@ extends Control
 @onready var btn_left = $rect_background/btn_left
 @onready var btn_right = $rect_background/btn_right
 @onready var btn_accept = $rect_background/btn_accept
+@onready var text_edit = $TextEdit
 
 # Lista de texturas (imágenes de los personajes)
 var personajes = []
@@ -31,6 +32,7 @@ func _ready() -> void:
 	# Configurar la textura inicial del PersonajeRect
 	update_personaje_texture()
 
+	text_edit.placeholder_text = "Ingresa tu nombre"
 	# Verificar que los botones existan antes de conectar señales
 	if btn_left == null:
 		push_error("No se encontró el nodo 'btn_left'. Revisa el nombre o la ruta en la escena.")
@@ -64,6 +66,17 @@ func _on_btn_right_pressed() -> void:
 	update_personaje_texture()
 
 func _on_btn_accept_pressed() -> void:
-	# Guardar la selección y cambiar de escena
+	var nombre = text_edit.text.strip_edges()  # Elimina espacios al inicio/final
+	
+	# Validar que se haya ingresado un nombre
+	if nombre.is_empty():
+		# Podrías mostrar un mensaje de error aquí
+		print("Por favor, ingresa tu nombre")
+		return
+		
 	print("Personaje seleccionado: ", current_index)
-	get_tree().change_scene_to_file("res://Main.tscn")  # Usar change_scene_to_file en Godot 4
+	print("Nombre del jugador: ", nombre)
+	# Guardar en GameManager
+	GameManager.personaje_index = current_index # Guarda la selección globalmente
+	GameManager.nombre_jugador = nombre 
+	GameManager.cambiar_escena("res://Main.tscn")  # Cambia usando el manejador # Usar change_scene_to_file en Godot 4

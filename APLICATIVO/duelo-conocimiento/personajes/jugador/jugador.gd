@@ -5,8 +5,8 @@ extends CharacterBody3D
 
 var vida_maxima := 100
 var vida_actual := 100
-
-var genero := "hombre"  # Se asigna desde fuera del script
+var genero := "hombre"  # Se asigna desde GameManager
+var nombre_jugador := ""  # Se asigna desde GameManager
 var anim_player : AnimationPlayer = null
 var anim_actual := ""
 
@@ -23,8 +23,36 @@ func curar_vida(cantidad):
 	reproducir_animacion("curarse")
 
 func _ready():
+	# Obtener datos del GameManager
+	genero = GameManager.get_genero_personaje()
+	nombre_jugador = GameManager.nombre_jugador
+	
+	print("=== JUGADOR DEBUG ===")
+	print("Género:", genero)
+	print("Nombre:", nombre_jugador)
+	print("====================")
+	
 	barra_vida.value = vida_actual
 	cargar_modelo()
+	configurar_nombre_ui()
+
+func configurar_nombre_ui():
+	# Ruta corregida para el RichTextLabel
+	var label_nombre = $UIJugador/ContenedorInterfaz/VContenedorInterfaz/Fila1/NombreJugador
+	
+	if label_nombre:
+		# Para RichTextLabel, usamos .text (no .bbcode_text a menos que tengas BBCode)
+		label_nombre.text = nombre_jugador
+		print("Nombre configurado en UI:", nombre_jugador)
+	else:
+		print("ERROR: No se encontró el nodo NombreJugador en la ruta:")
+		print("$UIJugador/ContenedorInterfaz/VContenedorInterfaz/Fila1/NombreJugador")
+		# Debug: Listar los nodos disponibles
+		var fila1 = $UIJugador/ContenedorInterfaz/VContenedorInterfaz/Fila1
+		if fila1:
+			print("Nodos disponibles en Fila1:")
+			for child in fila1.get_children():
+				print("- ", child.name, " (", child.get_class(), ")")
 
 func _input_event(_camera, event, _click_position, _click_normal, _shape_idx):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -38,6 +66,8 @@ func cargar_modelo():
 			ruta_modelo = "res://personajes/jugador/ninio.glb"
 		"mujer":
 			ruta_modelo = "res://personajes/jugadora/ninia.glb"
+	
+	print("Cargando modelo:", ruta_modelo)
 	
 	var escena_modelo = load(ruta_modelo)
 	if escena_modelo:
@@ -54,8 +84,10 @@ func cargar_modelo():
 				print("No se encontró la animación 'reposo'.")
 		else:
 			print("No se encontró AnimationPlayer.")
+		
+		print("Modelo cargado exitosamente")
 	else:
-		print("No se pudo cargar el modelo:", ruta_modelo)
+		print("ERROR: No se pudo cargar el modelo:", ruta_modelo)
 
 func reproducir_animacion(nombre: String):
 	if anim_player and anim_player.has_animation(nombre):
