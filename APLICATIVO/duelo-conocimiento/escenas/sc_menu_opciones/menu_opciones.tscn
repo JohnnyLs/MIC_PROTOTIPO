@@ -1,16 +1,24 @@
-[gd_scene load_steps=6 format=3 uid="uid://dhq8h0lfixffn"]
+[gd_scene load_steps=10 format=3 uid="uid://dhq8h0lfixffn"]
 
+[ext_resource type="Script" uid="uid://dy636nqdwk4ja" path="res://escenas/sc_menu_opciones/menu_opciones.gd" id="1_bby85"]
 [ext_resource type="Texture2D" uid="uid://g8ucyb8whd8m" path="res://assets/ui/menu opciones/fondo.png" id="1_lwlup"]
 [ext_resource type="Texture2D" uid="uid://dpu04tafuty8k" path="res://assets/ui/menu opciones/cont.png" id="2_bby85"]
 [ext_resource type="Texture2D" uid="uid://dv0r2obl5kqmx" path="res://assets/ui/menu opciones/btn_config.png" id="3_ixrep"]
 [ext_resource type="Texture2D" uid="uid://bx4nqmed7dfq7" path="res://assets/ui/menu opciones/salir.png" id="4_tdbie"]
-[ext_resource type="Texture2D" uid="uid://e67qx8rw7d4s" path="res://assets/ui/menu opciones/btn_jugar.png" id="5_lcg32"]
+[ext_resource type="Texture2D" uid="uid://cmu3tm631s8xc" path="res://assets/ui/menu opciones/btn_continuar.png" id="5_lwlup"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ixrep"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lwlup"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bby85"]
 
 [node name="MenuOpciones" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+script = ExtResource("1_bby85")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="ContenedorOpciones" type="TextureRect" parent="."]
 layout_mode = 0
 offset_left = -40.0
 offset_top = -26.0
@@ -18,7 +26,7 @@ offset_right = 1326.0
 offset_bottom = 742.0
 texture = ExtResource("1_lwlup")
 
-[node name="TextureRect" type="TextureRect" parent="TextureRect"]
+[node name="TextureRect" type="TextureRect" parent="ContenedorOpciones"]
 layout_mode = 0
 offset_left = 371.0
 offset_top = 104.0
@@ -26,29 +34,32 @@ offset_right = 998.0
 offset_bottom = 685.0
 texture = ExtResource("2_bby85")
 
-[node name="Button2" type="Button" parent="TextureRect"]
+[node name="btn_continuar" type="Button" parent="ContenedorOpciones"]
+layout_mode = 0
+offset_left = 517.0
+offset_top = 272.0
+offset_right = 858.0
+offset_bottom = 396.0
+theme_override_styles/hover = SubResource("StyleBoxFlat_ixrep")
+icon = ExtResource("5_lwlup")
+flat = true
+
+[node name="btn_config" type="Button" parent="ContenedorOpciones"]
 layout_mode = 0
 offset_left = 516.0
 offset_top = 389.0
 offset_right = 853.0
 offset_bottom = 509.0
+theme_override_styles/hover = SubResource("StyleBoxFlat_lwlup")
 icon = ExtResource("3_ixrep")
 flat = true
 
-[node name="Button" type="Button" parent="TextureRect"]
+[node name="btn_salir" type="Button" parent="ContenedorOpciones"]
 layout_mode = 0
 offset_left = 517.0
 offset_top = 512.0
 offset_right = 854.0
 offset_bottom = 632.0
+theme_override_styles/hover = SubResource("StyleBoxFlat_bby85")
 icon = ExtResource("4_tdbie")
-flat = true
-
-[node name="Button" type="Button" parent="."]
-layout_mode = 0
-offset_left = 477.0
-offset_top = 246.0
-offset_right = 818.0
-offset_bottom = 370.0
-icon = ExtResource("5_lcg32")
 flat = true

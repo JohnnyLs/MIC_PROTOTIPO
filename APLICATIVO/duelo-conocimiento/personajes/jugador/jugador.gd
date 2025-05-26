@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+signal animation_finished_signal(animation_name)
+
 @onready var barra_vida = $UIJugador/ContenedorInterfaz/VContenedorInterfaz/Fila1/VidaBar
 @onready var modelo_contenedor = $ModeloContenedor
 
@@ -14,13 +16,13 @@ func recibir_danio(cantidad):
 	vida_actual = clamp(vida_actual - cantidad, 0, vida_maxima)
 	print("Vida actual del jugador tras recibir daño:", vida_actual)
 	barra_vida.value = vida_actual
-	reproducir_animacion("perdernergia")
+	await reproducir_animacion("perdernergia")
 
 func curar_vida(cantidad):
 	vida_actual = clamp(vida_actual + cantidad, 0, vida_maxima)
 	print("Vida actual del jugador tras curarse:", vida_actual)
 	barra_vida.value = vida_actual
-	reproducir_animacion("curarse")
+	await reproducir_animacion("curarse")
 
 func _ready():
 	# Obtener datos del GameManager
@@ -79,7 +81,7 @@ func cargar_modelo():
 		if anim_player:
 			anim_player.animation_finished.connect(_on_animacion_finalizada)
 			if anim_player.has_animation("reposo"):
-				reproducir_animacion("reposo")
+				await reproducir_animacion("reposo")
 			else:
 				print("No se encontró la animación 'reposo'.")
 		else:
@@ -95,6 +97,8 @@ func reproducir_animacion(nombre: String):
 			anim_actual = nombre
 			anim_player.play(nombre)
 			print("Reproduciendo animación:", nombre)
+			await anim_player.animation_finished
+			animation_finished_signal.emit(nombre)
 
 func _process(_delta):
 	if anim_actual == "reposo":
@@ -105,16 +109,16 @@ func _process(_delta):
 func _on_animacion_finalizada(nombre):
 	# Si terminó una animación distinta a 'reposo', volvemos a reposo
 	if nombre != "reposo":
-		reproducir_animacion("reposo")
+		await reproducir_animacion("reposo")
 		
 func responder_pregunta():
-	reproducir_animacion("responder")
+	await reproducir_animacion("responder")
 	
 func perder_juego():
-	reproducir_animacion("perderpartida")
+	await reproducir_animacion("perderpartida")
 	
 func frustracion():
-	reproducir_animacion("frustracion")
+	await reproducir_animacion("frustracion")
 	
 func bailar():
-	reproducir_animacion("bailar")
+	await reproducir_animacion("bailar")

@@ -12,7 +12,6 @@ func _on_carta_usada(tipo: String, data: Variant):
 	print("Tiene método _on_carta_usada:", GameManager.has_method("_on_carta_usada"))
 	GameManager._on_carta_usada(tipo, data)
 
-		
 func conectar_cartas():
 	print("Conectando cartas manualmente. Hijos:", get_child_count())
 

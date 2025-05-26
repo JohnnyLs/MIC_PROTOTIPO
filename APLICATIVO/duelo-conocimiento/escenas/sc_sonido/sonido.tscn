@@ -1,0 +1,60 @@
+[gd_scene load_steps=6 format=3 uid="uid://xd5orwlfig4t"]
+
+[ext_resource type="Texture2D" uid="uid://g8ucyb8whd8m" path="res://assets/ui/menu opciones/fondo.png" id="1_kr2s7"]
+[ext_resource type="Script" uid="uid://cosbryr3hi6xk" path="res://escenas/sc_sonido/sonido.gd" id="1_sx5en"]
+[ext_resource type="Texture2D" uid="uid://b0eco1cv1dt2p" path="res://assets/ui/menu sonido/cont.png" id="2_sx5en"]
+[ext_resource type="Texture2D" uid="uid://dxohvjga7mr87" path="res://assets/ui/menu sonido/btn_regresar.png" id="3_56uow"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kr2s7"]
+bg_color = Color(0.407733, 0.352351, 0.0580289, 0.392157)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="Sonido" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_sx5en")
+
+[node name="ContenedorSonido" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -41.0
+offset_top = -19.0
+offset_right = 1325.0
+offset_bottom = 749.0
+texture = ExtResource("1_kr2s7")
+
+[node name="TextureRect" type="TextureRect" parent="ContenedorSonido"]
+layout_mode = 0
+offset_left = 377.0
+offset_top = 118.0
+offset_right = 983.0
+offset_bottom = 667.0
+texture = ExtResource("2_sx5en")
+
+[node name="btn_regresar" type="Button" parent="ContenedorSonido"]
+layout_mode = 0
+offset_left = 514.0
+offset_top = 533.0
+offset_right = 851.0
+offset_bottom = 653.0
+theme_override_styles/hover = SubResource("StyleBoxFlat_kr2s7")
+icon = ExtResource("3_56uow")
+flat = true
+
+[node name="SliderMusica" type="HSlider" parent="ContenedorSonido"]
+layout_mode = 0
+offset_left = 518.0
+offset_top = 314.0
+offset_right = 831.0
+offset_bottom = 396.0
+value = 50.0
+
+[node name="SliderSonido" type="HSlider" parent="ContenedorSonido"]
+layout_mode = 0
+offset_left = 523.0
+offset_top = 457.0
+offset_right = 836.0
+offset_bottom = 539.0
+value = 60.0

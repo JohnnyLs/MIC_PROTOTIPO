@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+signal animation_finished_signal(animation_name)
+
 @onready var barra_vida = $UIMago/ContenedorInterfaz/VContenedorInterfaz/Fila1/VidaBar
 @onready var modelo := $magoModelo
 @onready var anim_player : AnimationPlayer = $magoModelo/AnimationPlayer
@@ -13,7 +15,7 @@ func _ready():
 	if anim_player:
 		anim_player.animation_finished.connect(_on_animacion_finalizada)
 		if anim_player.has_animation("reposo"):
-			reproducir_animacion("reposo")
+			await reproducir_animacion("reposo")
 		else:
 			print("No se encontró animación 'reposo'.")
 	else:
@@ -23,8 +25,7 @@ func recibir_danio(cantidad):
 	vida_actual = clamp(vida_actual - cantidad, 0, vida_maxima)
 	barra_vida.value = vida_actual
 	print("Vida actual del mago tras recibir daño:", vida_actual)
-	#reproducir_animacion("recibir_danio")
-
+	# await reproducir_animacion("recibir_danio")  # Descomentado si tienes esta animación
 
 func reproducir_animacion(nombre: String):
 	if anim_player and anim_player.has_animation(nombre):
@@ -32,23 +33,25 @@ func reproducir_animacion(nombre: String):
 			anim_actual = nombre
 			anim_player.play(nombre)
 			print("Mago reproduce animación:", nombre)
+			await anim_player.animation_finished
+			animation_finished_signal.emit(nombre)
 
 func _process(_delta):
 	if anim_actual == "reposo" and anim_player and not anim_player.is_playing():
-		reproducir_animacion("reposo")
+		await reproducir_animacion("reposo")
 
 func _on_animacion_finalizada(nombre):
 	if nombre != "reposo":
-		reproducir_animacion("reposo")
+		await reproducir_animacion("reposo")
 
 func lanzar_pregunta_animada():
-	reproducir_animacion("lanzarpregunta")
+	await reproducir_animacion("lanzarpregunta")
 	
 func animar():
-	reproducir_animacion("animar")
+	await reproducir_animacion("animar")
 	
 func aplaudir():
-	reproducir_animacion("aplaudir")
+	await reproducir_animacion("aplaudir")
 	
 func finjuego():
-	reproducir_animacion("aplaudir")
+	await reproducir_animacion("aplaudir")

@@ -1,8 +1,8 @@
 extends Control
 
 # Referencias a los nodos
-@onready var background = $rect_background  # TextureRect para el fondo (solo para verificar que existe)
-@onready var personaje_rect = $rect_background/boy  # TextureRect para los personajes
+@onready var background = $rect_background  
+@onready var personaje_rect = $rect_background/boy  
 @onready var btn_left = $rect_background/btn_left
 @onready var btn_right = $rect_background/btn_right
 @onready var btn_accept = $rect_background/btn_accept
@@ -10,7 +10,7 @@ extends Control
 
 # Lista de texturas (imágenes de los personajes)
 var personajes = []
-var current_index = 0  # Índice para el personaje actual
+var current_index = 0  
 
 func _ready() -> void:
 	# Cargar las imágenes de los personajes desde la carpeta

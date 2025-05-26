@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://3lwxdd46t6b4"]
+[gd_scene load_steps=13 format=3 uid="uid://3lwxdd46t6b4"]
 
 [ext_resource type="Script" uid="uid://bfgqm7gbk1y3y" path="res://escenas/sc_seleccion/seleccion_p.gd" id="1_28arp"]
 [ext_resource type="Texture2D" uid="uid://mg7rcn3q8qns" path="res://assets/ui/seleccionar personaje/background_selec.png" id="2_t7f3v"]
@@ -8,6 +8,13 @@
 [ext_resource type="Texture2D" uid="uid://cyu5w1bikucjj" path="res://assets/ui/seleccionar personaje/btn_accept.png" id="6_psvml"]
 [ext_resource type="Texture2D" uid="uid://bspu1nedr8qne" path="res://assets/ui/seleccionar personaje/boy.png" id="7_uq6os"]
 [ext_resource type="Texture2D" uid="uid://haxgl2pe7cuq" path="res://assets/ui/seleccionar personaje/input2.png" id="8_t7f3v"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gbhhd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fa2c7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t7f3v"]
+bg_color = Color(0.791951, 0.791951, 0, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gbhhd"]
 content_margin_left = 30.0
@@ -53,6 +60,7 @@ offset_left = 178.0
 offset_top = -401.696
 offset_right = 281.0
 offset_bottom = -288.696
+theme_override_styles/hover = SubResource("StyleBoxFlat_gbhhd")
 icon = ExtResource("4_fa2c7")
 flat = true
 
@@ -67,6 +75,7 @@ offset_left = -287.0
 offset_top = -393.696
 offset_right = -177.0
 offset_bottom = -278.696
+theme_override_styles/hover = SubResource("StyleBoxFlat_fa2c7")
 icon = ExtResource("5_lumy3")
 flat = true
 
@@ -81,6 +90,7 @@ offset_left = -133.0
 offset_top = -50.696
 offset_right = 164.0
 offset_bottom = 69.304
+theme_override_styles/hover = SubResource("StyleBoxFlat_t7f3v")
 icon = ExtResource("6_psvml")
 flat = true
 
@@ -90,6 +100,6 @@ offset_left = 434.0
 offset_top = 498.0
 offset_right = 877.0
 offset_bottom = 614.0
-theme_override_colors/font_color = Color(0.313726, 0.282353, 0.180392, 1)
-theme_override_font_sizes/font_size = 70
+theme_override_colors/font_color = Color(0.220467, 0.197197, 0.123221, 1)
+theme_override_font_sizes/font_size = 45
 theme_override_styles/normal = SubResource("StyleBoxTexture_gbhhd")

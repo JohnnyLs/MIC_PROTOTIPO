@@ -18,7 +18,6 @@ extends DialogicLayoutLayer
 @export var text_color_hovered: Color = Color.GRAY
 @export var text_color_disabled: Color = Color.DARK_GRAY
 @export var text_color_focused: Color = Color.WHITE
-
 @export_group('Boxes')
 @export_subgroup('Panels')
 @export_file('*.tres') var boxes_stylebox_normal: String = "res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Choices/choice_panel_normal.tres"
@@ -42,10 +41,8 @@ extends DialogicLayoutLayer
 func get_choices() -> VBoxContainer:
 	return $Choices
 
-
 func get_button_sound() -> DialogicNode_ButtonSound:
 	return %DialogicNode_ButtonSound
-
 
 ## Method that applies all exported settings
 func _apply_export_overrides() -> void:
@@ -110,7 +107,6 @@ func _apply_export_overrides() -> void:
 			choice.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 
 		choice.custom_minimum_size = boxes_min_size
-
 
 	set(&'theme', layer_theme)
 

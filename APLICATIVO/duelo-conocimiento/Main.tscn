@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cw1jgvoog2bpw"]
+[gd_scene load_steps=10 format=3 uid="uid://bpo35y0utildh"]
 
 [ext_resource type="Script" uid="uid://c7h5x13e150w3" path="res://main_duelo.gd" id="1_3dxm6"]
 [ext_resource type="PackedScene" uid="uid://cpdqp4ffc1u5c" path="res://escenas/escenariov_2.tscn" id="1_glv2v"]
