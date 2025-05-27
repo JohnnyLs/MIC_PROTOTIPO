@@ -83,6 +83,7 @@ func _input(event: InputEvent) -> void:
 			print("Click is over btn_config")
 		if btn_salir.get_global_rect().has_point(mouse_pos):
 			print("Click is over btn_salir")
+
 # Funciones para los botones
 func _on_btn_continuar_pressed() -> void:
 	print("btn_continuar pressed in menu_opciones.tscn")
@@ -98,9 +99,14 @@ func _on_btn_config_pressed() -> void:
 
 func _on_btn_salir_pressed() -> void:
 	print("btn_salir pressed in menu_opciones.tscn")
-	# Regresa al menú principal (Inicio.tscn) y despausa el juego
+	# Asegurarse de que el juego no esté pausado al regresar al menú principal
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://escenas/Inicio.tscn")
+	# Limpiar el estado del juego si es necesario
+	SceneBridge.set_game_result("")  # Limpiar el resultado del juego
+	# Cargar la escena del menú principal
+	var error = get_tree().change_scene_to_file("res://escenas/sc_inicio/Inicio.tscn")
+	if error != OK:
+		push_error("Error al cargar Inicio.tscn: " + str(error))
 
 # Limpiar la referencia cuando la escena de sonido se cierre
 func _on_sonido_closed() -> void:

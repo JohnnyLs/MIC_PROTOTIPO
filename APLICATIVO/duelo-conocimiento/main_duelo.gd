@@ -76,6 +76,7 @@ func _on_dialogic_timeline_ended():
 	print("Dialogic timeline ended")
 	print("game_ended:", game_ended)
 	if game_ended:
+		print("Cambiando a escena resultados.tscn")
 		get_tree().change_scene_to_file("res://escenas/sc_final/resultados.tscn")
 
 # Detectar la tecla Esc para abrir/cerrar el menú de opciones
@@ -230,22 +231,27 @@ func _on_tiempo_agotado():
 
 func chequear_fin_del_juego() -> bool:
 	if jugador.vida_actual <= 0:
-		await jugador.perder_juego()
-		await jugador.animation_finished_signal
+		# Iniciar la animación de perderpartida (no esperamos)
+		jugador.perder_juego()  # No bloquea ejecución
+		# Iniciar un temporizador de 5 segundos para cambiar de escena
 		SceneBridge.set_game_result("derrota")
 		game_ended = true
 		print("Setting game_ended to true (derrota)")
-		Dialogic.start("derrota_timeline")
+		await get_tree().create_timer(3.0).timeout
+		print("Temporizador de 3 segundos finalizado, cambiando a escena resultados.tscn")
+		get_tree().change_scene_to_file("res://escenas/sc_final/resultados.tscn")
 		return true
 	elif mago.vida_actual <= 0:
-		await mago.aplaudir()
-		await mago.animation_finished_signal
-		await jugador.bailar()
-		await jugador.animation_finished_signal
+		# Iniciar las animaciones de victoria (no esperamos)
+		mago.aplaudir()
+		jugador.bailar()
+		# Iniciar un temporizador de 5 segundos para cambiar de escena
 		SceneBridge.set_game_result("victoria")
 		game_ended = true
 		print("Setting game_ended to true (victoria)")
-		Dialogic.start("victoria_timeline")
+		await get_tree().create_timer(3.0).timeout
+		print("Temporizador de 3 segundos finalizado, cambiando a escena resultados.tscn")
+		get_tree().change_scene_to_file("res://escenas/sc_final/resultados.tscn")
 		return true
 	return false
 

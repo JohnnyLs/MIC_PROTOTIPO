@@ -1,14 +1,20 @@
-[gd_scene load_steps=6 format=3 uid="uid://dra1n5qnum1yh"]
+[gd_scene load_steps=9 format=3 uid="uid://dra1n5qnum1yh"]
 
+[ext_resource type="Script" uid="uid://c330jkkjprj64" path="res://escenas/sc_final/resultados.gd" id="1_vwmdu"]
 [ext_resource type="Texture2D" uid="uid://mg7rcn3q8qns" path="res://assets/ui/seleccionar personaje/background_selec.png" id="1_wqgq0"]
 [ext_resource type="Texture2D" uid="uid://ilgowk2terac" path="res://assets/ui/resultados/contenedor.png" id="2_vwmdu"]
 [ext_resource type="Texture2D" uid="uid://cfqsp68sxka48" path="res://assets/ui/resultados/titulo.png" id="3_rwtkh"]
 [ext_resource type="Texture2D" uid="uid://c275i13lhxdgk" path="res://assets/ui/resultados/back.png" id="4_q8220"]
 [ext_resource type="Texture2D" uid="uid://gimdq8nufqwu" path="res://assets/ui/resultados/menu.png" id="5_hwgkb"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vwmdu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rwtkh"]
+
 [node name="Resultados" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+script = ExtResource("1_vwmdu")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
@@ -34,20 +40,22 @@ offset_right = 955.0
 offset_bottom = 171.0
 texture = ExtResource("3_rwtkh")
 
-[node name="Button" type="Button" parent="."]
+[node name="btn_volver_jugar" type="Button" parent="."]
 layout_mode = 0
 offset_left = 319.0
 offset_top = 603.0
 offset_right = 656.0
 offset_bottom = 723.0
+theme_override_styles/hover = SubResource("StyleBoxFlat_vwmdu")
 icon = ExtResource("4_q8220")
 flat = true
 
-[node name="Button2" type="Button" parent="."]
+[node name="btn_menu_principal" type="Button" parent="."]
 layout_mode = 0
 offset_left = 671.0
 offset_top = 602.0
 offset_right = 1008.0
 offset_bottom = 722.0
+theme_override_styles/hover = SubResource("StyleBoxFlat_rwtkh")
 icon = ExtResource("5_hwgkb")
 flat = true
