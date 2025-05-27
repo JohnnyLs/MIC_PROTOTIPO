@@ -63,10 +63,10 @@ func _on_btn_accept_pressed() -> void:
 		print("Por favor, ingresa tu nombre")
 		return
 
-	# Determinar nombre del personaje (puedes personalizar estos nombres)
-	var personaje = "Personaje" + str(current_index + 1)
+	# Usar get_genero_personaje() para determinar el personaje
+	var personaje = GameManager.get_genero_personaje()
 
-	# Crear JSON
+	# Crear JSON para la API de partidas
 	var json_data = {
 		"nombrePerfil": nombre,
 		"personaje": personaje
@@ -87,14 +87,31 @@ func _on_btn_accept_pressed() -> void:
 		print("Error al realizar la solicitud HTTP:", error)
 	else:
 		print("Solicitud enviada, esperando respuesta...")
-
-	# Guardar en GameManager (puedes mover esto dentro del _on_request_completed si quieres esperar respuesta)
-	GameManager.personaje_index = current_index
-	GameManager.nombre_jugador = nombre 
+		
+		# Guardar datos en GameManager antes de la respuesta
+		GameManager.personaje_index = current_index
+		GameManager.nombre_jugador = nombre
+		GameManager.personaje = personaje
 
 func _on_request_completed(result, response_code, headers, body):
 	print("Respuesta del servidor:", response_code)
-	print("Contenido:", body.get_string_from_utf8())
+	var body_str = body.get_string_from_utf8()
+	print("Contenido:", body_str)
 
-	# Cambiar de escena después de recibir la respuesta (puedes agregar validación del código si quieres)
+	# Parsear la respuesta para obtener el idPartida
+	var json = JSON.new()
+	var error = json.parse(body_str)
+	if error != OK:
+		push_error("Error al parsear JSON de la respuesta de la API de partidas: ", error)
+		return
+	
+	var data = json.get_data()
+	if response_code == 200 and data is Dictionary and data.has("idPartida"):
+		GameManager.id_partida = data["idPartida"]
+		print("idPartida guardado en GameManager:", GameManager.id_partida)
+	else:
+		push_error("Respuesta de la API de partidas inválida o sin idPartida: ", data)
+		return
+	
+	# Cambiar a la escena del duelo
 	GameManager.cambiar_escena("res://Main.tscn")

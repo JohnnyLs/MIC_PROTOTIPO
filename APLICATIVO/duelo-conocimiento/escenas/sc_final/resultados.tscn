@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dra1n5qnum1yh"]
+[gd_scene load_steps=10 format=3 uid="uid://dra1n5qnum1yh"]
 
 [ext_resource type="Script" uid="uid://c330jkkjprj64" path="res://escenas/sc_final/resultados.gd" id="1_vwmdu"]
 [ext_resource type="Texture2D" uid="uid://mg7rcn3q8qns" path="res://assets/ui/seleccionar personaje/background_selec.png" id="1_wqgq0"]
@@ -10,6 +10,8 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vwmdu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rwtkh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vwmdu"]
 
 [node name="Resultados" type="Control"]
 layout_mode = 3
@@ -59,3 +61,42 @@ offset_bottom = 722.0
 theme_override_styles/hover = SubResource("StyleBoxFlat_rwtkh")
 icon = ExtResource("5_hwgkb")
 flat = true
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="txtEdit_nombre" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 495.0
+offset_top = 227.0
+offset_right = 822.0
+offset_bottom = 295.0
+theme_override_colors/font_color = Color(0.219608, 0.196078, 0.121569, 1)
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vwmdu")
+
+[node name="txtEdit_aciertos" type="TextEdit" parent="."]
+offset_left = 766.0
+offset_top = 375.0
+offset_right = 842.0
+offset_bottom = 432.0
+theme_override_colors/font_color = Color(0.219608, 0.196078, 0.121569, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vwmdu")
+
+[node name="txtEdit_errores" type="TextEdit" parent="."]
+offset_left = 765.0
+offset_top = 439.0
+offset_right = 841.0
+offset_bottom = 496.0
+theme_override_colors/font_color = Color(0.219608, 0.196078, 0.121569, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vwmdu")
+
+[node name="txtEdit_tiempo_total" type="TextEdit" parent="."]
+offset_left = 729.0
+offset_top = 514.0
+offset_right = 835.0
+offset_bottom = 571.0
+theme_override_colors/font_color = Color(0.219608, 0.196078, 0.121569, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vwmdu")

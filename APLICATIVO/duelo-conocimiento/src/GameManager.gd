@@ -1,19 +1,24 @@
+# res://src/GameManager.gd
 extends Node
 
-var personaje_index: int = 0  # Esta es la variable global que guarda el personaje seleccionado
+var personaje_index: int = 0
 var nombre_jugador: String = ""
+var personaje: String = ""
+var id_partida: int = 0
+var aciertos: int = 0
+var errores: int = 0
+var tiempo_total: float = 0.0  # En segundos
 
 func cambiar_escena(ruta: String) -> void:
-	# Método más seguro usando el sistema nativo de Godot
 	get_tree().call_deferred("change_scene_to_file", ruta)
 
-
 func get_genero_personaje() -> String:
-	# Convierte el índice a género para el jugador.gd
 	match personaje_index:
-		0:
-			return "hombre"
-		1:
-			return "mujer"
-		_:
-			return "hombre"  # Por defecto
+		0: return "hombre"
+		1: return "mujer"
+		_: return "hombre"
+
+func resetear_estadisticas() -> void:
+	aciertos = 0
+	errores = 0
+	tiempo_total = 0.0
