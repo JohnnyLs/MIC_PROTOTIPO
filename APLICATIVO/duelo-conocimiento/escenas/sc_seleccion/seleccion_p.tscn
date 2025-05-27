@@ -103,3 +103,5 @@ offset_bottom = 614.0
 theme_override_colors/font_color = Color(0.220467, 0.197197, 0.123221, 1)
 theme_override_font_sizes/font_size = 45
 theme_override_styles/normal = SubResource("StyleBoxTexture_gbhhd")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
