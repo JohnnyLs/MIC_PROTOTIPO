@@ -85,6 +85,20 @@
         </span>
       </div>
       <div class="form-group">
+        <label for="opcion4">Opción 4:</label>
+        <input
+          type="text"
+          id="opcion4"
+          [(ngModel)]="opcion4"
+          name="opcion4"
+          required
+          #opcion4Control="ngModel"
+        />
+        <span class="error-message" *ngIf="opcion4Control.invalid && opcion4Control.touched">
+          Este campo es obligatorio.
+        </span>
+      </div>
+      <div class="form-group">
         <label for="respuestaCorrecta">Respuesta Correcta:</label>
         <select
           id="respuestaCorrecta"
@@ -97,6 +111,7 @@
           <option *ngIf="opcion1" [value]="opcion1">{{ opcion1 }}</option>
           <option *ngIf="opcion2" [value]="opcion2">{{ opcion2 }}</option>
           <option *ngIf="opcion3" [value]="opcion3">{{ opcion3 }}</option>
+          <option *ngIf="opcion4" [value]="opcion4">{{ opcion4 }}</option>
         </select>
         <span class="error-message" *ngIf="respuestaCorrectaControl.invalid && respuestaCorrectaControl.touched">
           Este campo es obligatorio.
@@ -247,7 +262,7 @@
               <span class="icon">🗑️</span>
             </button>
             <button class="action-btn toggle-btn" (click)="toggleEstado(pregunta)" title="{{ pregunta.estado === 'activo' ? 'Deshabilitar' : 'Habilitar' }}">
-              <span class="icon">{{ pregunta.estado === 'activo' ? '❌' : '✔️' }}</span>
+              <span class="icon">{{ pregunta.estado === 'activo' ? '🔴' : '🟢' }}</span>
             </button>
           </div>
         </td>

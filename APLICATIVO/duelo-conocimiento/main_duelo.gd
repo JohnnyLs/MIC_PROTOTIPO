@@ -170,7 +170,7 @@ func _on_opciones_closed() -> void:
 ### API Integration ###
 
 func obtener_preguntas_api() -> void:
-	var url = "http://localhost:8082/api/preguntas/random/10"
+	var url = "http://localhost:8082/api/preguntas/random/20"
 	var error = http_request.request(url)
 	if error != OK:
 		push_error("Error al realizar la solicitud HTTP: ", error)

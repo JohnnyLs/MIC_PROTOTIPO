@@ -246,37 +246,37 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.showTopJugadoresChart = true;
       this.showCategoriaChart = true;
       this.showHistoricoChart = true;
-      this.cdr.detectChanges();
+      this.cdr.detectChanges(); // Forzar la detección de cambios
     }, 100);
   }
 
   cargarEstadisticas(): void {
-    this.estadisticasService.getTopJugadores(5).subscribe({
-      next: (data) => {
-        this.topJugadores = data;
-        this.barChartTopJugadores.labels = data.map((jugador: any) => jugador.nombrePerfil);
-        this.barChartTopJugadores.datasets[0].data = data.map((jugador: any) => jugador.puntuacion);
-        this.rebuildCharts();
-      },
-      error: (err) => {
-        console.error('Error al cargar top jugadores:', err);
-      },
-    });
+  this.estadisticasService.getTopJugadores(5).subscribe({
+    next: (data) => {
+      this.topJugadores = data;
+      this.barChartTopJugadores.labels = data.map((jugador: any) => jugador.nombrePerfil);
+      this.barChartTopJugadores.datasets[0].data = data.map((jugador: any) => jugador.puntuacion);
+      this.rebuildCharts();
+    },
+    error: (err) => {
+      console.error('Error al cargar top jugadores:', err);
+    },
+  });
 
-    this.estadisticasService.getTopJugadoresCategoria(5).subscribe({
-      next: (data) => {
-        this.topJugadoresCategoria = data;
-        this.categoriasDisponibles = data.map((item: any) => item.categoria);
-        this.categoriaSeleccionada = this.categoriasDisponibles[0] || '';
-        this.actualizarGraficoCategoria();
-        this.rebuildCharts();
-      },
-      error: (err) => {
-        console.error('Error al cargar top jugadores por categoría:', err);
-      },
-    });
+  this.estadisticasService.getTopJugadoresCategoria(5).subscribe({
+    next: (data) => {
+      this.topJugadoresCategoria = data;
+      this.categoriasDisponibles = data.map((item: any) => item.categoria);
+      this.categoriaSeleccionada = this.categoriasDisponibles[0] || '';
+      this.actualizarGraficoCategoria();
+      this.rebuildCharts();
+    },
+    error: (err) => {
+      console.error('Error al cargar top jugadores por categoría:', err);
+    },
+  });
 
-    this.estadisticasService.getHistoricoPartidas().subscribe({
+  this.estadisticasService.getHistoricoPartidas().subscribe({
       next: (data) => {
         this.historicoPartidas = data;
         this.diasDisponibles = [...new Set(
@@ -285,7 +285,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
           })
         )].sort();
-        this.diaSeleccionado = this.diasDisponibles[0] || '';
+        // Establecer "Todos los días" como valor por defecto
+        this.diaSeleccionado = '';
         this.filtrarPartidasPorDia();
         this.rebuildCharts();
       },
@@ -296,19 +297,24 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   filtrarPartidasPorDia(): void {
+    console.log('diaSeleccionado:', this.diaSeleccionado); // Depuración
+
     if (!this.diaSeleccionado) {
       this.partidasFiltradas = [...this.historicoPartidas];
-      this.actualizarGraficoTiempoJugado(this.historicoPartidas);
-      return;
+      console.log('partidasFiltradas (Todos los días):', this.partidasFiltradas); // Depuración
+    } else {
+      this.partidasFiltradas = this.historicoPartidas.filter((partida: any) => {
+        const date = new Date(partida.fechaInicio);
+        const fechaFormateada = date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        return fechaFormateada === this.diaSeleccionado;
+      });
+      console.log('partidasFiltradas (Fecha específica):', this.partidasFiltradas); // Depuración
     }
 
-    this.partidasFiltradas = this.historicoPartidas.filter((partida: any) => {
-      const date = new Date(partida.fechaInicio);
-      const fechaFormateada = date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
-      return fechaFormateada === this.diaSeleccionado;
-    });
-
     this.actualizarGraficoTiempoJugado(this.partidasFiltradas);
+    console.log('barChartTiempoJugado:', this.barChartTiempoJugado); // Depuración
+
+    // Forzar la actualización de todos los gráficos
     this.rebuildCharts();
   }
 
@@ -325,18 +331,26 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     const jugadores = Object.keys(tiempoPorJugador);
     const tiempos = Object.values(tiempoPorJugador);
 
-    // Ordenar por tiempo descendente y tomar los top 5 (opcional)
+    // Ordenar por tiempo descendente y tomar los top 5
     const jugadoresConTiempo = jugadores
       .map((jugador, index) => ({
         jugador,
         tiempo: tiempos[index],
       }))
       .sort((a, b) => b.tiempo - a.tiempo)
-      .slice(0, 5); // Mostrar solo los top 5 jugadores
+      .slice(0, 5);
 
-    // Actualizar el gráfico
-    this.barChartTiempoJugado.labels = jugadoresConTiempo.map((item) => item.jugador);
-    this.barChartTiempoJugado.datasets[0].data = jugadoresConTiempo.map((item) => item.tiempo);
+    // Actualizar el gráfico con una nueva referencia para forzar la detección de cambios
+    this.barChartTiempoJugado = {
+      ...this.barChartTiempoJugado,
+      labels: jugadoresConTiempo.map((item) => item.jugador),
+      datasets: [
+        {
+          ...this.barChartTiempoJugado.datasets[0],
+          data: jugadoresConTiempo.map((item) => item.tiempo),
+        },
+      ],
+    };
   }
 
   actualizarGraficoCategoria(): void {
@@ -366,9 +380,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   getColorForCategoria(categoria: string): string {
     const colors: { [key: string]: string } = {
       aritmética: '#1abc9c',
-      historia: '#e74c3c',
-      ciencia: '#3498db',
-      geografía: '#f1c40f',
+      geometria: '#f1c40f',
+      suma: '#8e44ad',
+      multiplicación: '#1f618d',
       literatura: '#9b59b6',
     };
     return colors[categoria.toLowerCase()] || '#95a5a6';

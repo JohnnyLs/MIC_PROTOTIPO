@@ -97,7 +97,7 @@ export class PartidaDetailComponent implements OnInit {
     yOffset += 5;
 
     const tableData = this.reporte.respuestas.map(respuesta => [
-      respuesta.idRespuesta.toString(),
+      //respuesta.idRespuesta.toString(),
       respuesta.textoPregunta,
       respuesta.opciones,
       respuesta.respuestaCorrecta,
@@ -109,7 +109,7 @@ export class PartidaDetailComponent implements OnInit {
     ]);
 
     autoTable(doc, {
-      head: [['ID', 'Pregunta', 'Opciones', 'Respuesta Correcta', 'Respuesta Dada', 'Correcta', 'Dificultad', 'Categoría', 'Tiempo (s)']],
+      head: [['Pregunta', 'Opciones', 'Respuesta Correcta', 'Respuesta Dada', 'Correcta', 'Dificultad', 'Categoría', 'Tiempo (s)']],
       body: tableData,
       startY: yOffset,
       styles: {

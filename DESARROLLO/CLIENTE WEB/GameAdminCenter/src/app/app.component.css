@@ -94,22 +94,72 @@
 
 /* Buscador */
 .search-container {
-  margin-bottom: 20px;
+  display: flex;
+  align-items: center; /* Alinear verticalmente el input y el select */
+  gap: 12px; /* Aumentar ligeramente el espacio para mejor separación */
+  margin-bottom: 24px; /* Ajustar margen para consistencia */
 }
 
 .search-input {
   width: 100%;
   max-width: 400px;
-  padding: 10px;
+  padding: 10px 14px; /* Aumentar padding para mejor usabilidad */
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 8px; /* Bordes más redondeados */
   font-size: 1rem;
   font-family: 'Poppins', sans-serif;
+  background-color: #ffffff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .search-input:focus {
   outline: none;
   border-color: #3498db;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.3); /* Sombra suave al hacer foco */
+}
+
+.fecha-select {
+  width: 100%;
+  max-width: 200px; /* Mantener un ancho razonable */
+  padding: 10px 14px; /* Igualar padding con el input */
+  border: 1px solid #ddd;
+  border-radius: 8px; /* Bordes redondeados para consistencia */
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  background-color: #ffffff;
+  color: #333;
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  appearance: none; /* Eliminar estilo nativo del select */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%23333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>'); /* Flecha personalizada */
+  background-repeat: no-repeat;
+  background-position: right 14px center; /* Posición de la flecha */
+  background-size: 12px; /* Tamaño de la flecha */
+}
+
+.fecha-select:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.3); /* Sombra igual al input */
+}
+
+.fecha-select option {
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+}
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 600px) {
+  .search-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .search-input,
+  .fecha-select {
+    max-width: 100%;
+  }
 }
 
 /* Lista de jugadores */

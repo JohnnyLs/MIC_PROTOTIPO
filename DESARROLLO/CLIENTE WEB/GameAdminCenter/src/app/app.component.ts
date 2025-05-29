@@ -21,7 +21,9 @@ export class AppComponent implements OnInit {
   filteredJugadores: Jugador[] = [];
   searchTerm: string = '';
   activeTab: 'reportes' | 'preguntas' | 'dashboard' = 'reportes';
-  tabChangeSubject = new Subject<string>(); // Subject para notificar cambios de pestaña
+  tabChangeSubject = new Subject<string>();
+  fechasDisponibles: string[] = []; // Nueva propiedad para fechas únicas
+  fechaSeleccionada: string = ''; // Nueva propiedad para la fecha seleccionada
 
   constructor(
     private authService: AuthService,
@@ -41,6 +43,10 @@ export class AppComponent implements OnInit {
           nombrePerfil: this.cleanNombrePerfil(jugador.nombrePerfil),
         }));
         this.filteredJugadores = [...this.jugadores];
+        // Calcular fechas disponibles
+        this.fechasDisponibles = this.getFechasDisponibles();
+        this.fechaSeleccionada = ''; // Inicializar con "Todas las fechas"
+        this.filterJugadores(); // Aplicar filtro inicial
       },
       error: (err) => {
         console.error('Error al cargar los jugadores:', err);
@@ -57,11 +63,52 @@ export class AppComponent implements OnInit {
     }
   }
 
+  getFechasDisponibles(): string[] {
+    const fechas = new Set<string>();
+    this.jugadores.forEach(jugador => {
+      jugador.partidas.forEach(partida => {
+        const date = new Date(partida.fechaInicio);
+        const fechaFormateada = date.toLocaleDateString('es-ES', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+        });
+        fechas.add(fechaFormateada);
+      });
+    });
+    return [...fechas].sort(); // Ordenar fechas para mejor presentación
+  }
+
   filterJugadores(): void {
-    const term = this.searchTerm.toLowerCase();
-    this.filteredJugadores = this.jugadores.filter(jugador =>
-      jugador.nombrePerfil.toLowerCase().includes(term)
-    );
+    let filtered = [...this.jugadores];
+
+    // Filtrar por nombre
+    if (this.searchTerm) {
+      const term = this.searchTerm.toLowerCase();
+      filtered = filtered.filter(jugador =>
+        jugador.nombrePerfil.toLowerCase().includes(term)
+      );
+    }
+
+    // Filtrar por fecha
+    if (this.fechaSeleccionada) {
+      filtered = filtered
+        .map(jugador => ({
+          ...jugador,
+          partidas: jugador.partidas.filter(partida => {
+            const date = new Date(partida.fechaInicio);
+            const fechaFormateada = date.toLocaleDateString('es-ES', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            });
+            return fechaFormateada === this.fechaSeleccionada;
+          }),
+        }))
+        .filter(jugador => jugador.partidas.length > 0); // Excluir jugadores sin partidas en la fecha seleccionada
+    }
+
+    this.filteredJugadores = filtered;
   }
 
   goToPartidaDetail(partida: Partida): void {
@@ -86,6 +133,6 @@ export class AppComponent implements OnInit {
 
   setActiveTab(tab: 'reportes' | 'preguntas' | 'dashboard'): void {
     this.activeTab = tab;
-    this.tabChangeSubject.next(tab); // Emitir evento de cambio de pestaña
+    this.tabChangeSubject.next(tab);
   }
 }

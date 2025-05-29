@@ -2,7 +2,7 @@
   <!-- Barra lateral -->
   <div class="sidebar">
     <div class="sidebar-header">
-      <h2>Game Admin</h2>
+      <h2>Administración</h2>
     </div>
     <div class="sidebar-menu">
       <button
@@ -34,19 +34,29 @@
     <!-- Sección de Reportes -->
     <div *ngIf="activeTab === 'reportes'" class="reportes-section">
       <header class="header">
-        <h1>Game Admin Center - Reportes</h1>
+        <h1>Centro de Administración - Reportes</h1>
       </header>
 
       <!-- Buscador -->
-      <div class="search-container">
-        <input
-          type="text"
-          [(ngModel)]="searchTerm"
-          (input)="filterJugadores()"
-          placeholder="Buscar jugador por nombre..."
-          class="search-input"
-        />
-      </div>
+    <div class="search-container">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="filterJugadores()"
+        placeholder="Buscar jugador por nombre..."
+        class="search-input"
+      />
+      <select
+        [(ngModel)]="fechaSeleccionada"
+        (change)="filterJugadores()"
+        class="fecha-select"
+      >
+        <option value="">Todas las fechas</option>
+        <option *ngFor="let fecha of fechasDisponibles" [value]="fecha">
+          {{ fecha }}
+        </option>
+      </select>
+    </div>
 
       <!-- Lista de Jugadores -->
       <div class="players-container">
@@ -86,7 +96,7 @@
     <!-- Sección de Dashboard -->
     <div *ngIf="activeTab === 'dashboard'" class="dashboard-section">
       <header class="header">
-        <h1>Game Admin Center - Dashboard</h1>
+        <h1>Centro de Administración - Dashboard</h1>
       </header>
       <app-dashboard [tabChange]="tabChangeSubject.asObservable()"></app-dashboard>
     </div>

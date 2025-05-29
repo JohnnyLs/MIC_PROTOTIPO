@@ -77,7 +77,7 @@
         <table class="historico-table">
           <thead>
             <tr>
-              <th>ID Partida</th>
+              
               <th>Jugador</th>
               <th>Fecha Inicio</th>
               <th>Aciertos</th>
@@ -88,7 +88,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let partida of partidasFiltradas">
-              <td>{{ partida.idPartida }}</td>
+              
               <td>{{ partida.nombrePerfil }}</td>
               <td>{{ partida.fechaInicio | date:'dd/MM/yyyy HH:mm' }}</td>
               <td>{{ partida.aciertosPartida }}</td>

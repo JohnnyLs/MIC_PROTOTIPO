@@ -32,6 +32,7 @@ export class PreguntasComponent implements OnInit {
   opcion1: string = '';
   opcion2: string = '';
   opcion3: string = '';
+  opcion4: string = '';
   showNuevaCategoriaInput: boolean = false;
   nuevaCategoria: string = '';
 
@@ -91,6 +92,7 @@ export class PreguntasComponent implements OnInit {
     this.opcion1 = '';
     this.opcion2 = '';
     this.opcion3 = '';
+    this.opcion4 = '';
     this.showNuevaCategoriaInput = false;
     this.nuevaCategoria = '';
   }
@@ -104,11 +106,13 @@ export class PreguntasComponent implements OnInit {
       this.opcion1 = opcionesArray[0] || '';
       this.opcion2 = opcionesArray[1] || '';
       this.opcion3 = opcionesArray[2] || '';
+      this.opcion4 = opcionesArray[3] || '';
     } catch (error) {
       console.error('Error al parsear las opciones:', error);
       this.opcion1 = '';
       this.opcion2 = '';
       this.opcion3 = '';
+      this.opcion4 = '';
     }
     this.showNuevaCategoriaInput = !this.categorias.includes(pregunta.categoria);
     this.nuevaCategoria = this.showNuevaCategoriaInput ? pregunta.categoria : '';
@@ -126,6 +130,7 @@ export class PreguntasComponent implements OnInit {
       !this.opcion1 ||
       !this.opcion2 ||
       !this.opcion3 ||
+      !this.opcion4 ||
       !this.currentPregunta.respuestaCorrecta ||
       !this.currentPregunta.dificultad ||
       this.currentPregunta.tiempoLimite <= 0 ||
@@ -148,7 +153,7 @@ export class PreguntasComponent implements OnInit {
   }
 
   // Convertir las opciones en un JSON
-  const opcionesArray = [this.opcion1, this.opcion2, this.opcion3];
+  const opcionesArray = [this.opcion1, this.opcion2, this.opcion3, this.opcion4];
   this.currentPregunta.opciones = JSON.stringify(opcionesArray);
 
   if (this.isEditing) {
@@ -221,7 +226,7 @@ export class PreguntasComponent implements OnInit {
       this.nuevaCategoria = '';
     } else {
       this.currentPregunta.categoria = '';
-      this.nuevaCategoria = ''; // Limpiar el input al seleccionar "Otra"
+      this.nuevaCategoria = ''; 
     }
   }
 }
