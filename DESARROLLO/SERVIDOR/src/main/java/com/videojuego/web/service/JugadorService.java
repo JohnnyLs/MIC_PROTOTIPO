@@ -3,7 +3,6 @@ package com.videojuego.web.service;
 import com.videojuego.web.dto.JugadorConPartidasDTO;
 import com.videojuego.web.dto.TopJugadorDTO;
 import com.videojuego.web.model.Jugador;
-import com.videojuego.web.model.Partida;
 import com.videojuego.web.repository.JugadorRepository;
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -62,6 +60,60 @@ public class JugadorService {
         jugadorRepository.save(jugador);
     }
 
+    @Transactional
+    public Jugador editarJugador(Integer id, String nombrePerfil, Integer tiempoTotal, Integer aciertosTotales, Integer erroresTotales) {
+        logger.info("Editando jugador con id: {}", id);
+
+        // Buscar el jugador por ID
+        Jugador jugador = jugadorRepository.findById(id)
+                .orElseThrow(() -> {
+                    logger.error("Jugador con id {} no encontrado", id);
+                    return new RuntimeException("Jugador con id " + id + " no encontrado");
+                });
+
+        // Verificar si el nuevo nombre_perfil ya está en uso por otro jugador
+        if (nombrePerfil != null && !nombrePerfil.equals(jugador.getNombrePerfil())) {
+            Jugador existingJugador = findByNombrePerfil(nombrePerfil);
+            if (existingJugador != null) {
+                logger.warn("El nombre de perfil {} ya está en uso.", nombrePerfil);
+                throw new RuntimeException("El nombre de perfil " + nombrePerfil + " ya está en uso.");
+            }
+            jugador.setNombrePerfil(nombrePerfil);
+        }
+
+        // Actualizar los campos si no son nulos
+        if (tiempoTotal != null) {
+            jugador.setTiempoTotal(tiempoTotal);
+        }
+        if (aciertosTotales != null) {
+            jugador.setAciertosTotales(aciertosTotales);
+        }
+        if (erroresTotales != null) {
+            jugador.setErroresTotales(erroresTotales);
+        }
+
+        // Guardar los cambios
+        Jugador updatedJugador = jugadorRepository.save(jugador);
+        logger.info("Jugador con id {} actualizado correctamente", id);
+        return updatedJugador;
+    }
+
+    @Transactional
+    public void eliminarJugador(Integer id) {
+        logger.info("Eliminando jugador con id: {}", id);
+
+        // Verificar si el jugador existe
+        Jugador jugador = jugadorRepository.findById(id)
+                .orElseThrow(() -> {
+                    logger.error("Jugador con id {} no encontrado", id);
+                    return new RuntimeException("Jugador con id " + id + " no encontrado");
+                });
+
+        // Eliminar el jugador (las partidas asociadas se eliminarán automáticamente por CascadeType.ALL)
+        jugadorRepository.delete(jugador);
+        logger.info("Jugador con id {} eliminado correctamente", id);
+    }
+
     @Transactional(readOnly = true)
     public List<JugadorConPartidasDTO> obtenerTodosLosJugadoresConPartidas() {
         logger.info("Buscando todos los jugadores con sus partidas");
@@ -94,7 +146,6 @@ public class JugadorService {
         return jugadoresDTO;
     }
 
-    // Nuevo método para obtener los mejores jugadores en general
     @Transactional(readOnly = true)
     public List<TopJugadorDTO> obtenerMejoresJugadores(Integer limite) {
         logger.info("Obteniendo los {} mejores jugadores en general", limite);
@@ -107,7 +158,6 @@ public class JugadorService {
                     dto.setAciertosTotales(jugador.getAciertosTotales());
                     dto.setErroresTotales(jugador.getErroresTotales());
                     dto.setTiempoTotal(jugador.getTiempoTotal());
-                    // Calcular puntuación: (Aciertos * 10) - (Errores * 5) - (Tiempo / 10)
                     double puntuacion = (jugador.getAciertosTotales() * 10) - (jugador.getErroresTotales() * 5) - (jugador.getTiempoTotal() / 10.0);
                     dto.setPuntuacion(puntuacion);
                     return dto;

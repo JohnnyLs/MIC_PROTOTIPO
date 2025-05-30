@@ -9,6 +9,7 @@ import { Reporte } from '../models/reporte.model';
 })
 export class JugadorService {
   private apiUrl = 'http://localhost:8082/api/con_jugadores';
+  private adminApiUrl = 'http://localhost:8082/api/admin/jugadores';
   private reportesUrl = 'http://localhost:8082/api/reportes';
 
   constructor(private http: HttpClient) {}
@@ -20,5 +21,13 @@ export class JugadorService {
   getReporte(idPartida: number): Observable<Reporte> {
     const headers = new HttpHeaders().set('idPartida', idPartida.toString());
     return this.http.get<Reporte>(`${this.reportesUrl}/${idPartida}`, { headers });
+  }
+
+  updateJugador(id: number, jugador: Partial<Jugador>): Observable<Jugador> {
+    return this.http.put<Jugador>(`${this.adminApiUrl}/${id}`, jugador);
+  }
+
+  deleteJugador(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.adminApiUrl}/${id}`);
   }
 }

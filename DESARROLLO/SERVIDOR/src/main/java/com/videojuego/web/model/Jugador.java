@@ -1,5 +1,6 @@
 package com.videojuego.web.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,5 +32,6 @@ public class Jugador {
     private Integer erroresTotales = 0;
 
     @OneToMany(mappedBy = "jugador", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Partida> partidas = new ArrayList<>();
 }

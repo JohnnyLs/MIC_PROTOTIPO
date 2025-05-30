@@ -23,6 +23,12 @@
       >
         Dashboard
       </button>
+      <button
+        [ngClass]="{'active': activeTab === 'jugadores'}"
+        (click)="setActiveTab('jugadores')"
+      >
+        Jugadores
+      </button>
     </div>
     <div class="sidebar-footer">
       <button class="logout-btn" (click)="logout()">Cerrar Sesión</button>
@@ -38,25 +44,25 @@
       </header>
 
       <!-- Buscador -->
-    <div class="search-container">
-      <input
-        type="text"
-        [(ngModel)]="searchTerm"
-        (input)="filterJugadores()"
-        placeholder="Buscar jugador por nombre..."
-        class="search-input"
-      />
-      <select
-        [(ngModel)]="fechaSeleccionada"
-        (change)="filterJugadores()"
-        class="fecha-select"
-      >
-        <option value="">Todas las fechas</option>
-        <option *ngFor="let fecha of fechasDisponibles" [value]="fecha">
-          {{ fecha }}
-        </option>
-      </select>
-    </div>
+      <div class="search-container">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (input)="filterJugadores()"
+          placeholder="Buscar jugador por nombre..."
+          class="search-input"
+        />
+        <select
+          [(ngModel)]="fechaSeleccionada"
+          (change)="filterJugadores()"
+          class="fecha-select"
+        >
+          <option value="">Todas las fechas</option>
+          <option *ngFor="let fecha of fechasDisponibles" [value]="fecha">
+            {{ fecha }}
+          </option>
+        </select>
+      </div>
 
       <!-- Lista de Jugadores -->
       <div class="players-container">
@@ -67,13 +73,12 @@
               <table class="nested-table" [ngClass]="getColorClass(i)">
                 <thead>
                   <tr>
-                   <th class="personaje-header">Personaje</th>
-                   <th class="fecha-header">Fecha</th>
+                    <th class="personaje-header">Personaje</th>
+                    <th class="fecha-header">Fecha</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let partida of jugador.partidas" (click)="goToPartidaDetail(partida)" class="clickable-row">
-                   
                     <td>{{ partida.personaje }}</td>
                     <td>{{ partida.fechaInicio | date:'medium' }}</td>
                   </tr>
@@ -99,6 +104,11 @@
         <h1>Centro de Administración - Dashboard</h1>
       </header>
       <app-dashboard [tabChange]="tabChangeSubject.asObservable()"></app-dashboard>
+    </div>
+
+    <!-- Sección de Jugadores -->
+    <div *ngIf="activeTab === 'jugadores'" class="jugadores-section">
+      <app-jugadores></app-jugadores>
     </div>
   </div>
 </div>
