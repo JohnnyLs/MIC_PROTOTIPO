@@ -4,7 +4,7 @@ signal animation_finished_signal(animation_name)
 
 @onready var barra_vida = $UIJugador/ContenedorInterfaz/VContenedorInterfaz/Fila1/VidaBar
 @onready var modelo_contenedor = $ModeloContenedor
-
+@onready var imagen_jugador = $UIJugador/ContenedorInterfaz/VContenedorInterfaz/Fila1/Imagen
 var vida_maxima := 100
 var vida_actual := 100
 var genero := "hombre"  # Se asigna desde GameManager
@@ -37,6 +37,7 @@ func _ready():
 	barra_vida.value = vida_actual
 	cargar_modelo()
 	configurar_nombre_ui()
+	cargar_textura_ui()
 
 func configurar_nombre_ui():
 	# Ruta corregida para el RichTextLabel
@@ -65,6 +66,7 @@ func cargar_modelo():
 	var ruta_modelo := ""
 	match genero:
 		"hombre":
+			
 			ruta_modelo = "res://personajes/jugador/ninio.glb"
 		"mujer":
 			ruta_modelo = "res://personajes/jugadora/ninia.glb"
@@ -99,6 +101,27 @@ func reproducir_animacion(nombre: String):
 			print("Reproduciendo animación:", nombre)
 			await anim_player.animation_finished
 			animation_finished_signal.emit(nombre)
+			
+func cargar_textura_ui():
+	var ruta_imagen := ""
+	match genero:
+		"hombre":
+			ruta_imagen = "res://assets/ui/personajes/jugador-img.png"
+		"mujer":
+			ruta_imagen = "res://assets/ui/personajes/jugadora-img.png"
+	
+	if not ResourceLoader.exists(ruta_imagen):
+		print("La ruta de imagen no existe:", ruta_imagen)
+		return
+	
+	var textura := load(ruta_imagen)
+	if textura:
+		imagen_jugador.texture = textura
+		print("Textura asignada correctamente:", ruta_imagen)
+	else:
+		print("Falló la carga de textura:", ruta_imagen)
+
+
 
 func _process(_delta):
 	if anim_actual == "reposo":
