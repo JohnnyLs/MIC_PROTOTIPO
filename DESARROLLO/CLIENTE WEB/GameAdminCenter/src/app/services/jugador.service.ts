@@ -3,14 +3,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Jugador } from '../models/jugador.model';
 import { Reporte } from '../models/reporte.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JugadorService {
-  private apiUrl = 'http://localhost:8082/api/con_jugadores';
-  private adminApiUrl = 'http://localhost:8082/api/admin/jugadores';
-  private reportesUrl = 'http://localhost:8082/api/reportes';
+ 
+  private apiUrl = environment.apiBaseUrl + 'con_jugadores';
+  private adminApiUrl = environment.apiBaseUrl + 'admin/jugadores';
+  private reportesUrl = environment.apiBaseUrl + 'reportes';
 
   constructor(private http: HttpClient) {}
 

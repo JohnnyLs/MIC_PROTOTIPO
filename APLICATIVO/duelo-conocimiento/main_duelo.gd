@@ -170,7 +170,7 @@ func _on_opciones_closed() -> void:
 ### API Integration ###
 
 func obtener_preguntas_api() -> void:
-	var url = "http://localhost:8082/api/preguntas/random/10"
+	var url = GameManager.API_BASE_URL + "preguntas/random/10"
 	var error = http_request.request(url)
 	if error != OK:
 		push_error("Error al realizar la solicitud HTTP: ", error)
@@ -215,7 +215,7 @@ func enviar_respuesta_api(id_pregunta: int, respuesta_dada: String, es_correcta:
 	var headers = ["Content-Type: application/json"]
 
 	var error = http_request.request(
-		"http://localhost:8082/api/respuestas",
+		GameManager.API_BASE_URL + "respuestas",
 		headers,
 		HTTPClient.METHOD_POST,
 		json_str

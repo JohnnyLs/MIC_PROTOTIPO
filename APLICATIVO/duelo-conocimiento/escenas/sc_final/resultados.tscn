@@ -66,9 +66,9 @@ flat = true
 
 [node name="txtEdit_nombre" type="TextEdit" parent="."]
 layout_mode = 0
-offset_left = 495.0
+offset_left = 474.0
 offset_top = 227.0
-offset_right = 822.0
+offset_right = 832.0
 offset_bottom = 295.0
 theme_override_colors/font_color = Color(0.219608, 0.196078, 0.121569, 1)
 theme_override_font_sizes/font_size = 40

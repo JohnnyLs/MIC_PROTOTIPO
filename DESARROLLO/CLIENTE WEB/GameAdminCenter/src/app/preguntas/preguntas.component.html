@@ -230,7 +230,7 @@
   <table class="preguntas-table">
     <thead>
       <tr>
-        <!-- Eliminamos el <th> para ID -->
+    
         <th>Texto Pregunta</th>
         <th>Opciones</th>
         <th>Respuesta</th>
@@ -244,7 +244,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let pregunta of filteredPreguntas" [ngClass]="{'inactive-row': pregunta.estado === 'inactivo'}">
-        <!-- Eliminamos el <td> para ID -->
+        
         <td>{{ pregunta.textoPregunta }}</td>
         <td>{{ pregunta.opciones }}</td>
         <td>{{ pregunta.respuestaCorrecta }}</td>

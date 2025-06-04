@@ -67,7 +67,7 @@ func _on_btn_volver_jugar_pressed():
 
 	# Enviar solicitud POST para crear una nueva partida
 	var error = http_request.request(
-		"http://localhost:8082/api/partidas",
+		GameManager.API_BASE_URL + "partidas",
 		headers,
 		HTTPClient.METHOD_POST,
 		json_str

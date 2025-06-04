@@ -1,6 +1,8 @@
 # res://src/GameManager.gd
 extends Node
 
+const API_BASE_URL: String = "http://localhost:8082/api/"
+
 var personaje_index: int = 0
 var nombre_jugador: String = ""
 var personaje: String = ""

@@ -7,7 +7,7 @@
     background: url('http://www.transparenttextures.com/patterns/brushed-alum-dark.png') repeat, linear-gradient(135deg, #34495e, #1a7bbc); /* Fondo con textura y degradado */
     padding: 20px;
     font-family: 'Poppins', sans-serif;
-    background-size: auto, 100% 100%; /* Ajustar tamaño del fondo */
+    background-size: auto, 100% 100%;
     background-attachment: fixed;
   }
   

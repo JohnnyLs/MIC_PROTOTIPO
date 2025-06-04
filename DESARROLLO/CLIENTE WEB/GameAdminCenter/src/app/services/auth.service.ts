@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { LoginRequest, LoginResponse } from '../models/auth.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8082/api/admin/login';
+  private apiUrl = environment.apiBaseUrl + 'admin/login';
   private loggedIn = false;
   private adminId: number | null = null;
 
@@ -27,7 +28,7 @@ export class AuthService {
         // Si la solicitud es exitosa, actualizamos el estado de autenticación
         this.loggedIn = true;
         this.adminId = response.idAdministrador;
-        // Guardar el estado en localStorage para persistencia
+       
         localStorage.setItem('loggedIn', 'true');
         localStorage.setItem('adminId', response.idAdministrador.toString());
       })

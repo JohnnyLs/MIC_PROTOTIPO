@@ -9,7 +9,7 @@ extends Control
 @onready var text_edit = $TextEdit
 @onready var http_request = $HTTPRequest 
 
-# Lista de texturas (immages de los personajes)
+# Lista de texturas (imágenes de los personajes)
 var personajes = []
 
 # Expresión regular para validar solo letras (incluyendo ñ y tildes) y espacios
@@ -55,23 +55,56 @@ func _ready() -> void:
 
 func _on_text_edit_text_changed() -> void:
 	var text = text_edit.text
-	var valid_text = ""
 	var cursor_pos = text_edit.get_caret_column()
+	
+	# Imprimir el texto crudo para depuración
+	print("DEBUG: Texto ingresado: '", text, "'")
 
-	# Filtrar caracteres no válidos
-	for char in text:
-		if regex.search(str(char)):
-			valid_text += char
+	# Validar el texto completo con la expresión regular
+	var valid_text = text
+	if not regex.search(text):
+		# Si el texto no es válido, filtrar caracteres no permitidos
+		valid_text = ""
+		for char in text:
+			if regex.search(str(char)) or char == " ":
+				valid_text += char
+		print("DEBUG: Texto después de filtrar: '", valid_text, "'")
+
+	# Limitar a 22 caracteres
+	if valid_text.length() > 22:
+		valid_text = valid_text.substr(0, 22)
+		print("DEBUG: Texto después de límite: '", valid_text, "'")
+
+	# Capitalizar la primera letra de cada palabra, preservando espacios
+	var has_trailing_space = text.ends_with(" ")
+	valid_text = _capitalize_words(valid_text)
+	if has_trailing_space and not valid_text.ends_with(" "):
+		valid_text += " "
+	print("DEBUG: Texto después de capitalizar: '", valid_text, "'")
 
 	# Si el texto cambió, actualizar el TextEdit
 	if text != valid_text:
 		var old_pos = cursor_pos
 		text_edit.text = valid_text
-		# Mantener la posición del cursor
+		# Ajustar la posición del cursor
 		if old_pos <= valid_text.length():
 			text_edit.set_caret_column(old_pos)
 		else:
 			text_edit.set_caret_column(valid_text.length())
+
+func _capitalize_words(text: String) -> String:
+	# Dividir por espacios, preservando palabras no vacías
+	var words = text.split(" ", false)
+	var capitalized_words = []
+	
+	for word in words:
+		if word.length() > 0:
+			# Capitalizar la primera letra y mantener el resto en minúscula
+			var capitalized = word.substr(0, 1).to_upper() + word.substr(1).to_lower()
+			capitalized_words.append(capitalized)
+	
+	# Unir las palabras con un espacio
+	return " ".join(capitalized_words)
 
 func update_personaje_texture() -> void:
 	personaje_rect.texture = personajes[current_index]
@@ -113,9 +146,9 @@ func _on_btn_accept_pressed() -> void:
 	var json_str = JSON.stringify(json_data)
 	var headers = ["Content-Type: application/json"]
 
-	# Enviar solicitud POST
+	# Enviar solicitud POST usando la URL base desde GameManager
 	var error = http_request.request(
-		"http://localhost:8082/api/partidas",
+		GameManager.API_BASE_URL + "partidas",
 		headers,
 		HTTPClient.METHOD_POST,
 		json_str
