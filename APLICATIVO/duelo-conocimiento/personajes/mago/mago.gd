@@ -24,6 +24,7 @@ func _ready():
 func recibir_danio(cantidad):
 	vida_actual = clamp(vida_actual - cantidad, 0, vida_maxima)
 	barra_vida.value = vida_actual
+	AudioManager.reproducir_sonido("perder-energia")
 	print("Vida actual del mago tras recibir daño:", vida_actual)
 	# await reproducir_animacion("recibir_danio")  # Descomentado si tienes esta animación
 
@@ -45,6 +46,7 @@ func _on_animacion_finalizada(nombre):
 		await reproducir_animacion("reposo")
 
 func lanzar_pregunta_animada():
+	AudioManager.reproducir_sonido("lanzar_pregunta")
 	await reproducir_animacion("lanzarpregunta")
 	
 func animar():

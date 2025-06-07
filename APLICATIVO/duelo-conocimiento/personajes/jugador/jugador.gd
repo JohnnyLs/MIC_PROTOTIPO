@@ -16,6 +16,7 @@ func recibir_danio(cantidad):
 	vida_actual = clamp(vida_actual - cantidad, 0, vida_maxima)
 	print("Vida actual del jugador tras recibir daño:", vida_actual)
 	barra_vida.value = vida_actual
+	AudioManager.reproducir_sonido("fallo")
 	await reproducir_animacion("perdernergia")
 
 func curar_vida(cantidad):
@@ -135,6 +136,7 @@ func _on_animacion_finalizada(nombre):
 		await reproducir_animacion("reposo")
 		
 func responder_pregunta():
+	AudioManager.reproducir_sonido("responder-pregunta")
 	await reproducir_animacion("responder")
 	
 func perder_juego():

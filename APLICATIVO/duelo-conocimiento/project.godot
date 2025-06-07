@@ -22,6 +22,7 @@ PreguntaManager="*res://src/PreguntaManager.gd"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 GameManager="*res://src/GameManager.gd"
 SceneBridge="*res://SceneBridge.gd"
+AudioManager="*res://AudioManager.tscn"
 
 [dialogic]
 

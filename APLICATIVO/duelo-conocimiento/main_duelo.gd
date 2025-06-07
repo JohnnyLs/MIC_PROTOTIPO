@@ -71,6 +71,8 @@ func _ready():
 	# Reiniciar estadísticas al iniciar una nueva partida
 	GameManager.resetear_estadisticas()
 	
+	#Reproducir sonido de duelo
+	AudioManager.reproducir_musica("res://sonidos/musica-fondo1.mp3")
 	# Obtener las preguntas de la API al iniciar
 	await obtener_preguntas_api()
 	
@@ -231,6 +233,7 @@ func enviar_respuesta_api(id_pregunta: int, respuesta_dada: String, es_correcta:
 func iniciar_turno_mago():
 	turno_actual = "mago"
 	mostrar_turno("Turno de Conty!")
+	AudioManager.reproducir_sonido("generando-pregunta")
 	await get_tree().create_timer(3.0).timeout
 	await mago.lanzar_pregunta_animada()
 	lanzar_pregunta()
@@ -255,7 +258,6 @@ func lanzar_pregunta():
 		if preguntas_api.is_empty():
 			push_error("No se pudieron obtener preguntas de la API. Finalizando juego.")
 			return
-	
 	pregunta_actual = preguntas_api[randi() % preguntas_api.size()]
 	
 	if pregunta_actual:

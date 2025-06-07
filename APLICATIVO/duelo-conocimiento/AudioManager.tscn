@@ -1,0 +1,36 @@
+[gd_scene load_steps=9 format=3 uid="uid://b6ek6dfew7ag3"]
+
+[ext_resource type="AudioStream" uid="uid://1juk1okyllmp" path="res://sonidos/clicl2.mp3" id="1_2nh25"]
+[ext_resource type="Script" uid="uid://5ddbxfo8j7oh" path="res://sonidos.gd" id="1_d16gy"]
+[ext_resource type="AudioStream" uid="uid://c7wng58u1tvr4" path="res://sonidos/lanzar-pregunta.wav" id="3_sxe6l"]
+[ext_resource type="AudioStream" uid="uid://ctbmxve06hsh2" path="res://sonidos/responder-pregunta.mp3" id="4_mh7xs"]
+[ext_resource type="AudioStream" uid="uid://c5ydkgn4uom8k" path="res://sonidos/sonido_click.wav" id="5_mh7xs"]
+[ext_resource type="AudioStream" uid="uid://7jaty1w3bm83" path="res://sonidos/perder-energia.ogg" id="6_wda1a"]
+[ext_resource type="AudioStream" uid="uid://b2pttgj7t8ihx" path="res://sonidos/generando-pregunta.wav" id="7_5x0uh"]
+[ext_resource type="AudioStream" uid="uid://c0j3bspe2sdeg" path="res://sonidos/fallo.wav" id="8_mev0m"]
+
+[node name="AudioManager" type="Node"]
+script = ExtResource("1_d16gy")
+
+[node name="clic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_2nh25")
+
+[node name="musica_inicio" type="AudioStreamPlayer" parent="."]
+
+[node name="lanzar_pregunta" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_sxe6l")
+
+[node name="responder-pregunta" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_mh7xs")
+
+[node name="clic2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_mh7xs")
+
+[node name="perder-energia" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_wda1a")
+
+[node name="generando-pregunta" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_5x0uh")
+
+[node name="fallo" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_mev0m")

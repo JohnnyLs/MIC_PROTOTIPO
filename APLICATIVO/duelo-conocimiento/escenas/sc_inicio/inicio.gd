@@ -1,8 +1,8 @@
 extends Control
 
 func _ready() -> void:
-	# Ya no hacemos nada aquí, solo esperamos que el usuario presione el botón
-	pass
+	AudioManager.reproducir_musica("res://sonidos/Whispers of the Forgotten Quest.mp3")
 
 func _on_button_pressed() -> void:
+	AudioManager.reproducir_clic()
 	GameManager.cambiar_escena("res://escenas/sc_seleccion/seleccion_p.tscn")

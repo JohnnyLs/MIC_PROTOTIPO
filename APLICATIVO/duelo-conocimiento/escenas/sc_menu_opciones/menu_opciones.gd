@@ -86,10 +86,12 @@ func _input(event: InputEvent) -> void:
 
 # Funciones para los botones
 func _on_btn_continuar_pressed() -> void:
+	AudioManager.reproducir_sonido("clic2")
 	print("btn_continuar pressed in menu_opciones.tscn")
 	queue_free()  # Cierra el menú y regresa al juego
 
 func _on_btn_config_pressed() -> void:
+	AudioManager.reproducir_sonido("clic2")
 	print("btn_config pressed in menu_opciones.tscn")
 	if sonido_instance == null:  # Evitar abrir múltiples instancias
 		sonido_instance = sonido_scene.instantiate()
@@ -98,6 +100,7 @@ func _on_btn_config_pressed() -> void:
 		sonido_instance.connect("tree_exited", Callable(self, "_on_sonido_closed"))
 
 func _on_btn_salir_pressed() -> void:
+	AudioManager.reproducir_sonido("clic2")
 	print("btn_salir pressed in menu_opciones.tscn")
 	# Asegurarse de que el juego no esté pausado al regresar al menú principal
 	get_tree().paused = false
@@ -110,6 +113,7 @@ func _on_btn_salir_pressed() -> void:
 
 # Limpiar la referencia cuando la escena de sonido se cierre
 func _on_sonido_closed() -> void:
+	AudioManager.reproducir_sonido("clic2")
 	print("Sonido.tscn closed, returning to menu_opciones.tscn")
 	sonido_instance = null
 	just_closed_sonido = true  # Set the flag to indicate Sonido.tscn was just closed

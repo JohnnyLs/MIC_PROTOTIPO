@@ -111,16 +111,19 @@ func update_personaje_texture() -> void:
 	print("Personaje mostrado: index =", current_index, ", género =", "hombre" if current_index == 0 else "mujer")
 
 func _on_btn_left_pressed() -> void:
+	AudioManager.reproducir_sonido("clic2")
 	current_index -= 1
 	if current_index < 0:
 		current_index = personajes.size() - 1  
 	update_personaje_texture()
 
 func _on_btn_right_pressed() -> void:
+	AudioManager.reproducir_sonido("clic2")
 	current_index = (current_index + 1) % personajes.size()
 	update_personaje_texture()
 
 func _on_btn_accept_pressed() -> void:
+	AudioManager.reproducir_clic()
 	var nombre = text_edit.text.strip_edges()
 	
 	if nombre.is_empty():

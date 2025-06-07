@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bpo35y0utildh"]
+[gd_scene load_steps=11 format=3 uid="uid://bpo35y0utildh"]
 
 [ext_resource type="Script" uid="uid://c7h5x13e150w3" path="res://main_duelo.gd" id="1_3dxm6"]
 [ext_resource type="PackedScene" uid="uid://cpdqp4ffc1u5c" path="res://escenas/escenariov_2.tscn" id="1_glv2v"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ddj4xm1wqcjtu" path="res://personajes/mago/Mago.tscn" id="3_r0du0"]
 [ext_resource type="PackedScene" uid="uid://7qifrx13xmeu" path="res://ui/UIDuelo.tscn" id="4_cm0pq"]
 [ext_resource type="PackedScene" uid="uid://ddfkjk4mwm8hi" path="res://ui/comodines/mano_comodines.tscn" id="5_fos0i"]
+[ext_resource type="AudioStream" uid="uid://kq0er0f4pbuh" path="res://sonidos/ambiente-pajaros.wav" id="7_lgr22"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_glv2v"]
 sky_top_color = Color(0.984314, 0.831373, 0.639216, 1)
@@ -59,3 +60,8 @@ transform = Transform3D(0.232868, 0, 0.972508, 0, 1, 0, -0.972508, 0, 0.232868, 
 [node name="UIDuelo" parent="." instance=ExtResource("4_cm0pq")]
 
 [node name="ManoComodines" parent="." instance=ExtResource("5_fos0i")]
+
+[node name="sonidoAmbiental" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("7_lgr22")
+volume_db = 55.385
+autoplay = true

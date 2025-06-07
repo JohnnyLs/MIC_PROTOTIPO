@@ -53,6 +53,7 @@ func _ready():
 		push_error("Nodo txtEdit_tiempo_total no encontrado.")
 
 func _on_btn_volver_jugar_pressed():
+	AudioManager.reproducir_sonido("clic2")
 	# Resetear el estado del juego
 	SceneBridge.set_game_result("")  # Limpiar el resultado anterior
 	
@@ -81,6 +82,7 @@ func _on_btn_volver_jugar_pressed():
 		print("Solicitud de nueva partida enviada, esperando respuesta...")
 
 func _on_btn_menu_principal_pressed():
+	AudioManager.reproducir_sonido("clic2")
 	# Resetear el estado del juego
 	SceneBridge.set_game_result("")  # Limpiar el resultado anterior
 	# Cargar la escena del menú principal
