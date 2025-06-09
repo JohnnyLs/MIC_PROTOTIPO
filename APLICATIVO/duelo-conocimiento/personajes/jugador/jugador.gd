@@ -5,6 +5,7 @@ signal animation_finished_signal(animation_name)
 @onready var barra_vida = $UIJugador/ContenedorInterfaz/VContenedorInterfaz/Fila1/VidaBar
 @onready var modelo_contenedor = $ModeloContenedor
 @onready var imagen_jugador = $UIJugador/ContenedorInterfaz/VContenedorInterfaz/Fila1/Imagen
+@onready var vfx_impact = $vfx_impact
 var vida_maxima := 100
 var vida_actual := 100
 var genero := "hombre"  # Se asigna desde GameManager
@@ -137,6 +138,8 @@ func _on_animacion_finalizada(nombre):
 		
 func responder_pregunta():
 	AudioManager.reproducir_sonido("responder-pregunta")
+	if vfx_impact:
+		vfx_impact.activar_efectos_con_duracion(1.5)
 	await reproducir_animacion("responder")
 	
 func perder_juego():

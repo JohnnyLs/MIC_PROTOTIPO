@@ -1,44 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://7qifrx13xmeu"]
+[gd_scene load_steps=2 format=3 uid="uid://7qifrx13xmeu"]
 
-[sub_resource type="FontFile" id="FontFile_oxamd"]
-subpixel_positioning = 0
-msdf_pixel_range = 14
-msdf_size = 128
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/200/0/ascent = 0.0
-cache/0/200/0/descent = 0.0
-cache/0/200/0/underline_position = 0.0
-cache/0/200/0/underline_thickness = 0.0
-cache/0/200/0/scale = 1.0
-cache/0/100/0/ascent = 0.0
-cache/0/100/0/descent = 0.0
-cache/0/100/0/underline_position = 0.0
-cache/0/100/0/underline_thickness = 0.0
-cache/0/100/0/scale = 1.0
-cache/0/50/0/ascent = 0.0
-cache/0/50/0/descent = 0.0
-cache/0/50/0/underline_position = 0.0
-cache/0/50/0/underline_thickness = 0.0
-cache/0/50/0/scale = 1.0
-
-[sub_resource type="FontFile" id="FontFile_qf18q"]
-subpixel_positioning = 0
-msdf_pixel_range = 14
-msdf_size = 128
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/40/0/ascent = 0.0
-cache/0/40/0/descent = 0.0
-cache/0/40/0/underline_position = 0.0
-cache/0/40/0/underline_thickness = 0.0
-cache/0/40/0/scale = 1.0
+[ext_resource type="FontFile" uid="uid://cfk13kay8278n" path="res://assets/fonts/Libre_Franklin/static/LibreFranklin-ExtraBold.ttf" id="1_qf18q"]
 
 [node name="UIDuelo" type="Control"]
 layout_mode = 3
@@ -51,8 +13,9 @@ mouse_filter = 2
 
 [node name="ContenedorInterfazDuelo" type="MarginContainer" parent="."]
 layout_mode = 0
+offset_top = 57.0
 offset_right = 1280.0
-offset_bottom = 720.0
+offset_bottom = 777.0
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
@@ -64,7 +27,9 @@ layout_mode = 2
 [node name="Turno_texto" type="RichTextLabel" parent="ContenedorInterfazDuelo/VBoxContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
-theme_override_fonts/normal_font = SubResource("FontFile_oxamd")
+theme_override_colors/default_color = Color(0.992157, 0.835294, 0.121569, 1)
+theme_override_colors/font_outline_color = Color(0.254902, 0.180392, 0.0431373, 1)
+theme_override_fonts/normal_font = ExtResource("1_qf18q")
 theme_override_font_sizes/normal_font_size = 50
 bbcode_enabled = true
 horizontal_alignment = 1
@@ -73,7 +38,9 @@ vertical_alignment = 1
 [node name="Contador_turno" type="RichTextLabel" parent="ContenedorInterfazDuelo/VBoxContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
-theme_override_fonts/normal_font = SubResource("FontFile_qf18q")
+theme_override_colors/default_color = Color(0.992157, 0.835294, 0.121569, 1)
+theme_override_colors/font_outline_color = Color(0.254902, 0.180392, 0.0431373, 1)
+theme_override_fonts/normal_font = ExtResource("1_qf18q")
 theme_override_font_sizes/normal_font_size = 40
 text = "
 "

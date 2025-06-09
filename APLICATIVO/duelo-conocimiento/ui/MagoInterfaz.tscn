@@ -1,12 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://c0kyiv2jdb7iy"]
+[gd_scene load_steps=5 format=3 uid="uid://c0kyiv2jdb7iy"]
 
 [ext_resource type="Texture2D" uid="uid://b3bufoifopx5g" path="res://assets/ui/personajes/conty-img.PNG" id="1_ftxpu"]
+[ext_resource type="FontFile" uid="uid://cg22cmhxsjnqf" path="res://assets/fonts/Libre_Franklin/static/LibreFranklin-Medium.ttf" id="2_wqyhq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c4bw1"]
 bg_color = Color(0.164706, 0.2, 0.207843, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6xq7g"]
-bg_color = Color(0.0392157, 0.368627, 0.690196, 1)
+bg_color = Color(0.207843, 0.478431, 0.741176, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.254902, 0.180392, 0.0431373, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [node name="UIMago" type="Control"]
 layout_mode = 3
@@ -40,7 +54,7 @@ layout_mode = 2
 alignment = 2
 
 [node name="Imagen" type="TextureRect" parent="ContenedorInterfaz/VContenedorInterfaz/Fila1"]
-custom_minimum_size = Vector2(20, 0)
+custom_minimum_size = Vector2(75, 50)
 layout_mode = 2
 texture = ExtResource("1_ftxpu")
 expand_mode = 1
@@ -50,15 +64,22 @@ custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
 [node name="NombreJugador" type="RichTextLabel" parent="ContenedorInterfaz/VContenedorInterfaz/Fila1"]
-custom_minimum_size = Vector2(80, 0)
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_wqyhq")
 theme_override_font_sizes/bold_italics_font_size = 1
+theme_override_font_sizes/normal_font_size = 30
 text = "Conty
 "
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="VidaBar" type="ProgressBar" parent="ContenedorInterfaz/VContenedorInterfaz/Fila1"]
-custom_minimum_size = Vector2(300, 0)
+custom_minimum_size = Vector2(300, 75)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_wqyhq")
+theme_override_font_sizes/font_size = 30
 theme_override_styles/background = SubResource("StyleBoxFlat_c4bw1")
 theme_override_styles/fill = SubResource("StyleBoxFlat_6xq7g")
 value = 100.0

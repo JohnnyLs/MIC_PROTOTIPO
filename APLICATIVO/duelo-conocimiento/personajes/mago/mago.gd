@@ -5,7 +5,7 @@ signal animation_finished_signal(animation_name)
 @onready var barra_vida = $UIMago/ContenedorInterfaz/VContenedorInterfaz/Fila1/VidaBar
 @onready var modelo := $magoModelo
 @onready var anim_player : AnimationPlayer = $magoModelo/AnimationPlayer
-
+@onready var vfx_impact = $vfx_impact
 var anim_actual := ""
 var vida_maxima := 100
 var vida_actual := 100
@@ -47,7 +47,9 @@ func _on_animacion_finalizada(nombre):
 
 func lanzar_pregunta_animada():
 	AudioManager.reproducir_sonido("lanzar_pregunta")
+	vfx_impact.reproducir_efectos_durante_animacion(2.5, 0.6)
 	await reproducir_animacion("lanzarpregunta")
+	
 	
 func animar():
 	await reproducir_animacion("animar")

@@ -81,7 +81,7 @@ func _ready():
 func _process(delta: float) -> void:
 	if contador_en_ejecucion and temporizador and not temporizador.is_stopped():
 		var tiempo_restante = ceil(temporizador.time_left)
-		contador_turno.text = "Tiempo restante: %d" % tiempo_restante
+		contador_turno.text = "TIEMPO RESTANTE: %d" % tiempo_restante
 	
 	# Acumular tiempo de partida si no está pausado
 	if contando_tiempo and not get_tree().paused:
@@ -232,7 +232,7 @@ func enviar_respuesta_api(id_pregunta: int, respuesta_dada: String, es_correcta:
 
 func iniciar_turno_mago():
 	turno_actual = "mago"
-	mostrar_turno("Turno de Conty!")
+	mostrar_turno("TURNO DE CONTY!")
 	AudioManager.reproducir_sonido("generando-pregunta")
 	await get_tree().create_timer(3.0).timeout
 	await mago.lanzar_pregunta_animada()
@@ -242,7 +242,7 @@ func iniciar_turno_mago():
 
 func iniciar_turno_jugador():
 	turno_actual = "jugador"
-	mostrar_turno("Ahora es tu turno!")
+	mostrar_turno("AHORA ES TU TURNO!")
 	respuesta_recibida = false
 
 	var tiempo_limite = pregunta_actual.get("tiempoLimite", 30)
@@ -398,7 +398,7 @@ func iniciar_contador(tiempo: int) -> void:
 	if contador_en_ejecucion:
 		return
 	contador_en_ejecucion = true
-	contador_turno.text = "Tiempo restante: %d" % tiempo
+	contador_turno.text = "TIEMPO RESTANTE: %d" % tiempo
 
 func limpiar_contador():
 	if contador_turno:
