@@ -8,6 +8,7 @@ extends Control
 @onready var txtEdit_aciertos = $txtEdit_aciertos
 @onready var txtEdit_errores = $txtEdit_errores
 @onready var txtEdit_tiempo_total = $txtEdit_tiempo_total
+@onready var btn_creditos = $btn_creditos
 
 func _ready():
 	# Conectar las señales de los botones
@@ -18,6 +19,11 @@ func _ready():
 
 	if btn_menu_principal:
 		btn_menu_principal.pressed.connect(_on_btn_menu_principal_pressed)
+	else:
+		push_error("Nodo btn_menu_principal no encontrado. Verifica el nombre del nodo en la escena.")
+
+	if btn_creditos:
+		btn_creditos.pressed.connect(_on_btn_creditos_pressed)
 	else:
 		push_error("Nodo btn_menu_principal no encontrado. Verifica el nombre del nodo en la escena.")
 
@@ -87,6 +93,13 @@ func _on_btn_menu_principal_pressed():
 	SceneBridge.set_game_result("")  # Limpiar el resultado anterior
 	# Cargar la escena del menú principal
 	GameManager.cambiar_escena("res://escenas/sc_inicio/Inicio.tscn")
+	
+func _on_btn_creditos_pressed():
+	AudioManager.reproducir_sonido("clic2")
+	# Resetear el estado del juego
+	#SceneBridge.set_game_result("")  # Limpiar el resultado anterior
+	# Cargar la escena del menú principal
+	GameManager.cambiar_escena("res://escenas/sc_creditos/creditos.tscn")
 
 func _on_request_completed(result, response_code, headers, body):
 	print("Respuesta del servidor (nueva partida):", response_code)

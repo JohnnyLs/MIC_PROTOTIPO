@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dra1n5qnum1yh"]
+[gd_scene load_steps=11 format=3 uid="uid://dra1n5qnum1yh"]
 
 [ext_resource type="Script" uid="uid://c330jkkjprj64" path="res://escenas/sc_final/resultados.gd" id="1_vwmdu"]
 [ext_resource type="Texture2D" uid="uid://mg7rcn3q8qns" path="res://assets/ui/seleccionar personaje/background_selec.png" id="1_wqgq0"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cfqsp68sxka48" path="res://assets/ui/resultados/titulo.png" id="3_rwtkh"]
 [ext_resource type="Texture2D" uid="uid://c275i13lhxdgk" path="res://assets/ui/resultados/back.png" id="4_q8220"]
 [ext_resource type="Texture2D" uid="uid://gimdq8nufqwu" path="res://assets/ui/resultados/menu.png" id="5_hwgkb"]
+[ext_resource type="Texture2D" uid="uid://bodtf7qoagrtq" path="res://assets/ui/resultados/creditos.png" id="7_rwtkh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vwmdu"]
 
@@ -44,22 +45,31 @@ texture = ExtResource("3_rwtkh")
 
 [node name="btn_volver_jugar" type="Button" parent="."]
 layout_mode = 0
-offset_left = 319.0
-offset_top = 603.0
-offset_right = 656.0
-offset_bottom = 723.0
+offset_left = 131.0
+offset_top = 601.0
+offset_right = 468.0
+offset_bottom = 721.0
 theme_override_styles/hover = SubResource("StyleBoxFlat_vwmdu")
 icon = ExtResource("4_q8220")
 flat = true
 
 [node name="btn_menu_principal" type="Button" parent="."]
 layout_mode = 0
-offset_left = 671.0
-offset_top = 602.0
-offset_right = 1008.0
-offset_bottom = 722.0
+offset_left = 492.0
+offset_top = 601.0
+offset_right = 829.0
+offset_bottom = 721.0
 theme_override_styles/hover = SubResource("StyleBoxFlat_rwtkh")
 icon = ExtResource("5_hwgkb")
+flat = true
+
+[node name="btn_creditos" type="Button" parent="."]
+offset_left = 848.0
+offset_top = 599.0
+offset_right = 1185.0
+offset_bottom = 719.0
+theme_override_styles/hover = SubResource("StyleBoxFlat_rwtkh")
+icon = ExtResource("7_rwtkh")
 flat = true
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]

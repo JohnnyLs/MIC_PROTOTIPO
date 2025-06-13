@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://j5205unwih2t"]
+
+[ext_resource type="Texture2D" uid="uid://cas3snqhbm6ns" path="res://assets/ui/creditos/creditos.png" id="1_dukv3"]
+[ext_resource type="Script" uid="uid://ccb4xgp5q0u2e" path="res://escenas/sc_creditos/creditos.gd" id="1_juym0"]
+[ext_resource type="Texture2D" uid="uid://dqbybhh8g5e3n" path="res://assets/ui/seleccionar personaje/left.png" id="2_juym0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dukv3"]
+
+[node name="Creditos" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_juym0")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -86.0
+offset_top = 3.0
+offset_right = 1280.0
+offset_bottom = 771.0
+texture = ExtResource("1_dukv3")
+
+[node name="btn_volver" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1077.0
+offset_top = 354.0
+offset_right = 1180.0
+offset_bottom = 467.0
+theme_override_styles/hover = SubResource("StyleBoxFlat_dukv3")
+icon = ExtResource("2_juym0")
+flat = true
