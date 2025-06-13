@@ -77,8 +77,8 @@ VALUES
 ('¿Cuál es el área de un triángulo con base 4 y altura 3?', '["6", "12", "8"]', '6', 'Fácil', 30, 'aritmética', 20, 'activo'),
 ('¿Cuánto es 5 + 3 * 2?', '["11", "16", "13"]', '11', 'Medio', 20, 'aritmética', 20, 'activo'),
 ('¿Cuál es el perímetro de un cuadrado de lado 5?', '["20", "25", "15"]', '20', 'Fácil', 25, 'aritmética', 20, 'activo'),
-('¿Cuánto es 3 x 42?', '{"a": "12", "b": "10", "c": "8", "d": "6"}', 'a', 'fácil', 5, 'multiplicación', 50, 'inactivo'),
-('¿Cuánto es 5 x 6?', '{"a": "30", "b": "25", "c": "20", "d": "15"}', 'a', 'fácil', 5, 'multiplicación', 10, 'activo');
+('¿Cuánto es 3 x 42?', '["12", "10", "8", "6"]', '12', 'Fácil', 5, 'multiplicación', 50, 'inactivo'),
+('¿Cuánto es 5 x 6?', '["30", "25", "20", "15"]', '30', 'Fácil', 5, 'multiplicación', 10, 'activo');
 
 -- Insertar partidas
 INSERT INTO tbl_partida (id_jugador, personaje, tiempo_total_partida, aciertos_partida, errores_partida, fecha_inicio)

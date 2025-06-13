@@ -1,0 +1,20 @@
+#Correr en local
+docker run -d --name mic-videojuego-container -p 8082:8082 mic-videojuego
+
+#Subir a dockerhub
+docker tag mic-videojuego leodlc/mic-videojuego:1.0
+
+docker push leodlc/mic-videojuego:1.0
+
+
+#Bajar de dockerhub
+docker pull leodlc/mic-videojuego:1.0
+docker run -d --name videojuego-prod -p 8082:8082 leodlc/mic-videojuego:1.0
+
+#Subir a google cloud run
+docker pull leodlc/mic-videojuego:1.0
+docker tag leodlc/mic-videojuego:1.0 gcr.io/static-bond-461123-r6/server-mic-videojuego:v1
+
+docker run -d --name videojuego-prod -p 8082:8082 leodlc/mic-videojuego:1.0
+
+

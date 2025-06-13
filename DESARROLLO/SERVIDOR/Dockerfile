@@ -1,19 +1,32 @@
-# Etapa 1: Construir el JAR
-FROM eclipse-temurin:17-jdk-alpine AS builder
+# Etapa de construccion - Optimizada para cache de dependencias
+FROM eclipse-temurin:17-jdk-jammy AS builder
+
+# Instala Maven primero
+RUN apt-get update && \
+    apt-get install -y maven && \
+    rm -rf /var/lib/apt/lists/*
+
+
 WORKDIR /app
-# Copia el archivo pom.xml y descarga las dependencias
+# Copia solo el POM primero para cachear dependencias
 COPY pom.xml .
-RUN apk add --no-cache maven && mvn dependency:go-offline
-# Copia el código fuente y construye el JAR
+# Descarga dependencias (capa cacheable)
+RUN mvn dependency:go-offline -B
+
+# Copia todo el código fuente
 COPY src ./src
+# Empaqueta la aplicacion preservando tu application.properties
 RUN mvn clean package -DskipTests
 
-# Etapa 2: Crear la imagen final
-FROM eclipse-temurin:17-jre-alpine
+# Etapa de ejecucion - Minimalista y segura
+FROM eclipse-temurin:17-jre-jammy
+
 WORKDIR /app
-# Copia el JAR desde la etapa de construcción
-COPY --from=builder /app/target/web-0.0.1-SNAPSHOT.jar app.jar
-# Expón el puerto dinámico
-EXPOSE ${PORT}
-# Ejecuta la aplicación
+# Copia el JAR manteniendo tu configuracion embebida
+COPY --from=builder /app/target/*.jar app.jar
+
+# Puerto expuesto (coincide con tu server.port=8082)
+EXPOSE 8082
+
+# Entrypoint seguro sin exponer variables sensibles
 ENTRYPOINT ["java", "-jar", "app.jar"]
