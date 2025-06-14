@@ -1,14 +1,19 @@
-[gd_scene load_steps=7 format=3 uid="uid://bx8u534hy0ugq"]
+[gd_scene load_steps=9 format=3 uid="uid://bx8u534hy0ugq"]
 
 [ext_resource type="Script" uid="uid://do4fsubvhcn1s" path="res://ui/comodines/Carta.gd" id="1_4r65w"]
 [ext_resource type="Texture2D" uid="uid://c7hjpvlcpa4g3" path="res://assets/ui/comodines/plantilla-carta2.png" id="2_674nk"]
+[ext_resource type="FontFile" uid="uid://cib6qexrq4571" path="res://assets/fonts/Libre_Franklin/static/LibreFranklin-SemiBold.ttf" id="3_4r65w"]
+[ext_resource type="FontFile" uid="uid://bmg14ty3ymsvr" path="res://assets/fonts/Libre_Franklin/static/LibreFranklin-Black.ttf" id="4_gwh20"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2k0vf"]
 size = Vector2(595.72, 798.165)
 
 [sub_resource type="LabelSettings" id="LabelSettings_f3qeb"]
-font_size = 55
-font_color = Color(0, 0, 0, 1)
+font = ExtResource("3_4r65w")
+font_size = 60
+font_color = Color(1, 0.784314, 0, 1)
+outline_size = 50
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="FontFile" id="FontFile_87h7q"]
 subpixel_positioning = 0
@@ -371,15 +376,18 @@ cache/0/115/0/underline_thickness = 0.0
 cache/0/115/0/scale = 1.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_s7puy"]
+font = ExtResource("4_gwh20")
 font_size = 80
-font_color = Color(0, 0, 0, 1)
+font_color = Color(1, 0.784314, 0, 1)
+outline_size = 60
+outline_color = Color(0, 0, 0, 1)
 
 [node name="Carta" type="Node2D"]
 script = ExtResource("1_4r65w")
 
 [node name="SpriteBaseCarta" type="Sprite2D" parent="."]
 position = Vector2(140.5, 224.125)
-scale = Vector2(0.5, 0.455)
+scale = Vector2(0.9, 0.855)
 texture = ExtResource("2_674nk")
 
 [node name="AreaClick" type="Area2D" parent="SpriteBaseCarta"]
@@ -391,19 +399,23 @@ position = Vector2(137.69, 200.939)
 shape = SubResource("RectangleShape2D_2k0vf")
 
 [node name="InfoCarta" type="Node2D" parent="."]
-position = Vector2(131.26, 196.57)
+position = Vector2(133, 203)
 scale = Vector2(0.17, 0.17)
 
 [node name="DescripcionCarta" type="Label" parent="InfoCarta"]
-offset_left = -125.059
-offset_top = 102.529
-offset_right = 221.941
-offset_bottom = 285.529
+offset_left = -300.0
+offset_top = 11.7646
+offset_right = 400.0
+offset_bottom = 361.765
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_4r65w")
+theme_override_font_sizes/font_size = 20
 text = "descripcion"
 label_settings = SubResource("LabelSettings_f3qeb")
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 1
+clip_text = true
 
 [node name="ImagenCarta2" type="Node2D" parent="InfoCarta"]
 
@@ -418,16 +430,17 @@ position = Vector2(-219.176, -262.177)
 scale = Vector2(1, 0.888)
 
 [node name="NombreCarta" type="Node2D" parent="InfoCarta"]
+position = Vector2(11.7647, 123.529)
 
 [node name="NombreCartaTexto" type="Label" parent="InfoCarta/NombreCarta"]
-offset_left = -289.765
-offset_top = 290.765
-offset_right = 389.235
-offset_bottom = 431.765
+offset_left = -482.353
+offset_top = 317.647
+offset_right = 517.647
+offset_bottom = 458.647
 theme_override_fonts/font = SubResource("FontFile_87h7q")
 theme_override_font_sizes/font_size = 400
 text = "nombre"
 label_settings = SubResource("LabelSettings_s7puy")
 horizontal_alignment = 1
-vertical_alignment = 1
 autowrap_mode = 1
+clip_text = true

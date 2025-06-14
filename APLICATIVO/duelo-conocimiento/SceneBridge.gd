@@ -6,6 +6,9 @@ var game_result: String = ""  # Almacena "victoria" o "derrota"
 func set_main_duelo(nodo: Node) -> void:
 	main_duelo = nodo
 
+func get_main_duelo() -> Node:
+	return main_duelo
+	
 func verificar_respuesta(opcion: String) -> void:
 	if main_duelo:
 		main_duelo.verificar_respuesta(opcion)

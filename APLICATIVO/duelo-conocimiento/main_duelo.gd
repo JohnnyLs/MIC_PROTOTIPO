@@ -16,6 +16,10 @@ var contador_en_ejecucion := false
 var tiempo_partida: float = 0.0  # En segundos
 var contando_tiempo: bool = true  # Controla si se acumula tiempo
 
+# Variables para controlar el cambio de música una sola vez
+var musica_jugador_cambiada := false
+var musica_mago_cambiada := false
+
 # Lista para almacenar las preguntas obtenidas de la API
 var preguntas_api: Array = []
 
@@ -27,7 +31,7 @@ var opciones_instance = null
 var dialogic_nodes: Array[Node] = []
 var dialogic_timeline_active: bool = false
 var game_ended: bool = false
-
+@onready var mano_comodines = $ManoComodines
 # Cliente HTTP para realizar solicitudes a la API
 var http_request: HTTPRequest
 
@@ -49,9 +53,10 @@ func _ready():
 	texto_turno = $UIDuelo/ContenedorInterfazDuelo/VBoxContainer/Turno_texto
 	contador_turno = $UIDuelo/ContenedorInterfazDuelo/VBoxContainer/Contador_turno
 	
-	var mano_comodines = $ManoComodines
+	#var mano_comodines = $ManoComodines
 	if mano_comodines:
 		mano_comodines.conectar_cartas()
+		actualizar_visibilidad_carta()
 		
 	print("¡Cargó Main.tscn correctamente!")
 	print("Jugador visible:", $Jugador.is_visible_in_tree())
@@ -87,6 +92,30 @@ func _process(delta: float) -> void:
 	if contando_tiempo and not get_tree().paused:
 		tiempo_partida += delta
 
+func actualizar_visibilidad_carta():
+	if not jugador or not mano_comodines:
+		return
+	
+	var carta_curacion = mano_comodines.get_node("CuracionCarta") if mano_comodines.has_node("CuracionCarta") else null
+	
+	if carta_curacion:
+		if jugador.obtener_vida_actual() <= 70:
+			print(jugador.obtener_vida_actual())
+			if not carta_curacion.visible:
+				print("Mostrando carta de curación - Vida del jugador:", jugador.obtener_vida_actual())
+				carta_curacion.visible = true
+				carta_curacion.modulate.a = 0.0
+				var tween = create_tween()
+				tween.tween_property(carta_curacion, "modulate:a", 1.0, 0.5)
+		else:
+			if carta_curacion.visible:
+				print("Ocultando carta de curación - Vida del jugador:", jugador.obtener_vida_actual())
+				var tween = create_tween()
+				tween.tween_property(carta_curacion, "modulate:a", 0.0, 0.5)
+				await tween.finished
+				carta_curacion.visible = false
+
+				
 func _on_dialogic_timeline_started():
 	dialogic_timeline_active = true
 	print("Dialogic timeline started")
@@ -324,6 +353,8 @@ func verificar_respuesta(opcion: String):
 		mago.recibir_danio(danio)
 	else:
 		await jugador.recibir_danio(danio)
+	
+	verificar_vida_y_reproducir_audio()
 
 	await get_tree().create_timer(1.5).timeout
 	if not await chequear_fin_del_juego():
@@ -350,6 +381,7 @@ func _on_tiempo_agotado():
 		)
 		
 		await jugador.recibir_danio(danio)
+		verificar_vida_y_reproducir_audio()
 
 	await get_tree().create_timer(1.5).timeout
 	if not await chequear_fin_del_juego():
@@ -416,3 +448,18 @@ func _on_carta_usada(tipo: String, data: Variant) -> void:
 			pass
 		_:
 			print("Tipo de carta no reconocido:", tipo) 
+
+# Función mejorada que solo cambia la música una vez
+func verificar_vida_y_reproducir_audio():
+	# Verificar vida del jugador y cambiar música solo si no se ha cambiado antes
+	if jugador and jugador.obtener_vida_actual() <= 40 and not musica_jugador_cambiada:
+		musica_jugador_cambiada = true
+		print("Cambiando música por vida baja del jugador:", jugador.obtener_vida_actual())
+		AudioManager.reproducir_musica("res://sonidos/Shadows of the Brave.mp3")
+		return  # Salir temprano para evitar cambios múltiples
+	
+	# Verificar vida del mago y cambiar música solo si no se ha cambiado antes
+	if mago and mago.obtener_vida_actual() <= 40 and not musica_mago_cambiada:
+		musica_mago_cambiada = true
+		print("Cambiando música por vida baja del mago:", mago.obtener_vida_actual())
+		AudioManager.reproducir_musica("res://sonidos/The Call of Young Heroes.mp3")

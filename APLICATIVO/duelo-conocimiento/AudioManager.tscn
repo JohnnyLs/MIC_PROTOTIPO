@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b6ek6dfew7ag3"]
+[gd_scene load_steps=10 format=3 uid="uid://b6ek6dfew7ag3"]
 
 [ext_resource type="AudioStream" uid="uid://1juk1okyllmp" path="res://sonidos/clicl2.mp3" id="1_2nh25"]
 [ext_resource type="Script" uid="uid://5ddbxfo8j7oh" path="res://sonidos.gd" id="1_d16gy"]
@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://7jaty1w3bm83" path="res://sonidos/perder-energia.ogg" id="6_wda1a"]
 [ext_resource type="AudioStream" uid="uid://b2pttgj7t8ihx" path="res://sonidos/generando-pregunta.wav" id="7_5x0uh"]
 [ext_resource type="AudioStream" uid="uid://c0j3bspe2sdeg" path="res://sonidos/fallo.wav" id="8_mev0m"]
+[ext_resource type="AudioStream" uid="uid://bkrfwti0l4bt1" path="res://sonidos/curarse.wav" id="9_dyjto"]
 
 [node name="AudioManager" type="Node"]
 script = ExtResource("1_d16gy")
@@ -34,3 +35,6 @@ stream = ExtResource("7_5x0uh")
 
 [node name="fallo" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_mev0m")
+
+[node name="curarse" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_dyjto")

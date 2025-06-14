@@ -29,6 +29,8 @@ func recibir_danio(cantidad):
 	AudioManager.reproducir_sonido("perder-energia")
 	print("Vida actual del mago tras recibir daño:", vida_actual)
 	# await reproducir_animacion("recibir_danio")  # Descomentado si tienes esta animación
+func obtener_vida_actual() -> int:
+	return vida_actual
 
 func reproducir_animacion(nombre: String):
 	if anim_player and anim_player.has_animation(nombre):

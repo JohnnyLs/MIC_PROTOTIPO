@@ -4,7 +4,7 @@ extends Control
 
 
 func _ready() -> void:
-	AudioManager.reproducir_musica("res://sonidos/Whispers of the Forgotten Quest.mp3")
+	AudioManager.reproducir_musica("res://sonidos/Whispers of the Forgotten Quest Ending.mp3")
 	if btn_volver:
 		btn_volver.pressed.connect(_on_btn_volver_pressed)
 	else:

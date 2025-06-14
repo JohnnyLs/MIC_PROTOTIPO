@@ -20,13 +20,20 @@ func recibir_danio(cantidad):
 	print("Vida actual del jugador tras recibir daño:", vida_actual)
 	barra_vida.value = vida_actual
 	AudioManager.reproducir_sonido("fallo")
+	var main_duelo = SceneBridge.get_main_duelo()
+	if main_duelo:
+		main_duelo.actualizar_visibilidad_carta()
 	await reproducir_animacion("perdernergia")
 
 func curar_vida(cantidad):
 	vida_actual = clamp(vida_actual + cantidad, 0, vida_maxima)
 	print("Vida actual del jugador tras curarse:", vida_actual)
 	barra_vida.value = vida_actual
+	AudioManager.reproducir_sonido("curarse")
 	await reproducir_animacion("curarse")
+	
+func obtener_vida_actual() -> int:
+	return vida_actual
 
 func _ready():
 	# Obtener datos del GameManager

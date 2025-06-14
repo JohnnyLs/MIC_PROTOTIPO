@@ -19,6 +19,7 @@ mouse_filter = 2
 script = ExtResource("1_wtyxg")
 
 [node name="CuracionCarta" parent="." instance=ExtResource("1_psdku")]
+visible = false
 position = Vector2(20, -20.08)
 
 [node name="MarginContainer" type="MarginContainer" parent="."]

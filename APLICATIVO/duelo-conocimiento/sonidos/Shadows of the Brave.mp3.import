@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b0bx1eln4bsdl"
+path="res://.godot/imported/Shadows of the Brave.mp3-d8a45bce6cb2ad80ff5c77ee81d6e31a.mp3str"
+
+[deps]
+
+source_file="res://sonidos/Shadows of the Brave.mp3"
+dest_files=["res://.godot/imported/Shadows of the Brave.mp3-d8a45bce6cb2ad80ff5c77ee81d6e31a.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
