@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://3lwxdd46t6b4"]
+[gd_scene load_steps=14 format=3 uid="uid://3lwxdd46t6b4"]
 
 [ext_resource type="Script" uid="uid://bfgqm7gbk1y3y" path="res://escenas/sc_seleccion/seleccion_p.gd" id="1_28arp"]
 [ext_resource type="Texture2D" uid="uid://mg7rcn3q8qns" path="res://assets/ui/seleccionar personaje/background_selec.png" id="2_t7f3v"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dqbybhh8g5e3n" path="res://assets/ui/seleccionar personaje/left.png" id="5_lumy3"]
 [ext_resource type="Texture2D" uid="uid://cyu5w1bikucjj" path="res://assets/ui/seleccionar personaje/btn_accept.png" id="6_psvml"]
 [ext_resource type="Texture2D" uid="uid://bspu1nedr8qne" path="res://assets/ui/seleccionar personaje/boy.png" id="7_uq6os"]
+[ext_resource type="FontFile" uid="uid://cib6qexrq4571" path="res://assets/fonts/Libre_Franklin/static/LibreFranklin-SemiBold.ttf" id="8_gbhhd"]
 [ext_resource type="Texture2D" uid="uid://haxgl2pe7cuq" path="res://assets/ui/seleccionar personaje/input2.png" id="8_t7f3v"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gbhhd"]
@@ -100,8 +101,12 @@ offset_left = 434.0
 offset_top = 498.0
 offset_right = 877.0
 offset_bottom = 614.0
+theme_override_colors/font_placeholder_color = Color(0.381888, 0.345412, 0.229974, 1)
 theme_override_colors/font_color = Color(0.220467, 0.197197, 0.123221, 1)
-theme_override_font_sizes/font_size = 45
+theme_override_constants/line_spacing = 30
+theme_override_fonts/font = ExtResource("8_gbhhd")
+theme_override_font_sizes/font_size = 35
 theme_override_styles/normal = SubResource("StyleBoxTexture_gbhhd")
+scroll_smooth = true
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]

@@ -2,9 +2,9 @@ extends CharacterBody3D
 
 signal animation_finished_signal(animation_name)
 
-@onready var barra_vida = $UIJugador/ContenedorInterfaz/VContenedorInterfaz/Fila1/VidaBar
+@onready var barra_vida = $UIJugador/VidaBar
 @onready var modelo_contenedor = $ModeloContenedor
-@onready var imagen_jugador = $UIJugador/ContenedorInterfaz/VContenedorInterfaz/Fila1/Imagen
+@onready var imagen_jugador = $UIJugador/Imagen
 @onready var vfx_impact = $vfx_impact
 @onready var vfx_smoke = $vfx_smoke
 var vida_maxima := 100
@@ -45,7 +45,7 @@ func _ready():
 
 func configurar_nombre_ui():
 	# Ruta corregida para el RichTextLabel
-	var label_nombre = $UIJugador/ContenedorInterfaz/VContenedorInterfaz/Fila1/NombreJugador
+	var label_nombre = $UIJugador/NombreJugador
 	
 	if label_nombre:
 		# Para RichTextLabel, usamos .text (no .bbcode_text a menos que tengas BBCode)

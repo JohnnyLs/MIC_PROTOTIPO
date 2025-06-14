@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dy57gqyw4fh8l"]
+[gd_scene load_steps=6 format=3 uid="uid://dy57gqyw4fh8l"]
 
 [ext_resource type="Texture2D" uid="uid://ckqllwrin68qg" path="res://assets/ui/personajes/jugador-img.PNG" id="1_qj8lo"]
+[ext_resource type="FontFile" uid="uid://cib6qexrq4571" path="res://assets/fonts/Libre_Franklin/static/LibreFranklin-SemiBold.ttf" id="2_7inkl"]
 [ext_resource type="FontFile" uid="uid://cg22cmhxsjnqf" path="res://assets/fonts/Libre_Franklin/static/LibreFranklin-Medium.ttf" id="2_wqs4s"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c4bw1"]
@@ -30,62 +31,40 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ContenedorInterfaz" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 2.0
-offset_bottom = 2.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="VContenedorInterfaz" type="VBoxContainer" parent="ContenedorInterfaz"]
-layout_mode = 2
-
-[node name="Fila1" type="HBoxContainer" parent="ContenedorInterfaz/VContenedorInterfaz"]
-custom_minimum_size = Vector2(0, 25)
-layout_mode = 2
-
-[node name="Imagen" type="TextureRect" parent="ContenedorInterfaz/VContenedorInterfaz/Fila1"]
+[node name="Imagen" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(75, 50)
 layout_mode = 2
+offset_left = 20.0
+offset_top = 22.0
+offset_right = 95.0
+offset_bottom = 97.0
 texture = ExtResource("1_qj8lo")
 expand_mode = 1
+flip_h = true
 
-[node name="Separacion" type="HBoxContainer" parent="ContenedorInterfaz/VContenedorInterfaz/Fila1"]
-custom_minimum_size = Vector2(5, 0)
+[node name="NombreJugador" type="RichTextLabel" parent="."]
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
-
-[node name="NombreJugador" type="RichTextLabel" parent="ContenedorInterfaz/VContenedorInterfaz/Fila1"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_fonts/normal_font = ExtResource("2_wqs4s")
+offset_left = 108.0
+offset_top = 22.0
+offset_right = 508.0
+offset_bottom = 97.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_fonts/normal_font = ExtResource("2_7inkl")
 theme_override_font_sizes/bold_italics_font_size = 1
-theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/normal_font_size = 25
 text = "Jugador"
-horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="VidaBar" type="ProgressBar" parent="ContenedorInterfaz/VContenedorInterfaz/Fila1"]
-custom_minimum_size = Vector2(300, 75)
+[node name="VidaBar" type="ProgressBar" parent="."]
+custom_minimum_size = Vector2(300, 25)
 layout_mode = 2
+offset_left = 106.0
+offset_top = 54.0
+offset_right = 506.0
+offset_bottom = 99.0
 size_flags_vertical = 4
 theme_override_fonts/font = ExtResource("2_wqs4s")
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 25
 theme_override_styles/background = SubResource("StyleBoxFlat_c4bw1")
 theme_override_styles/fill = SubResource("StyleBoxFlat_6xq7g")
 value = 100.0
-
-[node name="Fila2" type="HBoxContainer" parent="ContenedorInterfaz/VContenedorInterfaz"]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-
-[node name="Fila3" type="HBoxContainer" parent="ContenedorInterfaz/VContenedorInterfaz"]
-layout_mode = 2
-size_flags_vertical = 3

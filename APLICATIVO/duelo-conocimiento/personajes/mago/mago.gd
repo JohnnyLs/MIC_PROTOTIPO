@@ -2,7 +2,7 @@ extends CharacterBody3D
 
 signal animation_finished_signal(animation_name)
 
-@onready var barra_vida = $UIMago/ContenedorInterfaz/VContenedorInterfaz/Fila1/VidaBar
+@onready var barra_vida = $UIMago/VidaBar
 @onready var modelo := $magoModelo
 @onready var anim_player : AnimationPlayer = $magoModelo/AnimationPlayer
 @onready var vfx_impact = $vfx_impact
