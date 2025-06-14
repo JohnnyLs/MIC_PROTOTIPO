@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://ddj4xm1wqcjtu"]
+[gd_scene load_steps=43 format=3 uid="uid://ddj4xm1wqcjtu"]
 
 [ext_resource type="PackedScene" uid="uid://c0kyiv2jdb7iy" path="res://ui/MagoInterfaz.tscn" id="1_16e0w"]
 [ext_resource type="Script" uid="uid://cuadvk3065qk" path="res://personajes/mago/mago.gd" id="1_18b2f"]
@@ -7,6 +7,10 @@
 [ext_resource type="Texture2D" uid="uid://dwsq8ckowmfpx" path="res://assets/vfx/flash.png" id="5_v4i85"]
 [ext_resource type="Texture2D" uid="uid://vk27undrcjnc" path="res://assets/vfx/flare.png" id="6_ykfkc"]
 [ext_resource type="Texture2D" uid="uid://dvt4dd1vg4kb3" path="res://assets/vfx/shockwave.png" id="7_y6udh"]
+[ext_resource type="Script" uid="uid://d3puxam8p0ckm" path="res://personajes/jugador/vfx_smoke.gd" id="8_jqkc5"]
+[ext_resource type="Shader" uid="uid://3frhua4sslhu" path="res://shaders/s_simple2.tres" id="9_2t0dq"]
+[ext_resource type="Texture2D" uid="uid://dfpyv5aje8rdg" path="res://assets/vfx/texturas/T_basic1_vfx.PNG" id="10_qrj22"]
+[ext_resource type="Shader" uid="uid://rq1w514xtylh" path="res://shaders/shader_puff.tres" id="11_ntykv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_16e0w"]
 
@@ -120,6 +124,61 @@ scale_curve = SubResource("CurveXYZTexture_fu761")
 color = Color(0.0352941, 0, 0.764706, 1)
 alpha_curve = SubResource("CurveTexture_7i3bb")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vm1rt"]
+render_priority = 0
+shader = ExtResource("9_2t0dq")
+shader_parameter/Outline = 0.85
+shader_parameter/Hit_texture = ExtResource("10_qrj22")
+
+[sub_resource type="Curve" id="Curve_doahp"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.491736, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_q38rm"]
+texture_mode = 1
+curve = SubResource("Curve_doahp")
+
+[sub_resource type="Gradient" id="Gradient_igvcj"]
+offsets = PackedFloat32Array(0.0231481, 0.0648148, 0.12963, 0.875)
+colors = PackedColorArray(0.0431373, 0.376471, 0.690196, 1, 0.0978019, 0.445692, 0.720446, 1, 0.200298, 0.575481, 0.777166, 1, 0.0142752, 0.0142752, 0.0142752, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_kx4m3"]
+gradient = SubResource("Gradient_igvcj")
+use_hdr = true
+
+[sub_resource type="Curve" id="Curve_oq33x"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.292135), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_6q7fa"]
+curve = SubResource("Curve_oq33x")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3uth7"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 0.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 1.0
+emission_ring_cone_angle = 90.0
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+radial_velocity_min = 0.999978
+radial_velocity_max = 1.99998
+gravity = Vector3(0, 0, 0)
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_6q7fa")
+color_ramp = SubResource("GradientTexture1D_kx4m3")
+alpha_curve = SubResource("CurveTexture_q38rm")
+
+[sub_resource type="SphereMesh" id="SphereMesh_kxxmn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_neau5"]
+render_priority = 0
+shader = ExtResource("11_ntykv")
+
 [node name="Mago" type="CharacterBody3D"]
 script = ExtResource("1_18b2f")
 
@@ -175,3 +234,26 @@ explosiveness = 1.0
 fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_cvha2")
 draw_pass_1 = SubResource("QuadMesh_ntykv")
+
+[node name="vfx_smoke" type="Node3D" parent="."]
+script = ExtResource("8_jqkc5")
+
+[node name="destello2" type="GPUParticles3D" parent="vfx_smoke"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0831938, 0)
+material_override = SubResource("ShaderMaterial_vm1rt")
+emitting = false
+amount = 12
+one_shot = true
+explosiveness = 0.85
+process_material = SubResource("ParticleProcessMaterial_3uth7")
+draw_pass_1 = SubResource("SphereMesh_kxxmn")
+
+[node name="smoke" type="GPUParticles3D" parent="vfx_smoke"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.850009, 0)
+material_override = SubResource("ShaderMaterial_neau5")
+emitting = false
+amount = 12
+one_shot = true
+explosiveness = 0.85
+process_material = SubResource("ParticleProcessMaterial_3uth7")
+draw_pass_1 = SubResource("SphereMesh_kxxmn")

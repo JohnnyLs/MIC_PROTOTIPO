@@ -9,6 +9,7 @@ extends Node
 @onready var shockwave = $Shockwave
 @onready var sparks = $sparks
 
+
 # Función simple para activar todos los efectos
 func activar_efectos():
 	print("Activando efectos VFX")

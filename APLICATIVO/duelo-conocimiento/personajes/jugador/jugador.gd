@@ -6,6 +6,7 @@ signal animation_finished_signal(animation_name)
 @onready var modelo_contenedor = $ModeloContenedor
 @onready var imagen_jugador = $UIJugador/ContenedorInterfaz/VContenedorInterfaz/Fila1/Imagen
 @onready var vfx_impact = $vfx_impact
+@onready var vfx_smoke = $vfx_smoke
 var vida_maxima := 100
 var vida_actual := 100
 var genero := "hombre"  # Se asigna desde GameManager
@@ -15,6 +16,7 @@ var anim_actual := ""
 
 func recibir_danio(cantidad):
 	vida_actual = clamp(vida_actual - cantidad, 0, vida_maxima)
+	vfx_smoke.activar_puff_humo()
 	print("Vida actual del jugador tras recibir daño:", vida_actual)
 	barra_vida.value = vida_actual
 	AudioManager.reproducir_sonido("fallo")

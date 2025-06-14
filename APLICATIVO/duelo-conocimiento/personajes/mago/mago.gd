@@ -6,6 +6,7 @@ signal animation_finished_signal(animation_name)
 @onready var modelo := $magoModelo
 @onready var anim_player : AnimationPlayer = $magoModelo/AnimationPlayer
 @onready var vfx_impact = $vfx_impact
+@onready var vfx_smoke = $vfx_smoke
 var anim_actual := ""
 var vida_maxima := 100
 var vida_actual := 100
@@ -23,6 +24,7 @@ func _ready():
 
 func recibir_danio(cantidad):
 	vida_actual = clamp(vida_actual - cantidad, 0, vida_maxima)
+	vfx_smoke.activar_puff_humo()
 	barra_vida.value = vida_actual
 	AudioManager.reproducir_sonido("perder-energia")
 	print("Vida actual del mago tras recibir daño:", vida_actual)

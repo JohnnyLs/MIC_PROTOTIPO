@@ -1,7 +1,7 @@
 # res://src/GameManager.gd
 extends Node
 
-const API_BASE_URL: String = "http://localhost:8082/api/"
+const API_BASE_URL: String = "https://server-mic-videojuego-1059486069178.us-central1.run.app/api/"
 
 var personaje_index: int = 0
 var nombre_jugador: String = ""

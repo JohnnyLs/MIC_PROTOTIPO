@@ -64,6 +64,7 @@ icon = ExtResource("5_hwgkb")
 flat = true
 
 [node name="btn_creditos" type="Button" parent="."]
+layout_mode = 0
 offset_left = 848.0
 offset_top = 599.0
 offset_right = 1185.0

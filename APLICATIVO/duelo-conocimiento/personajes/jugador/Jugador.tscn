@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://nu50h18sthlv"]
+[gd_scene load_steps=42 format=3 uid="uid://nu50h18sthlv"]
 
 [ext_resource type="Script" uid="uid://bmow6iy231p53" path="res://personajes/jugador/jugador.gd" id="1_uce8i"]
 [ext_resource type="PackedScene" uid="uid://dy57gqyw4fh8l" path="res://ui/JugadorInterfaz.tscn" id="2_n7krw"]
@@ -6,6 +6,10 @@
 [ext_resource type="Script" uid="uid://b8nixrkn4oxeb" path="res://personajes/jugador/vfx_impact.gd" id="3_vhckt"]
 [ext_resource type="Texture2D" uid="uid://vk27undrcjnc" path="res://assets/vfx/flare.png" id="4_r78cb"]
 [ext_resource type="Texture2D" uid="uid://dvt4dd1vg4kb3" path="res://assets/vfx/shockwave.png" id="5_r78cb"]
+[ext_resource type="Shader" uid="uid://rq1w514xtylh" path="res://shaders/shader_puff.tres" id="7_7bkr2"]
+[ext_resource type="Shader" uid="uid://3frhua4sslhu" path="res://shaders/s_simple2.tres" id="7_kx4m3"]
+[ext_resource type="Script" uid="uid://d3puxam8p0ckm" path="res://personajes/jugador/vfx_smoke.gd" id="7_rea3b"]
+[ext_resource type="Texture2D" uid="uid://dfpyv5aje8rdg" path="res://assets/vfx/texturas/T_basic1_vfx.PNG" id="8_npxcc"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uce8i"]
 
@@ -119,6 +123,61 @@ scale_curve = SubResource("CurveXYZTexture_fu761")
 color = Color(0.176471, 0.803922, 0.87451, 1)
 alpha_curve = SubResource("CurveTexture_7i3bb")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_npxcc"]
+render_priority = 0
+shader = ExtResource("7_kx4m3")
+shader_parameter/Outline = 0.85
+shader_parameter/Hit_texture = ExtResource("8_npxcc")
+
+[sub_resource type="Curve" id="Curve_fu761"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.491736, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_rea3b"]
+texture_mode = 1
+curve = SubResource("Curve_fu761")
+
+[sub_resource type="Gradient" id="Gradient_7bkr2"]
+offsets = PackedFloat32Array(0.0231481, 0.0648148, 0.12963, 0.875)
+colors = PackedColorArray(0.0431373, 0.376471, 0.690196, 1, 0.0978019, 0.445692, 0.720446, 1, 0.200298, 0.575481, 0.777166, 1, 0.0142752, 0.0142752, 0.0142752, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fu761"]
+gradient = SubResource("Gradient_7bkr2")
+use_hdr = true
+
+[sub_resource type="Curve" id="Curve_3qyxd"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.292135), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_q38rm"]
+curve = SubResource("Curve_3qyxd")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vhckt"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 0.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 1.0
+emission_ring_cone_angle = 90.0
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+radial_velocity_min = 0.999978
+radial_velocity_max = 1.99998
+gravity = Vector3(0, 0, 0)
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_q38rm")
+color_ramp = SubResource("GradientTexture1D_fu761")
+alpha_curve = SubResource("CurveTexture_rea3b")
+
+[sub_resource type="SphereMesh" id="SphereMesh_7bkr2"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7bkr2"]
+render_priority = 0
+shader = ExtResource("7_7bkr2")
+
 [node name="Jugador" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.032531, 0)
 script = ExtResource("1_uce8i")
@@ -176,3 +235,26 @@ explosiveness = 1.0
 fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_q38rm")
 draw_pass_1 = SubResource("QuadMesh_7i3bb")
+
+[node name="vfx_smoke" type="Node3D" parent="."]
+script = ExtResource("7_rea3b")
+
+[node name="destello2" type="GPUParticles3D" parent="vfx_smoke"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0831938, 0)
+material_override = SubResource("ShaderMaterial_npxcc")
+emitting = false
+amount = 12
+one_shot = true
+explosiveness = 0.85
+process_material = SubResource("ParticleProcessMaterial_vhckt")
+draw_pass_1 = SubResource("SphereMesh_7bkr2")
+
+[node name="smoke" type="GPUParticles3D" parent="vfx_smoke"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.850009, 0)
+material_override = SubResource("ShaderMaterial_7bkr2")
+emitting = false
+amount = 12
+one_shot = true
+explosiveness = 0.85
+process_material = SubResource("ParticleProcessMaterial_vhckt")
+draw_pass_1 = SubResource("SphereMesh_7bkr2")
