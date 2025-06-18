@@ -99,17 +99,27 @@ func actualizar_visibilidad_carta():
 	var carta_curacion = mano_comodines.get_node("CuracionCarta") if mano_comodines.has_node("CuracionCarta") else null
 	
 	if carta_curacion:
-		if jugador.obtener_vida_actual() <= 70:
-			print(jugador.obtener_vida_actual())
+		var vida_actual = jugador.obtener_vida_actual()
+		
+		# Si la vida es 0 o menor, ocultar la carta inmediatamente
+		if vida_actual <= 0:
+			if carta_curacion.visible:
+				print("Ocultando carta de curación - Jugador sin vida:", vida_actual)
+				carta_curacion.visible = false
+				carta_curacion.modulate.a = 0.0
+		# Si la vida está entre 1 y 70, mostrar la carta
+		elif vida_actual <= 70:
+			print(vida_actual)
 			if not carta_curacion.visible:
-				print("Mostrando carta de curación - Vida del jugador:", jugador.obtener_vida_actual())
+				print("Mostrando carta de curación - Vida del jugador:", vida_actual)
 				carta_curacion.visible = true
 				carta_curacion.modulate.a = 0.0
 				var tween = create_tween()
 				tween.tween_property(carta_curacion, "modulate:a", 1.0, 0.5)
+		# Si la vida es mayor a 70, ocultar la carta con animación
 		else:
 			if carta_curacion.visible:
-				print("Ocultando carta de curación - Vida del jugador:", jugador.obtener_vida_actual())
+				print("Ocultando carta de curación - Vida del jugador:", vida_actual)
 				var tween = create_tween()
 				tween.tween_property(carta_curacion, "modulate:a", 0.0, 0.5)
 				await tween.finished
@@ -201,7 +211,7 @@ func _on_opciones_closed() -> void:
 ### API Integration ###
 
 func obtener_preguntas_api() -> void:
-	var url = GameManager.API_BASE_URL + "preguntas/random/25"
+	var url = GameManager.API_BASE_URL + "preguntas/random/14"
 	var error = http_request.request(url)
 	if error != OK:
 		push_error("Error al realizar la solicitud HTTP: ", error)
@@ -282,17 +292,13 @@ func iniciar_turno_jugador():
 
 func lanzar_pregunta():
 	if preguntas_api.is_empty():
-		push_warning("No hay preguntas disponibles en preguntas_api, obteniendo nuevas preguntas...")
+		push_error("No hay preguntas disponibles en preguntas_api")
 		await obtener_preguntas_api()
 		if preguntas_api.is_empty():
 			push_error("No se pudieron obtener preguntas de la API. Finalizando juego.")
 			return
-	
-	# Seleccionar una pregunta aleatoria y eliminarla de la lista
-	var index = randi() % preguntas_api.size()
-	pregunta_actual = preguntas_api[index]
-	preguntas_api.remove_at(index)  
-	
+	pregunta_actual = preguntas_api[randi() % preguntas_api.size()]
+
 	if pregunta_actual:
 		Dialogic.VAR.set_variable("pregunta_texto", pregunta_actual["textoPregunta"])
 		var opciones = pregunta_actual["opciones"]
@@ -302,8 +308,6 @@ func lanzar_pregunta():
 		Dialogic.VAR.set_variable("opcion_d", opciones[3] if opciones.size() > 3 else "")
 		Dialogic.VAR.set_variable("respuesta_correcta", pregunta_actual["respuestaCorrecta"])
 		Dialogic.start("preguntas_timeline")
-	else:
-		push_error("No se pudo seleccionar una pregunta válida.")
 
 func verificar_respuesta(opcion: String):
 	if respuesta_recibida:
@@ -397,6 +401,7 @@ func _on_tiempo_agotado():
 
 func chequear_fin_del_juego() -> bool:
 	if jugador.vida_actual <= 0:
+		actualizar_visibilidad_carta()
 		jugador.perder_juego()
 		SceneBridge.set_game_result("derrota")
 		game_ended = true
