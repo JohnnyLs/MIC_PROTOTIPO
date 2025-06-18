@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bx7fnngid0sse"]
+[gd_scene load_steps=5 format=3 uid="uid://bx7fnngid0sse"]
 
 [ext_resource type="Script" uid="uid://cylru45sfwwtd" path="res://escenas/sc_inicio/inicio.gd" id="1_85vjl"]
 [ext_resource type="Texture2D" uid="uid://b45mom1bd4m70" path="res://assets/ui/inicio/background.png" id="1_t4345"]
 [ext_resource type="Texture2D" uid="uid://n0jrqq3ql70l" path="res://assets/ui/inicio/btn_jugar1.png" id="2_85vjl"]
-[ext_resource type="Texture2D" uid="uid://dc8ujdot4mmyg" path="res://assets/ui/inicio/title.png" id="3_8mmwg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_85vjl"]
 
@@ -41,12 +40,16 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_85vjl")
 icon = ExtResource("2_85vjl")
 flat = true
 
-[node name="TextureRect2" type="TextureRect" parent="."]
+[node name="LblTitulo" type="Label" parent="."]
 layout_mode = 0
-offset_left = -498.0
-offset_top = -751.0
-offset_right = 333.0
-offset_bottom = -561.0
-texture = ExtResource("3_8mmwg")
+offset_left = -513.0
+offset_top = -777.0
+offset_right = 322.0
+offset_bottom = -572.0
+theme_override_colors/font_color = Color(0.992157, 0.835294, 0.121569, 1)
+theme_override_colors/font_outline_color = Color(0.254902, 0.180392, 0.0431373, 1)
+theme_override_constants/outline_size = 40
+theme_override_font_sizes/font_size = 150
+text = "MATH QUIZ"
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
