@@ -201,7 +201,7 @@ func _on_opciones_closed() -> void:
 ### API Integration ###
 
 func obtener_preguntas_api() -> void:
-	var url = GameManager.API_BASE_URL + "preguntas/random/10"
+	var url = GameManager.API_BASE_URL + "preguntas/random/25"
 	var error = http_request.request(url)
 	if error != OK:
 		push_error("Error al realizar la solicitud HTTP: ", error)
@@ -282,12 +282,16 @@ func iniciar_turno_jugador():
 
 func lanzar_pregunta():
 	if preguntas_api.is_empty():
-		push_error("No hay preguntas disponibles en preguntas_api")
+		push_warning("No hay preguntas disponibles en preguntas_api, obteniendo nuevas preguntas...")
 		await obtener_preguntas_api()
 		if preguntas_api.is_empty():
 			push_error("No se pudieron obtener preguntas de la API. Finalizando juego.")
 			return
-	pregunta_actual = preguntas_api[randi() % preguntas_api.size()]
+	
+	# Seleccionar una pregunta aleatoria y eliminarla de la lista
+	var index = randi() % preguntas_api.size()
+	pregunta_actual = preguntas_api[index]
+	preguntas_api.remove_at(index)  
 	
 	if pregunta_actual:
 		Dialogic.VAR.set_variable("pregunta_texto", pregunta_actual["textoPregunta"])
@@ -298,6 +302,8 @@ func lanzar_pregunta():
 		Dialogic.VAR.set_variable("opcion_d", opciones[3] if opciones.size() > 3 else "")
 		Dialogic.VAR.set_variable("respuesta_correcta", pregunta_actual["respuestaCorrecta"])
 		Dialogic.start("preguntas_timeline")
+	else:
+		push_error("No se pudo seleccionar una pregunta válida.")
 
 func verificar_respuesta(opcion: String):
 	if respuesta_recibida:
