@@ -101,12 +101,20 @@ func _on_btn_config_pressed() -> void:
 
 func _on_btn_salir_pressed() -> void:
 	AudioManager.reproducir_sonido("clic2")
+	   # Limpiar nodos de Dialogic
+	Dialogic.clear() 
+	var root = get_tree().root
+	for child in root.get_children():
+		if child.name.begins_with("Dialogic"):
+			child.queue_free()  
+			print("Eliminado nodo de Dialogic:", child.name)
+
 	print("btn_salir pressed in menu_opciones.tscn")
 	# Asegurarse de que el juego no esté pausado al regresar al menú principal
 	get_tree().paused = false
 	# Limpiar el estado del juego si es necesario
-	SceneBridge.set_game_result("")  # Limpiar el resultado del juego
-	# Cargar la escena del menú principal
+	SceneBridge.set_game_result("") 
+
 	var error = get_tree().change_scene_to_file("res://escenas/sc_inicio/Inicio.tscn")
 	if error != OK:
 		push_error("Error al cargar Inicio.tscn: " + str(error))
