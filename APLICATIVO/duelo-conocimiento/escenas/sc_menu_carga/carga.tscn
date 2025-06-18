@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3tdcbe40dft0"]
+
+[ext_resource type="Script" uid="uid://ck6m6y0xwai0i" path="res://escenas/sc_menu_carga/carga.gd" id="1_ocul2"]
+[ext_resource type="Texture2D" uid="uid://dknu8t3o0aou6" path="res://assets/ui/carga/cargando.png" id="2_t2ako"]
+
+[node name="Carga" type="Node"]
+script = ExtResource("1_ocul2")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = 2.0
+offset_top = -26.0
+offset_right = 1368.0
+offset_bottom = 742.0
+texture = ExtResource("2_t2ako")
+
+[node name="LblCargando" type="Label" parent="."]
+offset_left = 370.0
+offset_top = 296.0
+offset_right = 951.0
+offset_bottom = 420.0
+theme_override_colors/font_color = Color(0.992157, 0.835294, 0.121569, 1)
+theme_override_colors/font_outline_color = Color(0.254902, 0.180392, 0.0431373, 1)
+theme_override_constants/outline_size = 45
+theme_override_font_sizes/font_size = 90
+text = "CARGANDO..."

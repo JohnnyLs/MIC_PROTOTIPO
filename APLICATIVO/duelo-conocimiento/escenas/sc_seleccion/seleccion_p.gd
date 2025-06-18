@@ -15,6 +15,7 @@ var personajes = []
 # Expresión regular para validar solo letras (incluyendo ñ y tildes) y espacios
 var regex = RegEx.new()
 var current_index = 0 
+var loading_screen = null  # Referencia a la pantalla de carga
 
 func _ready() -> void:
 	# Compilar la expresión regular para letras, ñ, tildes y espacios
@@ -149,6 +150,9 @@ func _on_btn_accept_pressed() -> void:
 	var json_str = JSON.stringify(json_data)
 	var headers = ["Content-Type: application/json"]
 
+	# Mostrar la pantalla de carga
+	show_loading_screen()
+
 	# Enviar solicitud POST usando la URL base desde GameManager
 	var error = http_request.request(
 		GameManager.API_BASE_URL + "partidas",
@@ -159,6 +163,7 @@ func _on_btn_accept_pressed() -> void:
 
 	if error != OK:
 		print("Error al realizar la solicitud HTTP:", error)
+		hide_loading_screen()
 	else:
 		print("Solicitud enviada, JSON:", json_str)
 		
@@ -166,6 +171,22 @@ func _on_btn_accept_pressed() -> void:
 		GameManager.personaje_index = current_index
 		GameManager.nombre_jugador = nombre
 		GameManager.personaje = personaje
+
+func show_loading_screen() -> void:
+	# Instanciar la escena de carga
+	loading_screen = load("res://escenas/sc_menu_carga/carga.tscn").instantiate()
+	# Añadir la pantalla de carga al árbol de nodos
+	get_tree().root.add_child(loading_screen)
+	# Opcional: Ocultar la escena actual para que solo se vea la pantalla de carga
+	self.visible = false
+
+func hide_loading_screen() -> void:
+	# Remover la pantalla de carga si existe
+	if loading_screen != null:
+		loading_screen.queue_free()
+		loading_screen = null
+	# Mostrar la escena actual nuevamente (si es necesario)
+	self.visible = true
 
 func _on_request_completed(result, response_code, headers, body):
 	print("Respuesta del servidor:", response_code)
@@ -177,6 +198,7 @@ func _on_request_completed(result, response_code, headers, body):
 	var error = json.parse(body_str)
 	if error != OK:
 		push_error("Error al parsear JSON de la respuesta de la API de partidas: ", error)
+		hide_loading_screen()
 		return
 	
 	var data = json.get_data()
@@ -185,7 +207,10 @@ func _on_request_completed(result, response_code, headers, body):
 		print("idPartida guardado en GameManager:", GameManager.id_partida)
 	else:
 		push_error("Respuesta de la API de partidas inválida o sin idPartida: ", data)
+		hide_loading_screen()
 		return
 	
+	# Ocultar la pantalla de carga antes de cambiar de escena
+	hide_loading_screen()
 	# Cambiar a la escena del duelo
 	GameManager.cambiar_escena("res://Main.tscn")
