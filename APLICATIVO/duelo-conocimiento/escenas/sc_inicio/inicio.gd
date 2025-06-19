@@ -2,16 +2,12 @@ extends Node
 
 @onready var lbl_titulo = $LblTitulo  # Asegúrate que este es el Label de título
 var full_text = "MATH QUIZ" 
-var letter_speed = 0.2  # Tiempo entre letras (más rápido que "Cargando...")
 var wave_amplitude = 5.0
 var wave_frequency = 2.5
 var letter_spacing = 5.0
-var reset_delay = 1.2
 var time_elapsed = 0.0
 var base_position: Vector2
 var letters = []
-var char_index = 0
-
 
 func _on_button_pressed() -> void:
 	AudioManager.reproducir_clic()
@@ -22,6 +18,8 @@ func _ready():
 	lbl_titulo.visible = false  # Ocultamos el original
 	AudioManager.reproducir_musica("res://sonidos/Whispers of the Forgotten Quest.mp3")
 	var offset_x = 0.0
+	
+	# Crear todas las letras y hacerlas visibles desde el inicio
 	for i in range(full_text.length()):
 		var letter_label = Label.new()
 		letter_label.text = full_text[i]
@@ -36,18 +34,15 @@ func _ready():
 		# Posicionamiento inicial
 		letter_label.position = Vector2(base_position.x + offset_x, base_position.y)
 		add_child(letter_label)
-		letters.append({"label": letter_label, "delay": i * letter_speed})
-		letter_label.hide()
+		letters.append({"label": letter_label})
+		letter_label.show()  # Mostrar todas las letras desde el inicio
 
 		offset_x += letter_spacing + letter_label.size.x
 
 func _process(delta):
 	time_elapsed += delta
 
-	if char_index < letters.size() and time_elapsed >= letters[char_index].delay:
-		letters[char_index].label.show()
-		char_index += 1
-
-	for letter in letters:
-		var offset = Vector2(0, sin(time_elapsed * wave_frequency + letters.find(letter)) * wave_amplitude)
-		letter.label.position = Vector2(letter.label.position.x, base_position.y + offset.y)
+	# Aplicar movimiento ondulatorio a todas las letras
+	for i in range(letters.size()):
+		var offset = Vector2(0, sin(time_elapsed * wave_frequency + i) * wave_amplitude)
+		letters[i].label.position = Vector2(letters[i].label.position.x, base_position.y + offset.y)

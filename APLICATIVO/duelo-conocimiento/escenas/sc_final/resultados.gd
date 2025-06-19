@@ -1,6 +1,5 @@
 extends Control
 
-# Referencias a los botones y TextEdit
 @onready var btn_volver_jugar = $btn_volver_jugar
 @onready var btn_menu_principal = $btn_menu_principal
 @onready var http_request = $HTTPRequest
@@ -10,8 +9,12 @@ extends Control
 @onready var txtEdit_tiempo_total = $txtEdit_tiempo_total
 @onready var btn_creditos = $btn_creditos
 
+# Escena de carga para instanciar
+var loading_scene = preload("res://escenas/sc_menu_carga/carga.tscn")
+var loading_instance: Node = null
+
 func _ready():
-	# Conectar las señales de los botones
+	
 	if btn_volver_jugar:
 		btn_volver_jugar.pressed.connect(_on_btn_volver_jugar_pressed)
 	else:
@@ -25,7 +28,7 @@ func _ready():
 	if btn_creditos:
 		btn_creditos.pressed.connect(_on_btn_creditos_pressed)
 	else:
-		push_error("Nodo btn_menu_principal no encontrado. Verifica el nombre del nodo en la escena.")
+		push_error("Nodo btn_creditos no encontrado. Verifica el nombre del nodo en la escena.")
 
 	if http_request:
 		http_request.request_completed.connect(_on_request_completed)
@@ -49,9 +52,7 @@ func _ready():
 		push_error("Nodo txtEdit_errores no encontrado.")
 
 	if txtEdit_tiempo_total:
-		# Debug para verificar el valor
 		print("GameManager.tiempo_total:", GameManager.tiempo_total)
-		# Convertir tiempo_total a formato mm:ss
 		var minutos = int(GameManager.tiempo_total / 60)
 		var segundos = int(GameManager.tiempo_total) % 60
 		txtEdit_tiempo_total.text = "%02d:%02d" % [minutos, segundos]
@@ -62,6 +63,13 @@ func _on_btn_volver_jugar_pressed():
 	AudioManager.reproducir_sonido("clic2")
 	# Resetear el estado del juego
 	SceneBridge.set_game_result("")  # Limpiar el resultado anterior
+	
+	# Instanciar la pantalla de carga
+	loading_instance = loading_scene.instantiate()
+	var canvas_layer = CanvasLayer.new()
+	canvas_layer.layer = 10  # Capa alta para que esté encima de todo
+	canvas_layer.add_child(loading_instance)
+	add_child(canvas_layer)
 	
 	# Crear JSON para la nueva partida usando datos de GameManager
 	var json_data = {
@@ -82,29 +90,35 @@ func _on_btn_volver_jugar_pressed():
 
 	if error != OK:
 		push_error("Error al realizar la solicitud HTTP para crear nueva partida: ", error)
+		# Limpiar la pantalla de carga
+		if loading_instance:
+			loading_instance.queue_free()
+			loading_instance = null
 		# Cambiar a Main.tscn incluso si la API falla
 		GameManager.cambiar_escena("res://Main.tscn")
-	else:
-		print("Solicitud de nueva partida enviada, esperando respuesta...")
+		return
+	
+	# Esperar la respuesta del servidor
+	await http_request.request_completed
 
 func _on_btn_menu_principal_pressed():
 	AudioManager.reproducir_sonido("clic2")
-	# Resetear el estado del juego
 	SceneBridge.set_game_result("")  # Limpiar el resultado anterior
-	# Cargar la escena del menú principal
 	GameManager.cambiar_escena("res://escenas/sc_inicio/Inicio.tscn")
 	
 func _on_btn_creditos_pressed():
 	AudioManager.reproducir_sonido("clic2")
-	# Resetear el estado del juego
-	#SceneBridge.set_game_result("")  # Limpiar el resultado anterior
-	# Cargar la escena del menú principal
 	GameManager.cambiar_escena("res://escenas/sc_creditos/creditos.tscn")
 
 func _on_request_completed(result, response_code, headers, body):
 	print("Respuesta del servidor (nueva partida):", response_code)
 	var body_str = body.get_string_from_utf8()
 	print("Contenido:", body_str)
+
+	# Limpiar la pantalla de carga
+	if loading_instance:
+		loading_instance.queue_free()
+		loading_instance = null
 
 	# Parsear la respuesta para obtener el idPartida
 	var json = JSON.new()

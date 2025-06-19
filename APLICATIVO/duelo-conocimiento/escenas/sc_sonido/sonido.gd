@@ -5,6 +5,10 @@ extends Control
 @onready var slider_sonido = $ContenedorSonido/SliderSonido
 @onready var btn_regresar = $ContenedorSonido/btn_regresar
 
+# Ruta del archivo de configuración
+const SETTINGS_FILE = "user://settings.cfg"
+const SECTION = "audio"
+
 func _ready() -> void:
 	# Set process mode to always to ensure the menu works while the game is paused
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -55,14 +59,14 @@ func _ready() -> void:
 	btn_regresar.mouse_entered.connect(_on_btn_regresar_mouse_entered)
 	btn_regresar.mouse_exited.connect(_on_btn_regresar_mouse_exited)
 
-	# Establecer los valores iniciales de los sliders
-	slider_musica.value = db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music")))
-	slider_sonido.value = db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Sound")))
+	# Cargar los valores guardados de los sliders
+	_load_settings()
 
 # Detectar la tecla Esc para cerrar la escena de sonido
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 		print("Esc pressed in Sonido.tscn")
+		_save_settings() # Guardar antes de cerrar
 		queue_free()  # Cierra la escena y regresa a Opciones.tscn
 		# Consumir el evento para evitar propagación
 		get_viewport().set_input_as_handled()
@@ -81,15 +85,18 @@ func _on_slider_musica_changed(value: float) -> void:
 	print("SliderMusica changed to value:", value)
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(value))
 	AudioServer.set_bus_mute(AudioServer.get_bus_index("Music"), value < 0.01)
+	_save_settings() # Guardar al cambiar el valor
 
 func _on_slider_sonido_changed(value: float) -> void:
 	print("SliderSonido changed to value:", value)
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sound"), linear_to_db(value))
 	AudioServer.set_bus_mute(AudioServer.get_bus_index("Sound"), value < 0.01)
+	_save_settings() # Guardar al cambiar el valor
 
 # Funciones para el botón regresar
 func _on_btn_regresar_pressed() -> void:
 	print("btn_regresar pressed in Sonido.tscn")
+	_save_settings() # Guardar antes de cerrar
 	queue_free()  # Cierra la escena y regresa a Opciones.tscn
 
 func _on_btn_regresar_mouse_entered() -> void:
@@ -99,3 +106,33 @@ func _on_btn_regresar_mouse_entered() -> void:
 func _on_btn_regresar_mouse_exited() -> void:
 	print("Mouse exited btn_regresar")
 	btn_regresar.modulate = Color(1, 1, 1, 1)  # Blanco (color original)
+
+# Guardar los valores de los sliders en un archivo de configuración
+func _save_settings() -> void:
+	var config = ConfigFile.new()
+	config.set_value(SECTION, "music_volume", slider_musica.value)
+	config.set_value(SECTION, "sound_volume", slider_sonido.value)
+	var err = config.save(SETTINGS_FILE)
+	if err != OK:
+		push_error("Error al guardar el archivo de configuración: ", err)
+
+# Cargar los valores de los sliders desde el archivo de configuración
+func _load_settings() -> void:
+	var config = ConfigFile.new()
+	var err = config.load(SETTINGS_FILE)
+	if err == OK:
+		# Cargar volumen de música
+		var music_volume = config.get_value(SECTION, "music_volume", db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music"))))
+		slider_musica.value = music_volume
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(music_volume))
+		AudioServer.set_bus_mute(AudioServer.get_bus_index("Music"), music_volume < 0.01)
+
+		# Cargar volumen de sonido
+		var sound_volume = config.get_value(SECTION, "sound_volume", db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Sound"))))
+		slider_sonido.value = sound_volume
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sound"), linear_to_db(sound_volume))
+		AudioServer.set_bus_mute(AudioServer.get_bus_index("Sound"), sound_volume < 0.01)
+	else:
+		# Si no hay archivo de configuración, usar valores actuales de AudioServer
+		slider_musica.value = db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music")))
+		slider_sonido.value = db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Sound")))
