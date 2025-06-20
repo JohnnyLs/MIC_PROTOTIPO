@@ -292,13 +292,21 @@ func iniciar_turno_jugador():
 
 func lanzar_pregunta():
 	if preguntas_api.is_empty():
-		push_error("No hay preguntas disponibles en preguntas_api")
+		print("No hay preguntas disponibles en preguntas_api. Obteniendo nuevas preguntas...")
 		await obtener_preguntas_api()
 		if preguntas_api.is_empty():
 			push_error("No se pudieron obtener preguntas de la API. Finalizando juego.")
 			return
-	pregunta_actual = preguntas_api[randi() % preguntas_api.size()]
-
+	
+	var indice = randi() % preguntas_api.size()
+	pregunta_actual = preguntas_api[indice]
+	
+	preguntas_api.remove_at(indice)
+	
+	if preguntas_api.size() < 3:
+		print("Quedan pocas preguntas (%d). Recargando desde la API..." % preguntas_api.size())
+		await obtener_preguntas_api()
+	
 	if pregunta_actual:
 		Dialogic.VAR.set_variable("pregunta_texto", pregunta_actual["textoPregunta"])
 		var opciones = pregunta_actual["opciones"]
@@ -318,7 +326,33 @@ func verificar_respuesta(opcion: String):
 	limpiar_contador()
 
 	var correcta = Dialogic.VAR.get_variable("respuesta_correcta")
-	var danio = pregunta_actual.get("costoEnergia", 5)
+	
+	# Obtener la dificultad y costoEnergia de la pregunta
+	var dificultad = pregunta_actual.get("dificultad", "Fácil").to_lower()
+	var costo_energia = pregunta_actual.get("costoEnergia", 5)  # Valor por defecto 5 si no está definido
+	
+	# Definir daño adicional según dificultad
+	var danio_mago_adicional: int
+	var danio_jugador_adicional: int
+	
+	match dificultad:
+		"difícil":
+			danio_mago_adicional = 15
+			danio_jugador_adicional = 5
+		"medio":
+			danio_mago_adicional = 10
+			danio_jugador_adicional = 10
+		"fácil":
+			danio_mago_adicional = 5
+			danio_jugador_adicional = 15
+		_:
+			push_error("Dificultad no válida: %s. Usando valores por defecto." % dificultad)
+			danio_mago_adicional = 5
+			danio_jugador_adicional = 15  # Por defecto, asumimos fácil
+	
+	# Calcular daño total
+	var danio_mago = costo_energia + danio_mago_adicional
+	var danio_jugador = costo_energia + danio_jugador_adicional
 	
 	# Calcular tiempo de respuesta
 	var tiempo_limite = pregunta_actual.get("tiempoLimite", 30)
@@ -360,9 +394,15 @@ func verificar_respuesta(opcion: String):
 
 	if es_correcta:
 		await mago.aplaudir()
-		mago.recibir_danio(danio)
+		mago.recibir_danio(danio_mago)
+		print("Respuesta correcta. Daño al mago: %d (costoEnergia: %d + adicional: %d, Dificultad: %s)" % [
+			danio_mago, costo_energia, danio_mago_adicional, dificultad
+		])
 	else:
-		await jugador.recibir_danio(danio)
+		await jugador.recibir_danio(danio_jugador)
+		print("Respuesta incorrecta. Daño al jugador: %d (costoEnergia: %d + adicional: %d, Dificultad: %s)" % [
+			danio_jugador, costo_energia, danio_jugador_adicional, dificultad
+		])
 	
 	verificar_vida_y_reproducir_audio()
 
