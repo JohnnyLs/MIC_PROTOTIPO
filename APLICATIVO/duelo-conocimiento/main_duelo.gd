@@ -16,6 +16,9 @@ var contador_en_ejecucion := false
 var tiempo_partida: float = 0.0  # En segundos
 var contando_tiempo: bool = true  # Controla si se acumula tiempo
 
+# Variable para rastrear el inicio del turno del jugador (en segundos)
+var tiempo_inicio_turno: float = 0.0
+
 # Variables para controlar el cambio de música una sola vez
 var musica_jugador_cambiada := false
 var musica_mago_cambiada := false
@@ -35,6 +38,7 @@ var game_ended: bool = false
 # Cliente HTTP para realizar solicitudes a la API
 var http_request: HTTPRequest
 
+# [Resto del código hasta _ready, _process, actualizar_visibilidad_carta, etc. permanece igual]
 func _ready():
 	SceneBridge.set_main_duelo(self)
 	if not is_inside_tree():
@@ -53,7 +57,6 @@ func _ready():
 	texto_turno = $UIDuelo/ContenedorInterfazDuelo/VBoxContainer/Turno_texto
 	contador_turno = $UIDuelo/ContenedorInterfazDuelo/VBoxContainer/Contador_turno
 	
-	#var mano_comodines = $ManoComodines
 	if mano_comodines:
 		mano_comodines.conectar_cartas()
 		actualizar_visibilidad_carta()
@@ -76,7 +79,7 @@ func _ready():
 	# Reiniciar estadísticas al iniciar una nueva partida
 	GameManager.resetear_estadisticas()
 	
-	#Reproducir sonido de duelo
+	# Reproducir sonido de duelo
 	AudioManager.reproducir_musica("res://sonidos/musica-fondo1.mp3")
 	# Obtener las preguntas de la API al iniciar
 	await obtener_preguntas_api()
@@ -101,13 +104,11 @@ func actualizar_visibilidad_carta():
 	if carta_curacion:
 		var vida_actual = jugador.obtener_vida_actual()
 		
-		# Si la vida es 0 o menor, ocultar la carta inmediatamente
 		if vida_actual <= 0:
 			if carta_curacion.visible:
 				print("Ocultando carta de curación - Jugador sin vida:", vida_actual)
 				carta_curacion.visible = false
 				carta_curacion.modulate.a = 0.0
-		# Si la vida está entre 1 y 70, mostrar la carta
 		elif vida_actual <= 70:
 			print(vida_actual)
 			if not carta_curacion.visible:
@@ -116,7 +117,6 @@ func actualizar_visibilidad_carta():
 				carta_curacion.modulate.a = 0.0
 				var tween = create_tween()
 				tween.tween_property(carta_curacion, "modulate:a", 1.0, 0.5)
-		# Si la vida es mayor a 70, ocultar la carta con animación
 		else:
 			if carta_curacion.visible:
 				print("Ocultando carta de curación - Vida del jugador:", vida_actual)
@@ -125,7 +125,6 @@ func actualizar_visibilidad_carta():
 				await tween.finished
 				carta_curacion.visible = false
 
-				
 func _on_dialogic_timeline_started():
 	dialogic_timeline_active = true
 	print("Dialogic timeline started")
@@ -265,7 +264,9 @@ func enviar_respuesta_api(id_pregunta: int, respuesta_dada: String, es_correcta:
 	if error != OK:
 		push_error("Error al enviar la respuesta a la API: ", error)
 	else:
-		print("Respuesta enviada a la API, esperando confirmación...")
+		print("Respuesta enviada a la API: idPregunta=%d, respuestaDada='%s', esCorrecta=%s, tiempoRespuesta=%d" % [
+			id_pregunta, respuesta_dada, str(es_correcta), tiempo_respuesta
+		])
 
 ### TURNOS ###
 
@@ -283,9 +284,13 @@ func iniciar_turno_jugador():
 	turno_actual = "jugador"
 	mostrar_turno("AHORA ES TU TURNO!")
 	respuesta_recibida = false
-
 	var tiempo_limite = pregunta_actual.get("tiempoLimite", 30)
-	temporizador.start(tiempo_limite)
+	# Registrar el tiempo de inicio del turno (en segundos)
+	tiempo_inicio_turno = Time.get_ticks_msec() / 1000.0
+	print("Iniciando turno del jugador - Tiempo límite: %d segundos, Tiempo inicio: %f" % [tiempo_limite, tiempo_inicio_turno])
+	temporizador.stop()  # Asegurarse de que el temporizador esté detenido
+	temporizador.wait_time = tiempo_limite
+	temporizador.start()
 	iniciar_contador(tiempo_limite)
 
 ### PREGUNTAS ###
@@ -329,7 +334,7 @@ func verificar_respuesta(opcion: String):
 	
 	# Obtener la dificultad y costoEnergia de la pregunta
 	var dificultad = pregunta_actual.get("dificultad", "Fácil").to_lower()
-	var costo_energia = pregunta_actual.get("costoEnergia", 5)  # Valor por defecto 5 si no está definido
+	var costo_energia = pregunta_actual.get("costoEnergia", 5)
 	
 	# Definir daño adicional según dificultad
 	var danio_mago_adicional: int
@@ -348,15 +353,23 @@ func verificar_respuesta(opcion: String):
 		_:
 			push_error("Dificultad no válida: %s. Usando valores por defecto." % dificultad)
 			danio_mago_adicional = 5
-			danio_jugador_adicional = 15  # Por defecto, asumimos fácil
+			danio_jugador_adicional = 15
 	
 	# Calcular daño total
 	var danio_mago = costo_energia + danio_mago_adicional
 	var danio_jugador = costo_energia + danio_jugador_adicional
 	
-	# Calcular tiempo de respuesta
+	# Calcular tiempo de respuesta (en segundos) y sumar 3 segundos por la animación
+	var tiempo_actual = Time.get_ticks_msec() / 1000.0
+	var tiempo_respuesta_base = tiempo_actual - tiempo_inicio_turno
+	var tiempo_respuesta = int(tiempo_respuesta_base + 6)  
 	var tiempo_limite = pregunta_actual.get("tiempoLimite", 30)
-	var tiempo_respuesta = int(tiempo_limite - temporizador.time_left)
+	# Asegurarse de que tiempo_respuesta no exceda el tiempo límite
+	if tiempo_respuesta > tiempo_limite:
+		tiempo_respuesta = tiempo_limite
+	print("Tiempo respuesta calculado: %d segundos (Base: %f, +5s animación, Inicio: %f, Actual: %f, Límite: %d)" % [
+		tiempo_respuesta, tiempo_respuesta_base, tiempo_inicio_turno, tiempo_actual, tiempo_limite
+	])
 	
 	# Mapear la opción seleccionada (a, b, c, d) al valor real
 	var opciones = pregunta_actual["opciones"]
@@ -423,11 +436,15 @@ func _on_tiempo_agotado():
 		
 		# Enviar respuesta a la API indicando que no se respondió
 		var tiempo_limite = pregunta_actual.get("tiempoLimite", 30)
+		var tiempo_respuesta = tiempo_limite  # Usar tiempo_limite directamente
+		print("Tiempo agotado - Tiempo respuesta: %d segundos (Límite: %d)" % [
+			tiempo_respuesta, tiempo_limite
+		])
 		enviar_respuesta_api(
 			pregunta_actual["idPregunta"],
 			"",  # Respuesta vacía porque el tiempo se agotó
 			false,
-			tiempo_limite
+			tiempo_respuesta
 		)
 		
 		await jugador.recibir_danio(danio)
@@ -498,18 +515,15 @@ func _on_carta_usada(tipo: String, data: Variant) -> void:
 		"dano_extra":
 			pass
 		_:
-			print("Tipo de carta no reconocido:", tipo) 
+			print("Tipo de carta no reconocido:", tipo)
 
-# Función mejorada que solo cambia la música una vez
 func verificar_vida_y_reproducir_audio():
-	# Verificar vida del jugador y cambiar música solo si no se ha cambiado antes
 	if jugador and jugador.obtener_vida_actual() <= 40 and not musica_jugador_cambiada:
 		musica_jugador_cambiada = true
 		print("Cambiando música por vida baja del jugador:", jugador.obtener_vida_actual())
 		AudioManager.reproducir_musica("res://sonidos/Shadows of the Brave.mp3")
-		return  # Salir temprano para evitar cambios múltiples
+		return
 	
-	# Verificar vida del mago y cambiar música solo si no se ha cambiado antes
 	if mago and mago.obtener_vida_actual() <= 40 and not musica_mago_cambiada:
 		musica_mago_cambiada = true
 		print("Cambiando música por vida baja del mago:", mago.obtener_vida_actual())
