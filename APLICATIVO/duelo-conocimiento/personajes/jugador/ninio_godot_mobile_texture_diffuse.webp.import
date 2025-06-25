@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ce6wvl6m2y41r"
-path.s3tc="res://.godot/imported/mago_texture_normal.png-040c9308112dac584e7d065e0632a406.s3tc.ctex"
+uid="uid://tdok5xh5piyi"
+path.s3tc="res://.godot/imported/ninio_godot_mobile_texture_diffuse.webp-3f540ceea3183b7081f8cfb4407c532c.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "b96edbc5decce20c963c84f6048e2bf0"
+"md5": "6cca972aa60d7e188826935454c1db56"
 }
 
 [deps]
 
-source_file="res://personajes/mago/mago_texture_normal.png"
-dest_files=["res://.godot/imported/mago_texture_normal.png-040c9308112dac584e7d065e0632a406.s3tc.ctex"]
+source_file="res://personajes/jugador/ninio_godot_mobile_texture_diffuse.webp"
+dest_files=["res://.godot/imported/ninio_godot_mobile_texture_diffuse.webp-3f540ceea3183b7081f8cfb4407c532c.s3tc.ctex"]
 
 [params]
 
@@ -23,12 +23,12 @@ compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/normal_map=1
+compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=1
-roughness/src_normal="res://personajes/mago/mago_texture_normal.png"
+roughness/mode=0
+roughness/src_normal=""
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

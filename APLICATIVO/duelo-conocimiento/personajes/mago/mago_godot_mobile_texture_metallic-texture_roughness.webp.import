@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cmwslgtgjk67w"
-path.s3tc="res://.godot/imported/mago_texture_diffuse.png-5734503e182a17e1ccda7dcddfbcde13.s3tc.ctex"
+uid="uid://dj54mas38qk64"
+path.s3tc="res://.godot/imported/mago_godot_mobile_texture_metallic-texture_roughness.webp-cec8db326790ae32011a779ce8971dff.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "c7ab481d47b4552d56367f0196e2dfb5"
+"md5": "01e59d8b723a73d8f0608d1539383df4"
 }
 
 [deps]
 
-source_file="res://personajes/mago/mago_texture_diffuse.png"
-dest_files=["res://.godot/imported/mago_texture_diffuse.png-5734503e182a17e1ccda7dcddfbcde13.s3tc.ctex"]
+source_file="res://personajes/mago/mago_godot_mobile_texture_metallic-texture_roughness.webp"
+dest_files=["res://.godot/imported/mago_godot_mobile_texture_metallic-texture_roughness.webp-cec8db326790ae32011a779ce8971dff.s3tc.ctex"]
 
 [params]
 

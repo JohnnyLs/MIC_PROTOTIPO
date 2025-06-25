@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bebnka318ehe"
-path.s3tc="res://.godot/imported/ninia_texture_diffuse.png-d85b5b82807f6ddda296725333b9b75a.s3tc.ctex"
+uid="uid://ckrtj4e0w2pxd"
+path.s3tc="res://.godot/imported/ninio_godot_mobile_texture_normal.webp-9d0393f9ca5d19a89d4ccf1dbb8a407d.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "f425f8b5417ee5c08b24ccc44b22670f"
+"md5": "b75395977fb229c481094507a398aa84"
 }
 
 [deps]
 
-source_file="res://personajes/jugadora/ninia_texture_diffuse.png"
-dest_files=["res://.godot/imported/ninia_texture_diffuse.png-d85b5b82807f6ddda296725333b9b75a.s3tc.ctex"]
+source_file="res://personajes/jugador/ninio_godot_mobile_texture_normal.webp"
+dest_files=["res://.godot/imported/ninio_godot_mobile_texture_normal.webp-9d0393f9ca5d19a89d4ccf1dbb8a407d.s3tc.ctex"]
 
 [params]
 
@@ -23,12 +23,12 @@ compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/normal_map=0
+compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=1
+roughness/src_normal="res://personajes/jugador/ninio_godot_mobile_texture_normal.webp"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

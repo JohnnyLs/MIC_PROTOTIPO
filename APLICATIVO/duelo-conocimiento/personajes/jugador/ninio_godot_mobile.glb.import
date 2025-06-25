@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cdj7a1s4ibdnx"
-path="res://.godot/imported/mago.glb-5e93cb28610cdf1553592aeec2537d81.scn"
+uid="uid://b5oxn8nwrm0yt"
+path="res://.godot/imported/ninio_godot_mobile.glb-23e6db143e30ce63d5a17d1acf4e8d05.scn"
 
 [deps]
 
-source_file="res://personajes/mago/mago.glb"
-dest_files=["res://.godot/imported/mago.glb-5e93cb28610cdf1553592aeec2537d81.scn"]
+source_file="res://personajes/jugador/ninio_godot_mobile.glb"
+dest_files=["res://.godot/imported/ninio_godot_mobile.glb-23e6db143e30ce63d5a17d1acf4e8d05.scn"]
 
 [params]
 
@@ -38,7 +38,7 @@ _subresources={
 "save_to_file/enabled": false,
 "save_to_file/keep_custom_tracks": "",
 "save_to_file/path": "",
-"settings/loop_mode": 2,
+"settings/loop_mode": 1,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
 "slice_1/name": "",

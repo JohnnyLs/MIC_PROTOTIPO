@@ -78,9 +78,9 @@ func cargar_modelo():
 	match genero:
 		"hombre":
 			
-			ruta_modelo = "res://personajes/jugador/ninio.glb"
+			ruta_modelo = "res://personajes/jugador/ninio_godot_mobile.glb"
 		"mujer":
-			ruta_modelo = "res://personajes/jugadora/ninia.glb"
+			ruta_modelo = "res://personajes/jugadora/ninia_godot_mobile.glb"
 	
 	print("Cargando modelo:", ruta_modelo)
 	

@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cydtbajf8a3"
-path.s3tc="res://.godot/imported/ninio_texture_diffuse.png-c035c653c5dfb921a8a658028b029750.s3tc.ctex"
+uid="uid://bjdkkurnyohmb"
+path.s3tc="res://.godot/imported/ninia_godot_mobile_texture_metallic-texture_roughness.webp-58475e794b5d489aa75b3d5e1b824286.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "4f6a2d0cf71c57608cdb9727fa386766"
+"md5": "b613c643a17cd5c5716eb577592a2c01"
 }
 
 [deps]
 
-source_file="res://personajes/jugador/ninio_texture_diffuse.png"
-dest_files=["res://.godot/imported/ninio_texture_diffuse.png-c035c653c5dfb921a8a658028b029750.s3tc.ctex"]
+source_file="res://personajes/jugadora/ninia_godot_mobile_texture_metallic-texture_roughness.webp"
+dest_files=["res://.godot/imported/ninia_godot_mobile_texture_metallic-texture_roughness.webp-58475e794b5d489aa75b3d5e1b824286.s3tc.ctex"]
 
 [params]
 
